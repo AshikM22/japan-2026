@@ -516,6 +516,23 @@ body.party .hl,body.party .gtk .g,body.party .tip,body.party .wx,body.party .sec
 body.party .hl button{font-size:15px}
 body.party .chip{font-size:13px}
 html.dark body.party{--bg:#121212}
+
+/* floating quick-nav rail (DisneySea day) */
+.rail{position:fixed;right:6px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding:6px 4px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.14);transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.rail.off{opacity:0;pointer-events:none;transform:translateY(-50%) translateX(20px)}
+.rail button{display:flex;align-items:center;gap:6px;height:22px;padding:0 4px;border-radius:999px;color:var(--ink-3);font-size:10px;font-weight:600;letter-spacing:.02em;line-height:1;transition:color .2s,background .2s}
+.rail button i{width:6px;height:6px;border-radius:999px;background:#C9C9C4;transition:transform .2s var(--spring),background .2s;flex:0 0 auto}
+.rail button span{display:none;white-space:nowrap}
+.rail button.on{color:var(--accent,var(--ink))}
+.rail button.on i{background:var(--accent,var(--ink));transform:scale(1.5)}
+.rail.x{padding:8px 8px;border-radius:16px;align-items:stretch;background:rgba(255,255,255,.96)}
+html.dark .rail.x{background:rgba(28,28,30,.96)}
+.rail.x button{height:26px;padding:0 6px}.rail.x button span{display:inline}
+.rail .tp{height:26px;justify-content:center;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:4px;color:var(--ink-2)}
+.rail .tp svg{width:12px;height:12px}
+html.dark .rail{background:rgba(28,28,30,.8)}html.dark .rail button i{background:#3A3A3E}
+@media (min-width:900px){.rail{right:calc(50% - 560px + 320px + 12px)}}
+
 </style>
 </head>
 <body>
@@ -573,6 +590,7 @@ html.dark body.party{--bg:#121212}
     <div class="tl" id="dStops"></div>
   </div>
   </div>
+  <nav class="rail hidden" id="rail" aria-label="Jump to a stop"></nav>
   <aside class="aside"><div class="ess" id="dEss"></div>
   <a class="cta" id="cta" target="_blank" rel="noopener"><span id="ctaTxt">Open route in Maps</span><span class="d"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l4 8-4-2-4 2 4-8zm0 20l-4-8 4 2 4-2-4 8zM2 12l8-4-2 4 2 4-8-4zm20 0l-8 4 2-4-2-4 8 4z"/></svg></span></a>
   </aside>
@@ -1155,6 +1173,23 @@ body.party .ess h3{color:#8FD9FF}body.party .chip{background:#141C3F;color:#EEF1
 body.party .hl button{font-size:15px;color:#FFFFFF}body.party .hl button small{color:#A7B0D8}
 body.party .gtk .g b{color:#FFFFFF;font-size:14px}body.party .gtk .g small{color:#A7B0D8}
 
+
+/* floating quick-nav rail (DisneySea day) */
+.rail{position:fixed;right:6px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding:6px 4px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.14);transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.rail.off{opacity:0;pointer-events:none;transform:translateY(-50%) translateX(20px)}
+.rail button{display:flex;align-items:center;gap:6px;height:22px;padding:0 4px;border-radius:999px;color:var(--ink-3);font-size:10px;font-weight:600;letter-spacing:.02em;line-height:1;transition:color .2s,background .2s}
+.rail button i{width:6px;height:6px;border-radius:999px;background:#C9C9C4;transition:transform .2s var(--spring),background .2s;flex:0 0 auto}
+.rail button span{display:none;white-space:nowrap}
+.rail button.on{color:var(--accent,var(--ink))}
+.rail button.on i{background:var(--accent,var(--ink));transform:scale(1.5)}
+.rail.x{padding:8px 8px;border-radius:16px;align-items:stretch;background:rgba(255,255,255,.96)}
+html.dark .rail.x{background:rgba(28,28,30,.96)}
+.rail.x button{height:26px;padding:0 6px}.rail.x button span{display:inline}
+.rail .tp{height:26px;justify-content:center;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:4px;color:var(--ink-2)}
+.rail .tp svg{width:12px;height:12px}
+html.dark .rail{background:rgba(28,28,30,.8)}html.dark .rail button i{background:#3A3A3E}
+@media (min-width:900px){.rail{right:calc(50% - 560px + 320px + 12px)}}
+
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
@@ -1291,6 +1326,15 @@ function openDay(id,vi){
     const line=document.createElement('div');line.className='nowline';line.innerHTML=`<span>NOW ${hm}</span>`;
     const stops=tl.querySelectorAll('.stop');if(nowIdx>=0&&stops[nowIdx])stops[nowIdx].after(line);else tl.prepend(line);
     const next=day.stops[nowIdx+1];chip.classList.remove('hidden');chip.innerHTML=`<span class="dot"></span>${next?`Next <b>${next.t} · ${next.n}</b>`:'<b>Last stop of the day</b>'}`;}
+  // quick-nav rail for long days
+  const rail=document.getElementById('rail');if(window.__railIO){window.__railIO.disconnect();window.__railIO=null;}
+  if(day.id==='oct09'){rail.classList.remove('hidden');const stopsEls=[...tl.querySelectorAll('.stop')];
+    rail.innerHTML=`<button class="tp" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Top">${I.chev.replace('M6 9l6 6 6-6','M6 15l6-6 6 6')}</button>`+day.stops.map((st,i)=>`<button data-i="${i}" aria-label="${st.t} ${st.n}"><span>${st.t} ${st.n.split(':')[0].slice(0,20)}</span><i></i></button>`).join('');
+    rail.querySelectorAll('button[data-i]').forEach(b=>{b.onclick=e=>{e.stopPropagation();const el=stopsEls[+b.dataset.i];if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});rail.classList.remove('x');};});
+    let hold;rail.onpointerdown=()=>{hold=setTimeout(()=>rail.classList.add('x'),260);};rail.onpointerup=rail.onpointercancel=()=>clearTimeout(hold);document.addEventListener('click',ev=>{if(!rail.contains(ev.target))rail.classList.remove('x');});
+    window.__railIO=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){rail.querySelectorAll('button[data-i]').forEach(b=>b.classList.toggle('on',+b.dataset.i===stopsEls.indexOf(en.target)));}});},{rootMargin:'-40% 0px -55% 0px',threshold:0});
+    stopsEls.forEach(el=>window.__railIO.observe(el));
+  }else rail.classList.add('hidden');
   const e=day.ess;
   document.getElementById('dEss').innerHTML=`<h3>Wear today</h3><div class="chips">${e.wear.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Eat</h3><div class="chips">${e.eat.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Buy here</h3><div class="chips">${e.buy.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`;
   const pts=[];const seen=new Set();day.stops.forEach(s=>{if(s.p&&P[s.p]&&P[s.p][0]!==''&&!seen.has(s.p)){seen.add(s.p);pts.push(P[s.p][0]);}});
@@ -1298,7 +1342,7 @@ function openDay(id,vi){
   if(pts.length>=2){const w=pts.slice(1,-1).slice(0,9);cta.href=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(pts[0])}&destination=${encodeURIComponent(pts[pts.length-1])}${w.length?'&waypoints='+encodeURIComponent(w.join('|')):''}&travelmode=${day.mode}`;cta.style.display='flex';document.getElementById('ctaTxt').textContent=day.id===todayId()?"Start today's route":'Open route in Maps';}else cta.style.display='none';
   weather(day);location.hash=day.id;
 }
-document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('party');document.querySelector('meta[name=theme-color]').content=document.documentElement.classList.contains('dark')?'#121212':'#F8F8F6';document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
+document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('party');document.getElementById('rail').classList.add('hidden');document.querySelector('meta[name=theme-color]').content=document.documentElement.classList.contains('dark')?'#121212':'#F8F8F6';document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
 /* ---------- motion helpers ---------- */
 (function(){
   const dsw=document.getElementById('dsw');const sent=document.createElement('div');sent.style.cssText='height:1px;margin-top:-1px';dsw.parentNode.insertBefore(sent,dsw);
@@ -1308,11 +1352,12 @@ document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('
   window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=window.scrollY;
     if(!rm&&window.innerWidth<900&&document.getElementById('day').classList.contains('active')){const hh=hero.offsetHeight;if(y<hh)hero.style.setProperty('--py',`${y*0.28}px`);}
     if(window.innerWidth<900){if(y>240&&y>lastY+6)cta.classList.add('hide');else if(y<lastY-6||y<240)cta.classList.remove('hide');}
+    const rail=document.getElementById('rail');if(!rail.classList.contains('hidden')){const tlEl=document.getElementById('dStops');const r=tlEl.getBoundingClientRect();rail.classList.toggle('off',r.top>window.innerHeight*0.6||r.bottom<window.innerHeight*0.3);}
     lastY=y;ticking=false;});},{passive:true});
 })();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
-renderOverview();renderPlaces();
+document.body.appendChild(document.getElementById('rail'));renderOverview();renderPlaces();
 const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
 </script>
 </body>
