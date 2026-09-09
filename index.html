@@ -187,9 +187,9 @@ html.dark .count{background:#F2F2F2;color:#141414}
 /* ============ timeline ============ */
 .tl{position:relative;padding-left:40px}
 .tl::before{content:"";position:absolute;left:14px;top:20px;bottom:30px;width:1.5px;background:var(--line)}
-.stop{position:relative;margin-bottom:10px}
-.go{display:flex;gap:10px;align-items:flex-start;width:100%;padding:4px 6px 10px 0;margin:-2px 0 2px;position:relative;text-align:left;animation:rise .45s var(--ease) both;animation-delay:calc(min(var(--i,0),8) * 45ms)}
-.go .gi{position:absolute;left:-33px;top:5px;width:14px;height:14px;color:var(--ink-3);background:var(--bg);display:flex;align-items:center;justify-content:center}
+.stop{position:relative;margin-bottom:12px}
+.go{display:flex;gap:10px;align-items:flex-start;width:100%;padding:8px 6px 14px 0;margin:0 0 2px;position:relative;text-align:left;animation:rise .45s var(--ease) both;animation-delay:calc(min(var(--i,0),8) * 45ms)}
+.go .gi{position:absolute;left:-33px;top:9px;width:14px;height:14px;color:var(--ink-3);background:var(--bg);display:flex;align-items:center;justify-content:center}
 .go .gi svg{width:14px;height:14px}
 .go .gt{flex:1;min-width:0;font-size:12px;color:var(--ink-3);line-height:1.4}
 .go .gt b{font-weight:600;color:var(--ink-2)}
@@ -211,7 +211,8 @@ html.dark .count{background:#F2F2F2;color:#141414}
 .tag.must{background:#FDEBE6;color:#C3432A}.tag.booked{background:#FBF1D3;color:#8F6A0C}.tag.halal{background:#E4F5EA;color:#1E7A45}.tag.opt{background:var(--tint);color:var(--ink-3)}.tag.now{background:var(--accent,var(--ink));color:#fff}
 .meta{display:flex;gap:12px;margin-top:7px;font-size:12px;color:var(--ink-3);align-items:center}
 .meta span{display:inline-flex;align-items:center;gap:5px;min-width:0}
-.meta .pl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta .pl{flex:1;min-width:0}
+.meta .pl em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;display:block}
 .meta svg{width:13px;height:13px;flex:0 0 auto}
 .why{font-size:13.5px;color:var(--ink-2);line-height:1.5;margin:0}
 .guide{display:flex;gap:10px;align-items:flex-start;background:#F1F7F2;border-radius:12px;padding:10px 12px;margin-top:12px}
@@ -948,7 +949,7 @@ function openDay(id,vi){
     const tags=[i===nowIdx?'<span class="tag now">Now</span>':'',s.must?'<span class="tag must">Must see</span>':'',s.cat==='booked'?'<span class="tag booked">Booked</span>':'',s.halal?'<span class="tag halal">Halal</span>':'',s.opt?'<span class="tag opt">Optional</span>':''].filter(Boolean).join('');
     const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:'';
     const more=`${s.m?`<p class="why">${s.m}</p>`:''}${s.guide?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${s.guide}</p></div>`:''}${sec('See',I.eye,s.see)}${sec('Eat',I.food,s.eat)}${sec('Buy',I.bag,s.buy)}${sec('Insider tip',I.bulb,s.tip,'tipbox')}${maps}`;
-    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}${place}</span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></button>`;
+    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}<em>${place}</em></span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></button>`;
     const inner=st.querySelector('.more .inner');if(s.p==='hotel')inner.prepend(mkImg('tokyohotel'));else if(s.p==='airbnb')inner.prepend(mkImg('kyotoapt'));else if(s.key&&s.p&&P[s.p][0]!=='')inner.prepend(mkImg(s.p));
     st.style.setProperty('--i',i);
     st.querySelector('.card').onclick=e=>{if(e.target.closest('a'))return;st.classList.toggle('open');st.querySelector('.card').setAttribute('aria-expanded',st.classList.contains('open'));};
