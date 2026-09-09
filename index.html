@@ -79,8 +79,15 @@ html.dark .count{background:#F2F2F2;color:#141414}
 .tag-c{font-size:12px;font-weight:500;color:var(--ink-2);background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:6px 10px;display:inline-flex;align-items:center;gap:6px}
 .tag-c svg{width:13px;height:13px;color:var(--ink-3)}
 .h2{font-size:17px;font-weight:600;letter-spacing:-.015em;margin:28px 0 12px}
-.daycard{display:flex;gap:14px;align-items:center;width:100%;background:var(--surface);border-radius:var(--r-l);padding:12px;box-shadow:var(--sh-1);margin-bottom:10px;position:relative}
-.daycard .img{width:76px;height:76px;border-radius:12px;flex:0 0 auto}
+.daycard{display:flex;gap:12px;align-items:center;width:100%;background:var(--surface);border-radius:var(--r-l);padding:12px;box-shadow:var(--sh-1);margin-bottom:10px;position:relative}
+.daycard .img{width:68px;height:68px;border-radius:12px;flex:0 0 auto}
+.daycard .dt{width:50px;height:68px;border-radius:12px;background:var(--tint);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;flex:0 0 auto;gap:2px}
+.daycard .dt small{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.daycard .dt b{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.daycard .today .dt,.daycard.is-today .dt{background:var(--ink);color:#fff}
+.daycard.is-today .dt small,.daycard.is-today .dt b{color:#fff}
+.daycard.is-past{opacity:.6}
+.daycard.is-past .dt{background:var(--line)}
 .daycard .img .ph svg{width:20px;height:20px}.daycard .img .ph small{display:none}
 .daycard .txt{flex:1;min-width:0}
 .daycard .k{font-size:11.5px;color:var(--ink-3);font-weight:500}
@@ -1035,9 +1042,9 @@ function renderOverview(){
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
-    const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);
+    const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);const tnow=jstNow();const dnum=parseInt(day.id.slice(3));if(tnow.getFullYear()===2026&&tnow.getMonth()===9){if(dnum<tnow.getDate())b.classList.add('is-past');if(dnum===tnow.getDate())b.classList.add('is-today');}
     const must=day.stops.filter(s=>s.must).length;
-    b.innerHTML=`<div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} · ${day.short}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}<span>${day.mode==='driving'?I.car:I.sun}${day.mode==='driving'?'Road trip':day.wx.t+'°'}</span>${day.variants?`<span>${I.flag}2 options</span>`:''}</div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
+    const [dow,dn]=day.short.split(' ');b.innerHTML=`<div class="dt"><small>${dow}</small><b>${dn}</b><small>Oct</small></div><div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} of ${DAYS.length}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}${day.mode==='driving'?`<span>${I.car}Road trip</span>`:''}${day.variants?`<span>${I.flag}2 options</span>`:''}</div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
     b.appendChild(mkImg(day.hero[0],'thumb'));list.appendChild(b);
   });
   const notes=document.getElementById('notes');
