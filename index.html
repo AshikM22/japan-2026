@@ -468,6 +468,23 @@ html.dark body.party #day .dsw{background:rgba(18,18,18,.97)}
 body.party .aside{background:transparent}
 @media (prefers-reduced-motion:reduce){.confetti{animation:none}}
 
+
+/* DisneySea day: centred dotted timeline, full-width cards (test) */
+body.party #dStops.tl{padding-left:0}
+body.party #dStops.tl::before{left:50%;margin-left:-1px;width:0;background:none;border-left:2px dotted var(--accent,#2B5FB3);opacity:.45;top:0;bottom:0}
+body.party #dStops .stop{margin-bottom:18px;padding-top:0;text-align:left}
+body.party #dStops .ic{position:relative;left:auto;top:auto;margin:0 auto 10px;width:36px;height:36px;box-shadow:0 0 0 5px var(--bg),0 4px 12px rgba(0,0,0,.14);z-index:1}
+body.party #dStops .ic svg{width:17px;height:17px}
+body.party #dStops .card{position:relative;z-index:1;box-shadow:var(--sh-2)}
+body.party #dStops .go{padding:6px 0 12px;flex-direction:column;align-items:center;text-align:center;gap:4px}
+body.party #dStops .go .gi{position:relative;left:auto;top:auto;width:28px;height:28px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);color:var(--ink-2);z-index:1}
+body.party #dStops .go .gt{max-width:320px;background:rgba(248,248,246,.92);border-radius:12px;padding:4px 12px;position:relative;z-index:1}
+html.dark body.party #dStops .go .gt{background:rgba(18,18,18,.92)}
+body.party #dStops .go .gd{white-space:normal}
+body.party #dStops .go .gc{display:none}
+body.party #dStops .nowline{margin:0 0 18px}
+body.party #dStops .nowline::before{left:50%;margin-left:-6px}
+
 </style>
 </head>
 <body>
@@ -1029,6 +1046,23 @@ html.dark body.party #day .dsw{background:rgba(18,18,18,.97)}
 
 body.party .aside{background:transparent}
 @media (prefers-reduced-motion:reduce){.confetti{animation:none}}
+
+
+/* DisneySea day: centred dotted timeline, full-width cards (test) */
+body.party #dStops.tl{padding-left:0}
+body.party #dStops.tl::before{left:50%;margin-left:-1px;width:0;background:none;border-left:2px dotted var(--accent,#2B5FB3);opacity:.45;top:0;bottom:0}
+body.party #dStops .stop{margin-bottom:18px;padding-top:0;text-align:left}
+body.party #dStops .ic{position:relative;left:auto;top:auto;margin:0 auto 10px;width:36px;height:36px;box-shadow:0 0 0 5px var(--bg),0 4px 12px rgba(0,0,0,.14);z-index:1}
+body.party #dStops .ic svg{width:17px;height:17px}
+body.party #dStops .card{position:relative;z-index:1;box-shadow:var(--sh-2)}
+body.party #dStops .go{padding:6px 0 12px;flex-direction:column;align-items:center;text-align:center;gap:4px}
+body.party #dStops .go .gi{position:relative;left:auto;top:auto;width:28px;height:28px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);color:var(--ink-2);z-index:1}
+body.party #dStops .go .gt{max-width:320px;background:rgba(248,248,246,.92);border-radius:12px;padding:4px 12px;position:relative;z-index:1}
+html.dark body.party #dStops .go .gt{background:rgba(18,18,18,.92)}
+body.party #dStops .go .gd{white-space:normal}
+body.party #dStops .go .gc{display:none}
+body.party #dStops .nowline{margin:0 0 18px}
+body.party #dStops .nowline::before{left:50%;margin-left:-6px}
 
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
