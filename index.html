@@ -46,7 +46,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-sys
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
-.app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative;z-index:1}
 .screen{display:none}.screen.active{display:block}
 .hidden{display:none!important}
 
@@ -456,9 +456,22 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .pl-sub{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 4px}
 .pl-sub:first-child{margin-top:0}
 
+.confetti{position:fixed;inset:-40px;z-index:0;pointer-events:none;opacity:0;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g fill-opacity='.9'><rect x='18' y='22' width='10' height='5' rx='1' transform='rotate(-25 23 24)' fill='%23FFB4C6'/><rect x='96' y='14' width='9' height='5' rx='1' transform='rotate(30 100 16)' fill='%23A9D8FF'/><circle cx='160' cy='40' r='4' fill='%23FFE08A'/><rect x='205' y='60' width='10' height='5' rx='1' transform='rotate(-40 210 62)' fill='%23B8F0C8'/><path d='M60 70l4 8h-8z' fill='%23FFB4C6'/><rect x='130' y='96' width='10' height='5' rx='1' transform='rotate(15 135 98)' fill='%23D9C4FF'/><circle cx='30' cy='120' r='3.5' fill='%23A9D8FF'/><rect x='190' y='128' width='9' height='5' rx='1' transform='rotate(50 194 130)' fill='%23FFE08A'/><path d='M100 160l4 8h-8z' fill='%23B8F0C8'/><rect x='40' y='190' width='10' height='5' rx='1' transform='rotate(-15 45 192)' fill='%23D9C4FF'/><circle cx='150' cy='205' r='4' fill='%23FFB4C6'/><rect x='215' y='200' width='9' height='5' rx='1' transform='rotate(35 219 202)' fill='%23A9D8FF'/><circle cx='85' cy='225' r='3' fill='%23FFE08A'/><path d='M225 20l3 6h-6z' fill='%23D9C4FF'/></g></svg>");background-size:240px 240px;animation:drift 40s linear infinite;transition:opacity .6s var(--ease)}
+body.party .confetti{opacity:1}
+html.dark body.party .confetti{opacity:.35}
+@keyframes drift{from{transform:translateY(0) rotate(0)}to{transform:translateY(-240px) rotate(0)}}
+body.party #day .sheet{background:rgba(248,248,246,.66)}
+html.dark body.party #day .sheet{background:rgba(18,18,18,.78)}
+body.party #day .dsw{background:rgba(248,248,246,.97)}
+html.dark body.party #day .dsw{background:rgba(18,18,18,.97)}
+
+body.party .aside{background:transparent}
+@media (prefers-reduced-motion:reduce){.confetti{animation:none}}
+
 </style>
 </head>
 <body>
+<div class="confetti" aria-hidden="true"></div>
 <div class="app">
 <section class="screen active" id="overview">
   <div class="ov">
@@ -1005,6 +1018,18 @@ function printView(){const w=window.open('','_blank');if(!w)return;const esc=x=>
 .pl-sub{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 4px}
 .pl-sub:first-child{margin-top:0}
 
+.confetti{position:fixed;inset:-40px;z-index:0;pointer-events:none;opacity:0;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g fill-opacity='.9'><rect x='18' y='22' width='10' height='5' rx='1' transform='rotate(-25 23 24)' fill='%23FFB4C6'/><rect x='96' y='14' width='9' height='5' rx='1' transform='rotate(30 100 16)' fill='%23A9D8FF'/><circle cx='160' cy='40' r='4' fill='%23FFE08A'/><rect x='205' y='60' width='10' height='5' rx='1' transform='rotate(-40 210 62)' fill='%23B8F0C8'/><path d='M60 70l4 8h-8z' fill='%23FFB4C6'/><rect x='130' y='96' width='10' height='5' rx='1' transform='rotate(15 135 98)' fill='%23D9C4FF'/><circle cx='30' cy='120' r='3.5' fill='%23A9D8FF'/><rect x='190' y='128' width='9' height='5' rx='1' transform='rotate(50 194 130)' fill='%23FFE08A'/><path d='M100 160l4 8h-8z' fill='%23B8F0C8'/><rect x='40' y='190' width='10' height='5' rx='1' transform='rotate(-15 45 192)' fill='%23D9C4FF'/><circle cx='150' cy='205' r='4' fill='%23FFB4C6'/><rect x='215' y='200' width='9' height='5' rx='1' transform='rotate(35 219 202)' fill='%23A9D8FF'/><circle cx='85' cy='225' r='3' fill='%23FFE08A'/><path d='M225 20l3 6h-6z' fill='%23D9C4FF'/></g></svg>");background-size:240px 240px;animation:drift 40s linear infinite;transition:opacity .6s var(--ease)}
+body.party .confetti{opacity:1}
+html.dark body.party .confetti{opacity:.35}
+@keyframes drift{from{transform:translateY(0) rotate(0)}to{transform:translateY(-240px) rotate(0)}}
+body.party #day .sheet{background:rgba(248,248,246,.66)}
+html.dark body.party #day .sheet{background:rgba(18,18,18,.78)}
+body.party #day .dsw{background:rgba(248,248,246,.97)}
+html.dark body.party #day .dsw{background:rgba(18,18,18,.97)}
+
+body.party .aside{background:transparent}
+@media (prefers-reduced-motion:reduce){.confetti{animation:none}}
+
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
@@ -1077,7 +1102,7 @@ function openDay(id,vi){
   const base=DAYS.find(d=>d.id===id);if(!base)return;
   if(vi!==undefined)variantSel[id]=vi;
   const day=base.variants?Object.assign({},base,base.variants[variantSel[id]||0]):base;
-  document.documentElement.style.setProperty('--accent',ACCENT[id]||'#1B1B1B');
+  document.documentElement.style.setProperty('--accent',ACCENT[id]||'#1B1B1B');document.body.classList.toggle('party',id==='oct09');
   const seg=document.getElementById('seg');
   if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
   const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
@@ -1148,7 +1173,7 @@ function openDay(id,vi){
   if(pts.length>=2){const w=pts.slice(1,-1).slice(0,9);cta.href=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(pts[0])}&destination=${encodeURIComponent(pts[pts.length-1])}${w.length?'&waypoints='+encodeURIComponent(w.join('|')):''}&travelmode=${day.mode}`;cta.style.display='flex';document.getElementById('ctaTxt').textContent=day.id===todayId()?"Start today's route":'Open route in Maps';}else cta.style.display='none';
   weather(day);location.hash=day.id;
 }
-document.getElementById('backBtn').onclick=()=>{document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
+document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('party');document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
 /* ---------- motion helpers ---------- */
 (function(){
   const dsw=document.getElementById('dsw');const sent=document.createElement('div');sent.style.cssText='height:1px;margin-top:-1px';dsw.parentNode.insertBefore(sent,dsw);
