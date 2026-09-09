@@ -239,17 +239,24 @@ html.dark .count{background:#F2F2F2;color:#141414}
 
 /* ============ stays / moves ============ */
 .stay{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
-.stay .img{height:150px}
-.stay .bd{padding:13px 14px 14px}
-.stay .line{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.4}
+.stay .row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px 10px 10px;min-height:64px}
+.stay .img.thumb{width:52px;height:52px;border-radius:11px;flex:0 0 auto}
+.stay .img.thumb .ph svg{width:16px;height:16px}.stay .img.thumb .ph small{display:none}.stay .img.thumb .credit{display:none}
+.stay .txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stay .t{font-size:14.5px;font-weight:600;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stay .k{font-size:12px;color:var(--ink-3)}
+.stay .chev{position:static;width:16px;height:16px;flex:0 0 auto}
+.stay.open .chev{transform:rotate(180deg)}
+.stay .more{margin:0;padding:0;border:0}
+.stay .more .inner{padding:0 14px 0}
+.stay.open .more{margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.stay.open .more .inner{padding:12px 14px 14px}
+.stay .line{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.4}
+.stay .line:first-child{margin-top:0}
 .stay .line svg{width:13px;height:13px;flex:0 0 auto;margin-top:3px;color:var(--ink-3)}
+.stay .n{font-size:12.5px;color:var(--ink-2);margin-top:8px;line-height:1.45}
 .stay .acts{display:flex;gap:8px;flex-wrap:wrap}
 .stay .acts .mapbtn{margin-top:12px}
-.stay .ic2{width:34px;height:34px;border-radius:999px;background:var(--c-hotel);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 0 0 3px color-mix(in srgb,var(--c-hotel) 22%,var(--bg))}
-.stay .ic2 svg{width:16px;height:16px}
-.stay .t{font-size:14.5px;font-weight:600;line-height:1.3}
-.stay .k{font-size:12px;color:var(--ink-3);margin-top:2px}
-.stay .n{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.45}
 .mv .row{display:flex;gap:12px;background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);padding:12px 14px;margin-bottom:8px;align-items:flex-start}
 .mv .ic2{width:28px;height:28px;border-radius:999px;color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px}
 .mv .ic2 svg{width:14px;height:14px}
@@ -317,7 +324,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 /* card expand: animated height */
 .more{display:grid;grid-template-rows:0fr;opacity:0;margin-top:0;padding-top:0;border-top:1px solid transparent;transition:grid-template-rows .36s var(--ease),opacity .28s var(--ease),margin-top .3s var(--ease),padding-top .3s var(--ease),border-color .3s}
 .more>.inner{overflow:hidden;min-height:0}
-.stop.open .more{grid-template-rows:1fr;opacity:1;margin-top:12px;padding-top:12px;border-top-color:var(--line)}
+.stop.open .more,.stay.open .more{grid-template-rows:1fr;opacity:1;margin-top:12px;padding-top:12px;border-top-color:var(--line)}
 .chev{transition:transform .32s var(--spring),color .2s}
 .stop.open .chev{color:var(--ink)}
 /* tip carousel dots: active elongates */
@@ -748,7 +755,7 @@ desc:'Bamboo Grove at dawn while it is empty, then a clean transfer day. Direct 
 
 const STAYS=[
  {img:'tokyohotel',city:'Tokyo',name:'Mitsui Garden Hotel Jingugaien Tokyo Premier',range:'7 to 10 Oct',nights:3,addr:'11-3 Kasumigaoka-machi, Shinjuku-ku, Tokyo 160-0013',station:'Kokuritsu-Kyogijo Station, 200 m (Oedo line); Sendagaya JR 5 min',note:'Three travellers arrive on different flights. Ask reception to hold bags for the 04:55 Kochi arrival on the 8th. Oedo line runs direct to Shinjuku and Roppongi; JR from Sendagaya to Shibuya in 10 min.',q:'Mitsui Garden Hotel Jingugaien Tokyo Premier',link:''},
- {img:'kyotoapt',city:'Kyoto',name:'Forestage Arashiyama (Airbnb)',range:'10 to 15 Oct',nights:5,addr:'Arashiyama, west Kyoto. One minute from Hankyu Arashiyama Station (exact address on the Airbnb booking)',station:'Hankyu Arashiyama → Kyoto-Kawaramachi 17 min (change at Katsura). JR Saga-Arashiyama → Kyoto Station 15 min, about 1 km walk',note:'35 sqm, up to 4 guests: two double floor mattresses, living room, kitchen, washing machine, bathtub, small courtyard, Dyson dryer. Ministop konbini 120 m, Kawakatsu supermarket 750 m. Bamboo Grove, Tenryu-ji and Togetsukyo Bridge are a walk away, so do them at 07:00 on a quiet morning. Halal-friendly local option: Wagyu Donburi-ya Nikuni (check with staff).',q:'Hankyu Arashiyama Station',link:''},
+ {img:'kyotoapt',city:'Kyoto',name:'Forestage Arashiyama (Airbnb)',range:'10 to 15 Oct',nights:5,addr:'Arashiyama, west Kyoto. One minute from Hankyu Arashiyama Station (exact address on the Airbnb booking)',station:'Hankyu Arashiyama → Kyoto-Kawaramachi 17 min (change at Katsura). JR Saga-Arashiyama → Kyoto Station 15 min, about 1 km walk',note:'35 sqm, up to 4 guests: two double floor mattresses, living room, kitchen, washing machine, bathtub, small courtyard, Dyson dryer. Ministop konbini 120 m, Kawakatsu supermarket 750 m. Bamboo Grove, Tenryu-ji and Togetsukyo Bridge are a walk away, so do them at 07:00 on a quiet morning. Closest good lunch: Wagyu Donburi-ya Nikuni, two minutes away.',q:'Hankyu Arashiyama Station',link:''},
  {img:'tokyohotel',city:'Tokyo',name:'Mitsui Garden Hotel Jingugaien Tokyo Premier',range:'15 to 19 Oct',nights:4,addr:'11-3 Kasumigaoka-machi, Shinjuku-ku, Tokyo 160-0013',station:'Kokuritsu-Kyogijo Station, 200 m',note:'Shopping days. Shinjuku is two stops, Shibuya ten minutes by JR from Sendagaya, Ginza about 20 minutes. Taxi to Haneda on the 19th is roughly 35 to 45 minutes at 05:30.',q:'Mitsui Garden Hotel Jingugaien Tokyo Premier',link:''}
 ];
 const MOVES=[
@@ -872,8 +879,8 @@ function renderOverview(){
   document.getElementById('cover').replaceWith(mkImg('cover','cover'));
   document.getElementById('tagrow').innerHTML=[[I.cal,'7 to 19 Oct'],[I.flag,'6 cities'],[I.landmark,DAYS.reduce((a,d)=>a+d.stops.filter(s=>s.must).length,0)+' must-sees'],[I.bed,'2 hotels, 1 apartment']].map(x=>`<span class="tag-c">${x[0]}${x[1]}</span>`).join('');
   const MI={flight:['✈',I.train],train:['',I.train],shinkansen:['',I.train],car:['',I.car]};const MC={flight:'var(--c-booked)',train:'var(--c-transport)',shinkansen:'var(--c-transport)',car:'var(--c-nature)'};
-  document.getElementById('stays').innerHTML='';STAYS.forEach(x=>{const d=document.createElement('div');d.className='stay';d.innerHTML=`<div class="bd"><div class="t">${x.name}</div><div class="k">${x.city} · ${x.range} · ${x.nights} nights</div><div class="line">${I.pin}<span>${x.addr}</span></div><div class="line">${I.train}<span>${x.station}</span></div><div class="n">${x.note}</div><div class="acts">${x.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(x.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:''}${x.link?`<a class="mapbtn" href="${x.link}" target="_blank" rel="noopener">Airbnb listing ${I.ext}</a>`:''}</div></div>`;d.prepend(mkImg(x.img));document.getElementById('stays').appendChild(d);});
-  const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
+  document.getElementById('stays').innerHTML='';STAYS.forEach(x=>{const d=document.createElement('div');d.className='stay';d.innerHTML=`<button class="row" aria-expanded="false"><span class="thumb"></span><span class="txt"><span class="t">${x.name}</span><span class="k">${x.city} · ${x.range} · ${x.nights} nights</span></span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner"><div class="line">${I.pin}<span>${x.addr}</span></div><div class="line">${I.train}<span>${x.station}</span></div><div class="n">${x.note}</div><div class="acts">${x.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(x.q)}" target="_blank" rel="noopener">Navigate ${I.ext}</a>`:''}${x.link?`<a class="mapbtn" href="${x.link}" target="_blank" rel="noopener">Airbnb listing ${I.ext}</a>`:''}</div></div></div>`;d.querySelector('.thumb').replaceWith(mkImg(x.img,'thumb'));d.querySelector('.row').onclick=()=>{d.classList.toggle('open');d.querySelector('.row').setAttribute('aria-expanded',d.classList.contains('open'));};document.getElementById('stays').appendChild(d);});
+    const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
   document.getElementById('moves').innerHTML=MOVES.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
   const list=document.getElementById('daylist');const tid=todayId();
