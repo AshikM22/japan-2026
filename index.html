@@ -528,8 +528,6 @@ const PH={
  nakamise:['photo-1673330245973-6f267657731f','Matt Ketchum','mkultraman'],
  shibuya:['photo-1542051841857-5f90071e7989','Jezael Melgoza','jezar'],
  disney:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
- fantasy:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
- mysterious:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
  medharbor:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
  fushimi:['photo-1613487691352-7d9b4ee5045b','Stefan K','stefankst'],
  kiyomizu:['photo-1602897387777-f89c6b7e4a9e','LU XISH','luxish'],
@@ -585,7 +583,7 @@ const PH={
  hakone:['photo-1773452306873-cb7d63765a73','Lazzzis','lazzzis'],
  cover:['photo-1543223140-fd718dd8b82a','Simon Shim','simonshim']
 };
-const DIRECT={okuno:'img/okuno.jpg',okunomuseum:'img/okunomuseum.jpg',gora:'img/gora.jpg',kawaramachi:'img/kawaramachi.jpg',ashi:'img/ashi.jpg',openair:'img/openair.jpg',shinjukust:'img/shinjukust.jpg',hankyuarashiyama:'img/hankyuarashiyama.jpg',odawara:'img/odawara.jpg',raju:'img/raju.jpg',saray:'img/saray.jpg',skytree:'img/skytree.jpg',sumida:'img/sumida.jpg',tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
+const DIRECT={shibuyasky:'img/shibuyasky.jpg',beams:'img/beams.jpg',onitsuka:'img/onitsuka.jpg',tokyotower:'img/tokyotower.jpg',pontocho:'img/pontocho.jpg',nikuni:'img/nikuni.jpg',sagaarashiyama:'img/sagaarashiyama.jpg',nonbei:'img/nonbei.jpg',mysterious:'img/mysterious.jpg',fantasy:'img/fantasy.jpg',okuno:'img/okuno.jpg',okunomuseum:'img/okunomuseum.jpg',gora:'img/gora.jpg',kawaramachi:'img/kawaramachi.jpg',ashi:'img/ashi.jpg',openair:'img/openair.jpg',shinjukust:'img/shinjukust.jpg',hankyuarashiyama:'img/hankyuarashiyama.jpg',odawara:'img/odawara.jpg',raju:'img/raju.jpg',saray:'img/saray.jpg',skytree:'img/skytree.jpg',sumida:'img/sumida.jpg',tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
 const STANDIN={okuno:'generic rabbit, not the island',okunomuseum:'generic rabbit',tadanoumi:'generic rabbit',todaiji:'Kofuku-ji, not the Great Buddha hall',naramachi:'Kofuku-ji',narast:'Nara deer',tokyost:'a Shinkansen platform',shinosaka:'a Shinkansen platform',mihara:'a Shinkansen platform',fantasy:'Mediterranean Harbor, not Fantasy Springs',mysterious:'Mediterranean Harbor',medharbor:'same DisneySea photo',tmg:'Kabukicho street, not the observatory',ueno:'Ameyoko, not the park',itoya:'Ginza street',uniqlo:'Ginza street',hozenji:'Dotonbori, not the alley',halalya:'generic wagyu plate',gyumon:'generic wagyu plate',gyumonnara:'generic wagyu plate',honolu:'generic ramen bowl',hakone:'Owakudani, not Hakone-Yumoto',togetsukyo:'bamboo grove, not the bridge',shirakawa:'Hanamikoji, not the canal',higashiyama:'Hanamikoji',teramachi:'Nishiki market',kabukicho:'ok',daikoku:'a Tokyo street at night, not Daikoku PA',yanaka:'a Yanaka lane',amano:'ok',funaya:'the bay from the water, fine',ineura:'fine',ineboat:'fine'};
 const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w||1200}&q=80`;
 
@@ -936,7 +934,7 @@ const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(
 /* ---------- helpers ---------- */
 const WEBP=(()=>{try{return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp')}catch(e){return false}})();
 const DPR=Math.min(window.devicePixelRatio||1,2);
-const FOCUS={okuno:'center 35%',okunomuseum:'center 50%',openair:'center 50%',gora:'center 60%',skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
+const FOCUS={shibuyasky:'center 40%',onitsuka:'center 55%',tokyotower:'center 40%',pontocho:'center 50%',okuno:'center 35%',okunomuseum:'center 50%',openair:'center 50%',gora:'center 60%',skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
 /* target box per role, in CSS px; Unsplash crops server-side to this aspect so the subject stays in frame */
 function box(cls){
   const vw=Math.min(window.innerWidth,1400);
