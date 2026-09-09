@@ -113,7 +113,9 @@ a{color:inherit;text-decoration:none}
 .dsw button{flex:0 0 auto;width:46px;height:50px;border-radius:12px;background:var(--surface);box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1;color:var(--ink)}
 .dsw button small{font-size:10px;font-weight:500;color:var(--ink-3);text-transform:none}
 .dsw button b{font-size:15px;font-weight:600;letter-spacing:-.01em}
-.dsw button.on{background:var(--ink);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.dsw button.on{background:var(--accent,var(--ink));color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.tag.now{background:var(--accent,var(--ink))}
+.dsw button{transition:background .3s var(--ease),color .3s,transform .18s var(--ease),box-shadow .25s}
 .dsw button.on small{color:rgba(255,255,255,.6)}
 .seg{display:inline-flex;background:var(--tint);border-radius:999px;padding:3px;margin-bottom:14px;position:relative}
 .seg button{position:relative;z-index:1;padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--ink-2);min-width:96px;text-align:center;transition:color .25s}
@@ -122,6 +124,13 @@ a{color:inherit;text-decoration:none}
 .seg.b .pill{transform:translateX(100%)}
 .dsw button .v{position:absolute;top:6px;right:6px;width:5px;height:5px;border-radius:999px;background:var(--c-booked)}
 .dsw button{position:relative}
+.nextchip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:7px 12px 7px 8px;font-size:12.5px;color:var(--ink-2);margin-bottom:12px}
+.nextchip .dot{width:8px;height:8px;border-radius:999px;background:#2FB35B;box-shadow:0 0 0 4px rgba(64,196,110,.18);animation:pulse 1.8s ease-in-out infinite}
+.nextchip b{color:var(--ink);font-weight:600}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(64,196,110,.18)}50%{box-shadow:0 0 0 7px rgba(64,196,110,.06)}}
+.nowline{position:relative;height:0;margin:0 0 12px;border-top:1.5px dashed var(--accent,var(--ink))}
+.nowline::before{content:"";position:absolute;left:-33px;top:-6px;width:12px;height:12px;border-radius:999px;background:var(--accent,var(--ink));box-shadow:0 0 0 4px var(--bg)}
+.nowline span{position:absolute;right:0;top:-9px;font-size:10px;font-weight:600;background:var(--accent,var(--ink));color:#fff;padding:2px 7px;border-radius:999px;letter-spacing:.04em}
 .daterow{display:flex;align-items:center;gap:7px;color:var(--ink-2);font-size:13px;font-weight:500}
 .daterow svg{width:15px;height:15px;color:var(--ink-3)}
 .titlerow{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:6px}
@@ -172,7 +181,7 @@ a{color:inherit;text-decoration:none}
 .stop.open .chev{transform:rotate(180deg)}
 .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .tag{font-size:10px;font-weight:600;letter-spacing:.01em;padding:3px 8px;border-radius:999px;line-height:1.3}
-.tag.must{background:#FDEBE6;color:#C3432A}.tag.booked{background:#FBF1D3;color:#8F6A0C}.tag.halal{background:#E4F5EA;color:#1E7A45}.tag.opt{background:var(--tint);color:var(--ink-3)}.tag.now{background:var(--ink);color:#fff}
+.tag.must{background:#FDEBE6;color:#C3432A}.tag.booked{background:#FBF1D3;color:#8F6A0C}.tag.halal{background:#E4F5EA;color:#1E7A45}.tag.opt{background:var(--tint);color:var(--ink-3)}.tag.now{background:var(--accent,var(--ink));color:#fff}
 .meta{display:flex;gap:12px;margin-top:7px;font-size:12px;color:var(--ink-3);align-items:center}
 .meta span{display:inline-flex;align-items:center;gap:5px;min-width:0}
 .meta .pl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -315,7 +324,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .wx{transition:opacity .25s}.wx.sw{opacity:0}
 /* typography hierarchy refinements */
 .daterow{font-size:12.5px;letter-spacing:.01em;text-transform:none}
-.titlerow h1{font-weight:600;letter-spacing:-.028em}
+.titlerow h1{font-weight:700;letter-spacing:-.03em}
 .stat .v{font-size:17px}
 .stat .l{letter-spacing:.005em}
 .card .nm{font-size:15px}
@@ -374,6 +383,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   <div class="sheet">
     <div class="dsw" id="dsw"></div>
     <div class="seg hidden" id="seg"></div>
+    <div class="nextchip hidden" id="nextchip"></div>
     <div class="daterow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dDate"></span></div>
     <div class="titlerow"><h1 id="dTitle"></h1><div class="wx" id="dWx"></div></div>
     <p class="desc" id="dDesc"></p>
@@ -460,7 +470,7 @@ const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${
 
 const CAT={transport:{c:'#DCE9FB',f:'#2A62B8',e:'🚉'},food:{c:'#FDE8D6',f:'#C6631B',e:'🍜'},attraction:{c:'#FBE1DB',f:'#BF3F27',e:'⛩️'},hotel:{c:'#E9E2FB',f:'#5F41C4',e:'🏨'},shopping:{c:'#FBDDEA',f:'#BE2F69',e:'🛍️'},nature:{c:'#DDF3E5',f:'#237A46',e:'🌿'},booked:{c:'#FBF0CF',f:'#8F6A0C',e:'🎟️'},coffee:{c:'#EEE3DA',f:'#7A5033',e:'☕'},flex:{c:'#ECECEE',f:'#6E6E73',e:'✦'}};
 const P={ // key: [maps query, emoji]
- narita:['Narita International Airport','✈️'],haneda:['Haneda Airport Terminal 3','✈️'],kaminarimon:['Kaminarimon Gate Asakusa','🏮'],nakamise:['Nakamise Shopping Street','🎏'],sensoji:['Sensoji Temple','⛩️'],halalya:['HALAL-Ya Asakusa','🍱'],sumida:['Sumida Park Asakusa','🌉'],skytree:['Tokyo Skytree','🗼'],shibuya:['Shibuya Scramble Crossing','🚦'],gyumon:['GYUMON Shibuya halal wagyu','🥩'],disney:['Tokyo DisneySea','🌋'],fantasy:['Fantasy Springs Tokyo DisneySea','🧚'],mysterious:['Mysterious Island Tokyo DisneySea','🌋'],medharbor:['Mediterranean Harbor Tokyo DisneySea','⛵'],tokyost:['Tokyo Station','🚄'],kyotost:['Kyoto Station','🚄'],nishiki:['Nishiki Market Kyoto','🍢'],teramachi:['Teramachi Street Kyoto','🏮'],saray:['Istanbul Saray Kyoto','🥙'],fushimi:['Fushimi Inari Taisha','⛩️'],kiyomizu:['Kiyomizu-dera','🏯'],ninenzaka:['Ninenzaka Kyoto','🍵'],raju:['Raju halal Indian restaurant Kyoto','🍛'],higashiyama:['Higashiyama Kyoto','🏘️'],yasaka:['Yasaka Shrine','🏮'],gion:['Hanamikoji Street Gion','👘'],shirakawa:['Gion Shirakawa','🌳'],amano:['Amanohashidate','🌲'],ineura:['Ineura Park','🛶'],funaya:['Funayanosato Ine','🏡'],ineboat:['Ine Bay sightseeing boat','⛴️'],shinosaka:['Shin-Osaka Station','🚄'],mihara:['Mihara Station','🚉'],tadanoumi:['Tadanoumi Port','🐰'],okuno:['Okunoshima','🐇'],okunomuseum:['Okunoshima Poison Gas Museum','🏚️'],narast:['JR Nara Station','🚉'],narapark:['Nara Park','🦌'],todaiji:['Todai-ji','🧘'],gyumonnara:['GYUMON Nara halal','🥩'],naramachi:['Naramachi','🏘️'],shinsaibashi:['Shinsaibashi-suji Shopping Street','🛍️'],dotonbori:['Dotonbori Glico Sign','🏃'],hozenji:['Hozenji Yokocho','🕯️'],alis:["Ali's Kitchen Osaka halal",'🍛'],ginza:['Ginza Tokyo','💎'],akiba:['Akihabara Electric Town','🎮'],hakone:['Hakone-Yumoto Station','♨️'],odawara:['Odawara Station','🚄'],gora:['Gora Station Hakone','🚞'],owakudani:['Owakudani','🌋'],togendai:['Togendai Port','🚠'],ashi:['Lake Ashi Hakone sightseeing cruise','⛵'],hakoneshrine:['Hakone Shrine peace torii','⛩️'],openair:['Hakone Open-Air Museum','🗿'],shinjukust:['Shinjuku Station','🚉'],ueno:['Ueno Park','🌳'],ameyoko:['Ameyoko','🏪'],yanaka:['Yanaka Ginza','🐈'],uniqlo:['UNIQLO Ginza','👕'],itoya:['Ginza Itoya','✒️'],teamlab:['teamLab Planets TOKYO','💡'],tmg:['Tokyo Metropolitan Government Building observatory','🌆'],kabukicho:['Kabukicho Shinjuku','🎆'],omoide:['Omoide Yokocho','🏮'],honolu:['Honolu Shinjuku Gyoenmae halal ramen','🍜'],daikoku:['Daikoku Parking Area','🏎️'],donki:['MEGA Don Quijote Shibuya','🐧'],shimokita:['Shimokitazawa','🎧'],hotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],airbnb:['Hankyu Arashiyama Station','🏠'],tokyohotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],kyotoapt:['Forestage Arashiyama','🏠'],kyotoapt2:['Forestage Arashiyama','🏠'],arashiyama:['Arashiyama Bamboo Grove','🎋'],togetsukyo:['Togetsukyo Bridge','🌉'],sagaarashiyama:['Saga-Arashiyama Station','🚉']
+ narita:['Narita International Airport','✈️'],haneda:['Haneda Airport Terminal 3','✈️'],kaminarimon:['Kaminarimon Gate Asakusa','🏮'],nakamise:['Nakamise Shopping Street','🎏'],sensoji:['Sensoji Temple','⛩️'],halalya:['CANOW Asakusa','🍱'],sumida:['Sumida Park Asakusa','🌉'],skytree:['Tokyo Skytree','🗼'],shibuya:['Shibuya Scramble Crossing','🚦'],gyumon:['GYUMON Shibuya','🥩'],disney:['Tokyo DisneySea','🌋'],fantasy:['Fantasy Springs Tokyo DisneySea','🧚'],mysterious:['Mysterious Island Tokyo DisneySea','🌋'],medharbor:['Mediterranean Harbor Tokyo DisneySea','⛵'],tokyost:['Tokyo Station','🚄'],kyotost:['Kyoto Station','🚄'],nishiki:['Nishiki Market Kyoto','🍢'],teramachi:['Teramachi Street Kyoto','🏮'],saray:['Istanbul Saray Kyoto','🥙'],fushimi:['Fushimi Inari Taisha','⛩️'],kiyomizu:['Kiyomizu-dera','🏯'],ninenzaka:['Ninenzaka Kyoto','🍵'],raju:['Raju Indian Restaurant Kyoto','🍛'],higashiyama:['Higashiyama Kyoto','🏘️'],yasaka:['Yasaka Shrine','🏮'],gion:['Hanamikoji Street Gion','👘'],shirakawa:['Gion Shirakawa','🌳'],amano:['Amanohashidate','🌲'],ineura:['Ineura Park','🛶'],funaya:['Funayanosato Ine','🏡'],ineboat:['Ine Bay sightseeing boat','⛴️'],shinosaka:['Shin-Osaka Station','🚄'],mihara:['Mihara Station','🚉'],tadanoumi:['Tadanoumi Port','🐰'],okuno:['Okunoshima','🐇'],okunomuseum:['Okunoshima Poison Gas Museum','🏚️'],narast:['JR Nara Station','🚉'],narapark:['Nara Park','🦌'],todaiji:['Todai-ji','🧘'],gyumonnara:['GYUMON Nara','🥩'],naramachi:['Naramachi','🏘️'],shinsaibashi:['Shinsaibashi-suji Shopping Street','🛍️'],dotonbori:['Dotonbori Glico Sign','🏃'],hozenji:['Hozenji Yokocho','🕯️'],alis:["Ali's Kitchen Osaka",'🍛'],ginza:['Ginza Tokyo','💎'],akiba:['Akihabara Electric Town','🎮'],hakone:['Hakone-Yumoto Station','♨️'],odawara:['Odawara Station','🚄'],gora:['Gora Station Hakone','🚞'],owakudani:['Owakudani','🌋'],togendai:['Togendai Port','🚠'],ashi:['Lake Ashi Hakone sightseeing cruise','⛵'],hakoneshrine:['Hakone Shrine peace torii','⛩️'],openair:['Hakone Open-Air Museum','🗿'],shinjukust:['Shinjuku Station','🚉'],ueno:['Ueno Park','🌳'],ameyoko:['Ameyoko','🏪'],yanaka:['Yanaka Ginza','🐈'],uniqlo:['UNIQLO Ginza','👕'],itoya:['Ginza Itoya','✒️'],teamlab:['teamLab Planets TOKYO','💡'],tmg:['Tokyo Metropolitan Government Building observatory','🌆'],kabukicho:['Kabukicho Shinjuku','🎆'],omoide:['Omoide Yokocho','🏮'],honolu:['Honolu Shinjuku-Gyoenmae','🍜'],daikoku:['Daikoku Parking Area','🏎️'],donki:['MEGA Don Quijote Shibuya','🐧'],shimokita:['Shimokitazawa','🎧'],hotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],airbnb:['Hankyu Arashiyama Station','🏠'],tokyohotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],kyotoapt:['Forestage Arashiyama','🏠'],kyotoapt2:['Forestage Arashiyama','🏠'],arashiyama:['Arashiyama Bamboo Grove','🎋'],togetsukyo:['Togetsukyo Bridge','🌉'],sagaarashiyama:['Saga-Arashiyama Station','🚉']
 };
 /* stop fields: t time, n name, p place key, cat, key (hero photo), must, opt, halal, m why, see/eat/buy/tip arrays */
 const DAYS=[
@@ -825,11 +835,13 @@ async function weather(day){
 /* ---------- day detail ---------- */
 let curDay=null;
 const sec=(label,icon,arr,cls)=>(!arr||!arr.length)?'':`<div class="sec ${cls||''}"><div class="h">${icon}${label}</div><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+const ACCENT={oct07:'#1B1B1B',oct08:'#1B1B1B',oct09:'#2B5FB3',oct10:'#B8402A',oct11:'#B8402A',oct12:'#2A6FA8',oct13:'#2E8B67',oct14:'#B8402A',oct15:'#1B1B1B',oct16:'#1B1B1B',oct17:'#1B1B1B',oct18:'#1B1B1B',oct19:'#1B1B1B'};
 const variantSel={};
 function openDay(id,vi){
   const base=DAYS.find(d=>d.id===id);if(!base)return;
   if(vi!==undefined)variantSel[id]=vi;
   const day=base.variants?Object.assign({},base,base.variants[variantSel[id]||0]):base;
+  document.documentElement.style.setProperty('--accent',ACCENT[id]||'#1B1B1B');
   const seg=document.getElementById('seg');
   if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
   const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
@@ -868,6 +880,11 @@ function openDay(id,vi){
     st.querySelector('.card').onclick=e=>{if(e.target.closest('a'))return;st.classList.toggle('open');st.querySelector('.card').setAttribute('aria-expanded',st.classList.contains('open'));};
     tl.appendChild(st);
   });
+  const chip=document.getElementById('nextchip');chip.classList.add('hidden');
+  if(day.id===todayId()){const n=jstNow();const hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+    const line=document.createElement('div');line.className='nowline';line.innerHTML=`<span>NOW ${hm}</span>`;
+    const stops=tl.querySelectorAll('.stop');if(nowIdx>=0&&stops[nowIdx])stops[nowIdx].after(line);else tl.prepend(line);
+    const next=day.stops[nowIdx+1];chip.classList.remove('hidden');chip.innerHTML=`<span class="dot"></span>${next?`Next <b>${next.t} · ${next.n}</b>`:'<b>Last stop of the day</b>'}`;}
   const e=day.ess;
   document.getElementById('dEss').innerHTML=`<h3>Wear today</h3><div class="chips">${e.wear.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Eat</h3><div class="chips">${e.eat.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Buy here</h3><div class="chips">${e.buy.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`;
   const pts=[];const seen=new Set();day.stops.forEach(s=>{if(s.p&&P[s.p]&&P[s.p][0]!==''&&!seen.has(s.p)){seen.add(s.p);pts.push(P[s.p][0]);}});
@@ -887,6 +904,8 @@ document.getElementById('backBtn').onclick=()=>{document.getElementById('day').c
     if(window.innerWidth<900){if(y>240&&y>lastY+6)cta.classList.add('hide');else if(y<lastY-6||y<240)cta.classList.remove('hide');}
     lastY=y;ticking=false;});},{passive:true});
 })();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
 renderOverview();
 const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
 </script>
