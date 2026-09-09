@@ -257,9 +257,18 @@ html.dark .count{background:#F2F2F2;color:#141414}
 .stay .n{font-size:12.5px;color:var(--ink-2);margin-top:8px;line-height:1.45}
 .stay .acts{display:flex;gap:8px;flex-wrap:wrap}
 .stay .acts .mapbtn{margin-top:12px}
-.mvg{margin-bottom:14px}
-.mvh{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px 2px;display:flex;gap:6px;align-items:center}
-.mvh span{font-weight:500;color:var(--ink-3);opacity:.7}
+.mvg{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
+.mvh{display:flex;align-items:center;gap:10px;width:100%;padding:0 14px;min-height:52px;font-size:15px;font-weight:600;color:var(--ink)}
+.mvh .lbl{flex:1}
+.mvh .cnt{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--tint);border-radius:999px;padding:3px 9px}
+.mvh .chev{position:static;width:16px;height:16px;flex:0 0 auto}
+.mvg.open .mvh .chev{transform:rotate(180deg)}
+.mvg .more{margin:0;padding:0;border:0}
+.mvg.open .more{margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.mvg .more .inner{padding:0 12px}
+.mvg.open .more .inner{padding:10px 12px 4px}
+.mvg .row{box-shadow:none;background:var(--tint);margin-bottom:8px}
+html.dark .mvg .row{background:#232326}
 .mv .row{display:flex;gap:12px;background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);padding:12px 14px;margin-bottom:8px;align-items:flex-start}
 .mv .ic2{width:28px;height:28px;border-radius:999px;color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px}
 .mv .ic2 svg{width:14px;height:14px}
@@ -327,7 +336,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 /* card expand: animated height */
 .more{display:grid;grid-template-rows:0fr;opacity:0;margin-top:0;padding-top:0;border-top:1px solid transparent;transition:grid-template-rows .36s var(--ease),opacity .28s var(--ease),margin-top .3s var(--ease),padding-top .3s var(--ease),border-color .3s}
 .more>.inner{overflow:hidden;min-height:0}
-.stop.open .more,.stay.open .more{grid-template-rows:1fr;opacity:1;margin-top:12px;padding-top:12px;border-top-color:var(--line)}
+.stop.open .more,.stay.open .more,.mvg.open .more{grid-template-rows:1fr;opacity:1;margin-top:12px;padding-top:12px;border-top-color:var(--line)}
 .chev{transition:transform .32s var(--spring),color .2s}
 .stop.open .chev{color:var(--ink)}
 /* tip carousel dots: active elongates */
@@ -380,6 +389,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .daycard .k{letter-spacing:.01em}
 .daycard .t{font-size:15.5px}
 .img .credit{font-size:9px;letter-spacing:.01em}
+.stay.open .more,.mvg.open .more{margin-top:0;padding-top:0}
 @media (prefers-reduced-motion:reduce){.screen.active,.stop,.img.loaded,.note[open] .body{animation:none!important}.more,.chev,.cta,.gal{transition:none!important}.img .ph::after{display:none}}
 
 </style>
@@ -886,7 +896,7 @@ function renderOverview(){
     const GI_plane='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 10-4-4-4 1 3-4-9 5z"/></svg>';
   const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
   const groups=[['Flights',m=>m.mode==='flight'],['Between cities',m=>m.mode==='shinkansen'],['Road trip',m=>m.mode==='car'&&/Ine|Amanohashidate/.test(m.to)],['Around Tokyo',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^Tokyo/.test(m.from)],['Around Kyoto and Kansai',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^(Kyoto|Arashiyama)/.test(m.from)&&!/Ine|Amanohashidate/.test(m.to)]];
-  const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><div class="mvh">${label}<span>${rows.length}</span></div>${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div>`;}).join('');
+  const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><button class="mvh" aria-expanded="false" onclick="this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',this.parentNode.classList.contains('open'))"><span class="lbl">${label}</span><span class="cnt">${rows.length}</span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner">${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div></div></div>`;}).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
