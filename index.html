@@ -170,8 +170,6 @@ a{color:inherit;text-decoration:none}
 .meta span{display:inline-flex;align-items:center;gap:5px;min-width:0}
 .meta .pl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .meta svg{width:13px;height:13px;flex:0 0 auto}
-.more{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.stop.open .more{display:block}
 .why{font-size:13.5px;color:var(--ink-2);line-height:1.5;margin:0}
 .guide{display:flex;gap:10px;align-items:flex-start;background:#F1F7F2;border-radius:12px;padding:10px 12px;margin-top:12px}
 .guide .orb{flex:0 0 18px;width:18px;height:18px;margin-top:2px;box-shadow:0 0 0 3px rgba(64,196,110,.12)}
@@ -249,7 +247,86 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   .slide{padding:0}
 }
 
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ============ motion & polish ============ */
+:root{--ease:cubic-bezier(.2,.7,.2,1);--spring:cubic-bezier(.34,1.4,.64,1)}
+/* screen transitions */
+.screen.active{animation:screenIn .34s var(--ease) both}
+@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* press feedback */
+.daycard,.card,.dsw button,.fab,.garr,.cta,.mapbtn,.note summary,.sechead .cnt,.tag-c,.stay .acts a{transition:transform .18s var(--ease),box-shadow .25s var(--ease),background-color .2s var(--ease),color .2s var(--ease),opacity .2s var(--ease)}
+.daycard:active,.card:active,.mapbtn:active,.stay .acts a:active{transform:scale(.985)}
+.dsw button:active,.fab:active,.garr:active{transform:scale(.92)}
+.cta:active{transform:translateX(-50%) scale(.97)}
+@media (hover:hover){
+  .daycard:hover,.stay:hover{box-shadow:var(--sh-2);transform:translateY(-1px)}
+  .card:hover{box-shadow:var(--sh-2)}
+  .dsw button:hover:not(.on){background:#fff;box-shadow:var(--sh-2);transform:translateY(-1px)}
+  .mapbtn:hover,.stay .acts a:hover{background:#E9E9E5}
+  .cta:hover{box-shadow:0 18px 40px rgba(0,0,0,.3);transform:translateX(-50%) translateY(-1px)}
+  .fab:hover,.garr:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+  .aside .cta:hover{transform:translateY(-1px)}
+}
+/* timeline stagger on day open */
+.stop{animation:rise .45s var(--ease) both;animation-delay:calc(min(var(--i,0),8) * 45ms)}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* card expand: animated height */
+.more{display:grid;grid-template-rows:0fr;opacity:0;margin-top:0;padding-top:0;border-top:1px solid transparent;transition:grid-template-rows .36s var(--ease),opacity .28s var(--ease),margin-top .3s var(--ease),padding-top .3s var(--ease),border-color .3s}
+.more>.inner{overflow:hidden;min-height:0}
+.stop.open .more{grid-template-rows:1fr;opacity:1;margin-top:12px;padding-top:12px;border-top-color:var(--line)}
+.chev{transition:transform .32s var(--spring),color .2s}
+.stop.open .chev{color:var(--ink)}
+/* tip carousel dots: active elongates */
+.dots i{transition:width .3s var(--ease),background .3s}
+.dots i.on{width:14px}
+.gdots i{transition:width .3s var(--ease),background .3s}.gdots i.on{width:14px}
+.tip{transition:border-radius .3s var(--ease),box-shadow .3s}
+/* hero parallax + caption crossfade */
+.gal{will-change:transform}
+.hero .cap{transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.hero .cap.sw{opacity:0;transform:translateY(4px)}
+/* sticky day row gains a shadow when stuck */
+.dsw{transition:box-shadow .3s var(--ease)}
+.dsw.stuck{box-shadow:0 10px 24px -14px rgba(0,0,0,.28)}
+/* CTA hides on scroll-down, returns on scroll-up (mobile) */
+.cta{transition:transform .32s var(--ease),box-shadow .25s,opacity .25s}
+.cta.hide{transform:translateX(-50%) translateY(140%);opacity:0}
+/* image skeleton shimmer */
+.img .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-100%);animation:shimmer 1.8s ease-in-out infinite}
+@keyframes shimmer{to{transform:translateX(100%)}}
+.img.loaded{animation:fadeIn .5s var(--ease)}
+@keyframes fadeIn{from{opacity:0;filter:saturate(.6)}to{opacity:1;filter:none}}
+/* details notes body fades in */
+.note[open] .body{animation:screenIn .3s var(--ease) both}
+.note summary{transition:background .2s}
+.note summary:active{background:var(--tint)}
+/* checklist */
+.chk span{transition:color .25s,text-decoration-color .25s;text-decoration-color:transparent}
+.chk input:checked+span{text-decoration-color:var(--ink-3)}
+.chk input{transition:transform .15s var(--spring)}.chk input:active{transform:scale(.85)}
+/* weather crossfade */
+.wx{transition:opacity .25s}.wx.sw{opacity:0}
+/* typography hierarchy refinements */
+.daterow{font-size:12.5px;letter-spacing:.01em;text-transform:none}
+.titlerow h1{font-weight:600;letter-spacing:-.028em}
+.stat .v{font-size:17px}
+.stat .l{letter-spacing:.005em}
+.card .nm{font-size:15px}
+.tag{text-transform:uppercase;letter-spacing:.05em;font-size:9.5px;padding:3px 7px}
+.meta{font-size:12px}
+.sechead h2{font-size:18px}
+.desc{color:#616161}
+.sec .h{text-transform:uppercase;letter-spacing:.06em;font-size:11px;color:var(--ink-3)}
+.sec .h svg{color:var(--ink-3)}
+.sec li{color:#4F4F4F}
+.guide p{color:#3F5245}.guide p b{color:#1E3A28}
+.ess h3{text-transform:uppercase;letter-spacing:.06em;font-size:11px;color:var(--ink-3);margin:24px 0 8px}
+.h2{font-size:18px}
+.daycard .k{letter-spacing:.01em}
+.daycard .t{font-size:15.5px}
+.img .credit{font-size:9px;letter-spacing:.01em}
+@media (prefers-reduced-motion:reduce){.screen.active,.stop,.img.loaded,.note[open] .body{animation:none!important}.more,.chev,.cta,.gal{transition:none!important}.img .ph::after{display:none}}
+
 </style>
 </head>
 <body>
@@ -468,7 +545,7 @@ const DAYS=[
 
 {id:'oct13',n:7,d:'Tuesday, 13 October',short:'Tue 13 Oct',title:'Rabbit Island',hero:['okuno','tadanoumi','okunomuseum'],mode:'transit',wx:{t:23,c:'Breezy',i:'🌤️',ll:[34.31,132.99]},
  desc:'Your longest travel day. Kyoto to Shin-Osaka, Shinkansen to Mihara, local to Tadanoumi, 15-minute ferry to Okunoshima. The island is 4 km around, full of rabbits and a much darker history.',
- stats:[['05:30','Leave Kyoto'],['4h each way','Travel']],
+ stats:[['05:30','Leave Kyoto'],['4h','Each way']],
  tips:[{k:'tip',h:'A missed ferry here is a disaster. Start the return early.',t:'Lock exact train and ferry timings a week before.'},{k:'food',h:'Do not depend on the island for lunch.',t:'Pack sandwiches, rice, protein bars, fruit, water. Nothing is sold on the island except at the hotel.'},{k:'gem',h:'The rabbit food is not sold on the island.',t:'Buy pellets or a bag of cabbage at the Tadanoumi ferry terminal shop before boarding.'},{k:'wear',h:'Walking shoes, light trousers, light jacket, rain shell, hat.',t:'Wind makes it feel cooler.'},{k:'shop',h:'Tadanoumi terminal: rabbit plush, stationery, mugs, original goods.',t:'Plus the rabbit soft-serve.'}],
  stops:[
   {t:'05:30',n:'Arashiyama → Kyoto Station → Shin-Osaka',p:'shinosaka',cat:'transport',m:'Very early start. First JR Sagano trains run around 05:30; check the exact one a week before.'},
@@ -694,7 +771,7 @@ async function weather(day){
   try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${day.wx.ll[0]}&longitude=${day.wx.ll[1]}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=Asia%2FTokyo&start_date=${date}&end_date=${date}`);
     const j=await r.json();if(!j.daily||j.daily.temperature_2m_max[0]==null||curDay!==day)return;
     const w=WMO[j.daily.weathercode[0]]||['Mixed','🌤️'];const pp=j.daily.precipitation_probability_max[0];
-    box.innerHTML=`<div><div class="t">${Math.round(j.daily.temperature_2m_max[0])}°</div><div class="c">${w[0]}${pp!=null?', '+pp+'% rain':''}</div><div class="src">low ${Math.round(j.daily.temperature_2m_min[0])}° · live</div></div><div class="i">${w[1]}</div>`;}catch(e){}
+    box.classList.add('sw');setTimeout(()=>box.classList.remove('sw'),260);box.innerHTML=`<div><div class="t">${Math.round(j.daily.temperature_2m_max[0])}°</div><div class="c">${w[0]}${pp!=null?', '+pp+'% rain':''}</div><div class="src">low ${Math.round(j.daily.temperature_2m_min[0])}° · live</div></div><div class="i">${w[1]}</div>`;}catch(e){}
 }
 
 /* ---------- day detail ---------- */
@@ -707,7 +784,7 @@ function openDay(id){
   if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
   const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
-  const cap=document.getElementById('cap');const setCap=i=>{const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
+  const cap=document.getElementById('cap');let capI=-1;const setCap=i=>{if(i===capI)return;capI=i;cap.classList.add('sw');setTimeout(()=>{cap.classList.remove('sw');},220);const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
   const gi=()=>Math.max(0,Math.min(day.hero.length-1,Math.round(gal.scrollLeft/gal.clientWidth)));const go=n=>gal.scrollTo({left:Math.max(0,Math.min(day.hero.length-1,n))*gal.clientWidth,behavior:'smooth'});
   const arr=()=>{document.getElementById('gprev').disabled=gi()===0;document.getElementById('gnext').disabled=gi()===day.hero.length-1;};
   setCap(0);gal.scrollLeft=0;gal.onscroll=()=>{setCap(gi());arr();};arr();
@@ -732,8 +809,9 @@ function openDay(id){
     const tags=[i===nowIdx?'<span class="tag now">Now</span>':'',s.must?'<span class="tag must">Must see</span>':'',s.cat==='booked'?'<span class="tag booked">Booked</span>':'',s.halal?'<span class="tag halal">Halal</span>':'',s.opt?'<span class="tag opt">Optional</span>':''].filter(Boolean).join('');
     const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:'';
     const more=`${s.m?`<p class="why">${s.m}</p>`:''}${s.guide?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${s.guide}</p></div>`:''}${sec('See',I.eye,s.see)}${sec('Eat',I.food,s.eat)}${sec('Buy',I.bag,s.buy)}${sec('Insider tip',I.bulb,s.tip,'tipbox')}${maps}`;
-    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}${place}</span>`:''}</div><div class="more">${more}</div></div></button>`;
-    if(s.p==='hotel')st.querySelector('.more').prepend(mkImg('tokyohotel'));else if(s.p==='airbnb')st.querySelector('.more').prepend(mkImg('kyotoapt'));else if(s.key&&s.p&&P[s.p][0]!=='')st.querySelector('.more').prepend(mkImg(s.p));
+    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}${place}</span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></button>`;
+    const inner=st.querySelector('.more .inner');if(s.p==='hotel')inner.prepend(mkImg('tokyohotel'));else if(s.p==='airbnb')inner.prepend(mkImg('kyotoapt'));else if(s.key&&s.p&&P[s.p][0]!=='')inner.prepend(mkImg(s.p));
+    st.style.setProperty('--i',i);
     st.querySelector('.card').onclick=e=>{if(e.target.closest('a'))return;st.classList.toggle('open');st.querySelector('.card').setAttribute('aria-expanded',st.classList.contains('open'));};
     tl.appendChild(st);
   });
@@ -745,6 +823,17 @@ function openDay(id){
   weather(day);location.hash=day.id;
 }
 document.getElementById('backBtn').onclick=()=>{document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
+/* ---------- motion helpers ---------- */
+(function(){
+  const dsw=document.getElementById('dsw');const sent=document.createElement('div');sent.style.cssText='height:1px;margin-top:-1px';dsw.parentNode.insertBefore(sent,dsw);
+  if('IntersectionObserver' in window)new IntersectionObserver(([e])=>dsw.classList.toggle('stuck',!e.isIntersecting&&e.boundingClientRect.top<0)).observe(sent);
+  const gal=document.getElementById('gal');const hero=document.querySelector('.hero');const cta=document.getElementById('cta');
+  let lastY=0,ticking=false;const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=window.scrollY;
+    if(!rm&&window.innerWidth<900&&document.getElementById('day').classList.contains('active')){const hh=hero.offsetHeight;if(y<hh)gal.style.transform=`translateY(${y*0.28}px)`;}
+    if(window.innerWidth<900){if(y>240&&y>lastY+6)cta.classList.add('hide');else if(y<lastY-6||y<240)cta.classList.remove('hide');}
+    lastY=y;ticking=false;});},{passive:true});
+})();
 renderOverview();
 const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
 </script>
