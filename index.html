@@ -542,8 +542,6 @@ const PH={
  funaya:['photo-1784862837510-d73896e8466b','PJH','dokae'],
  ineboat:['photo-1784862837510-d73896e8466b','PJH','dokae'],
  amano:['photo-1752898514899-edecbc8a5d80','PJH','dokae'],
- okuno:['photo-1480554840075-72cbdabbf689','Gary Bendig','kris_ricepees'],
- okunomuseum:['photo-1480554840075-72cbdabbf689','Gary Bendig','kris_ricepees'],
  narapark:['photo-1693380767492-00fb0bcc4ce6','María Cosmen','mcosme00'],
  narast:['photo-1693380767492-00fb0bcc4ce6','María Cosmen','mcosme00'],
  todaiji:['photo-1634898954682-cdbdce03a514','Andrei Daniel Petrica','danielpetrica'],
@@ -940,7 +938,7 @@ function box(cls){
   return [Math.min(vw-48,720),150];
 }
 function srcFor(key,cls){
-  const ph=PH[key];const [w,h]=box(cls);
+  const [w,h]=box(cls);const d0=DIRECT[key];if(d0)return WEBP?d0.replace(/\.jpg$/,'.webp'):d0;const ph=PH[key];
   if(ph)return `https://images.unsplash.com/${ph[0]}?auto=format,compress&fit=crop&crop=entropy&w=${Math.round(w*DPR)}&h=${Math.round(h*DPR)}&q=${cls==='thumb'?60:70}`;
   const d=DIRECT[key];if(d)return WEBP?d.replace(/\.jpg$/,'.webp'):d;
   return key?IMG_DIR+key+'.jpg':'';
@@ -948,7 +946,7 @@ function srcFor(key,cls){
 const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){loadImg(e.target);io.unobserve(e.target);}}),{rootMargin:'300px'}):null;
 function loadImg(d){
   if(d.dataset.loaded)return;d.dataset.loaded='1';
-  const key=d.dataset.key,cls=d.dataset.cls,ph=PH[key];const src=srcFor(key,cls);if(!src)return;
+  const key=d.dataset.key,cls=d.dataset.cls,ph=DIRECT[key]?null:PH[key];const src=srcFor(key,cls);if(!src)return;
   const i=new Image();i.onload=()=>{d.style.backgroundImage=`url("${src}")`;d.style.backgroundPosition=FOCUS[key]||'center 45%';d.classList.add('loaded');if(ph)d.insertAdjacentHTML('beforeend',`<a class="credit" href="https://unsplash.com/@${ph[2]}?utm_source=japan2026&utm_medium=referral" target="_blank" rel="noopener">${ph[1]} / Unsplash</a>`);};i.src=src;
 }
 function mkImg(key,cls){
