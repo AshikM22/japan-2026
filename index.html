@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F8F8F6">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Japan 2026">
+<title>Japan 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#F7F7F7;            /* page, warm off-white */
+  --surface:#FFFFFF;
+  --tint:#F1F1EE;          /* chips, quiet fills */
+  --line:#ECECE8;
+  --ink:#141414;
+  --ink-2:#6B6B6B;
+  --ink-3:#9A9A98;
+  --sh-1:0 2px 10px rgba(0,0,0,.05);
+  --sh-2:0 8px 24px rgba(0,0,0,.08);
+  --r-s:10px;--r-m:14px;--r-l:20px;
+  --c-transport:#3B82F6;--c-food:#F59E42;--c-attraction:#EF6A4C;--c-hotel:#7C6CE0;--c-shopping:#EC5A93;--c-nature:#3CB371;--c-booked:#D9A520;--c-coffee:#9C6B4A;--c-flex:#9A9A98;
+  --pad:24px;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,"SF Pro Text",system-ui,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01";overscroll-behavior-y:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative}
+.screen{display:none}.screen.active{display:block}
+
+/* ============ image frames ============ */
+.img{position:relative;overflow:hidden;background:#EDEDEA;background-size:cover;background-position:center}
+.img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#C2C2BD;background:linear-gradient(160deg,#EFEFEC 0%,#E4E4DF 100%)}
+.img .ph svg{width:26px;height:26px}
+.img .ph small{position:absolute;right:8px;bottom:6px;font-size:10px;color:#A4A4A0;font-weight:500}
+.img.loaded .ph{display:none}
+.img .credit{position:absolute;right:8px;bottom:6px;font-size:9.5px;color:rgba(255,255,255,.75);background:rgba(0,0,0,.28);padding:2px 6px;border-radius:999px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1}
+.gal .img .credit{bottom:56px;right:var(--pad)}
+.daycard .img .credit,.strip .img .credit{display:none}
+
+/* ============ overview ============ */
+.ov{padding:0 var(--pad) calc(var(--sab) + 40px)}
+.ov-top{padding-top:calc(var(--sat) + 28px);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.ov-top h1{font-size:28px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0}
+.ov-top .sub{font-size:13px;color:var(--ink-2);margin-top:6px;font-weight:500}
+.cover{margin-top:18px;border-radius:var(--r-l);height:190px;box-shadow:var(--sh-2)}
+.cover .ph svg{width:32px;height:32px}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.tag-c{font-size:12px;font-weight:500;color:var(--ink-2);background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:6px 10px;display:inline-flex;align-items:center;gap:6px}
+.tag-c svg{width:13px;height:13px;color:var(--ink-3)}
+.h2{font-size:17px;font-weight:600;letter-spacing:-.015em;margin:28px 0 12px}
+.daycard{display:flex;gap:14px;align-items:center;width:100%;background:var(--surface);border-radius:var(--r-l);padding:12px;box-shadow:var(--sh-1);margin-bottom:10px;position:relative}
+.daycard .img{width:76px;height:76px;border-radius:12px;flex:0 0 auto}
+.daycard .img .ph svg{width:20px;height:20px}.daycard .img .ph small{display:none}
+.daycard .txt{flex:1;min-width:0}
+.daycard .k{font-size:11.5px;color:var(--ink-3);font-weight:500}
+.daycard .t{font-size:15px;font-weight:600;line-height:1.3;letter-spacing:-.01em;margin:3px 0 7px;color:var(--ink)}
+.meta-row{display:flex;gap:10px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+.meta-row span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.meta-row svg{width:13px;height:13px;color:var(--ink-3)}
+.daycard .today{position:absolute;top:10px;right:10px;background:var(--ink);color:#fff;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:999px}
+.note{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
+.note summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:15px 14px;font-weight:600;font-size:14px;cursor:pointer;min-height:52px}
+.note summary::-webkit-details-marker{display:none}
+.note summary svg{transition:transform .2s;color:var(--ink-3);flex:0 0 auto;width:18px;height:18px}
+.note[open] summary svg{transform:rotate(180deg)}
+.note .body{padding:0 14px 12px;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.note .body h4{margin:12px 0 5px;font-size:13px;color:var(--ink);font-weight:600}
+.note .body ul{margin:0;padding-left:0;list-style:none}.note .body li{padding:3px 0}
+.chk{display:flex;gap:12px;align-items:center;padding:6px 0;color:var(--ink);min-height:44px}
+.chk input{width:20px;height:20px;accent-color:var(--ink);margin:0;flex:0 0 auto}
+.chk input:checked+span{color:var(--ink-3);text-decoration:line-through}
+
+/* ============ day: hero ============ */
+.hero{position:relative;height:40vh;min-height:280px;max-height:400px;overflow:hidden;background:#E9E9E5}
+.gal{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal .img{flex:0 0 100%;height:100%;scroll-snap-align:start}
+.gal .img .ph svg{width:40px;height:40px}
+.gal .img .ph small{bottom:52px;right:var(--pad)}
+.shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,0) 60%,rgba(0,0,0,.40) 100%)}
+.hero .cap{position:absolute;left:var(--pad);right:var(--pad);bottom:44px;color:#fff;pointer-events:none;text-shadow:0 1px 12px rgba(0,0,0,.35)}
+.hero .cap .k{font-size:12px;font-weight:500;opacity:.85}
+.hero .cap .n{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-top:2px}
+.gdots{position:absolute;left:0;right:0;bottom:32px;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.gdots i{width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.45)}.gdots i.on{background:#fff}
+.fab{position:absolute;z-index:5;height:44px;min-width:44px;border-radius:999px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.fab.back{top:calc(var(--sat) + 12px);left:16px;width:44px}
+.garr{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:var(--ink);opacity:.9}
+.garr.l{left:12px}.garr.r{right:12px}
+.garr[disabled]{opacity:.3}
+@media (hover:none) and (max-width:899px){.garr{width:34px;height:34px;top:auto;bottom:88px;transform:none;background:rgba(0,0,0,.28);color:#fff;box-shadow:none}}
+.fab.pill{top:calc(var(--sat) + 12px);right:16px;padding:0 14px;font-size:13px;font-weight:600}
+
+/* ============ day: sheet ============ */
+.sheet{position:relative;z-index:2;background:var(--bg);border-radius:22px 22px 0 0;margin-top:-22px;padding:0 var(--pad) calc(var(--sab) + 100px)}
+.dsw{position:sticky;top:0;z-index:6;margin:0 calc(var(--pad) * -1) 18px;padding:12px var(--pad) 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;background:var(--bg);border-radius:22px 22px 0 0}
+.dsw::-webkit-scrollbar{display:none}
+.dsw::after{content:"";flex:0 0 1px}
+.dsw button{flex:0 0 auto;width:46px;height:50px;border-radius:12px;background:var(--surface);box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1;color:var(--ink)}
+.dsw button small{font-size:10px;font-weight:500;color:var(--ink-3);text-transform:none}
+.dsw button b{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.dsw button.on{background:var(--ink);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.dsw button.on small{color:rgba(255,255,255,.6)}
+.daterow{display:flex;align-items:center;gap:7px;color:var(--ink-2);font-size:13px;font-weight:500}
+.daterow svg{width:15px;height:15px;color:var(--ink-3)}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:6px}
+.titlerow h1{font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-.025em;margin:0;flex:1;min-width:0;overflow-wrap:anywhere}
+.wx{background:var(--surface);border-radius:14px;box-shadow:var(--sh-2);padding:9px 12px;display:flex;align-items:center;gap:8px;flex:0 0 auto;width:112px;margin-top:-16px;overflow:hidden}
+.wx>div:first-child{min-width:0;flex:1}
+.wx .t{font-size:18px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.wx .c{font-size:10.5px;color:var(--ink-2);margin-top:3px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wx .src{font-size:9px;color:var(--ink-3);margin-top:1px}
+.wx .i{font-size:24px;line-height:1;flex:0 0 auto;width:28px;text-align:center}
+.desc{color:var(--ink-2);font-size:14px;line-height:1.55;margin:12px 0 20px}
+.stats{display:flex;margin-bottom:20px}
+.stat{flex:1;min-width:0}
+.stat+.stat{border-left:1px solid var(--line);padding-left:16px;margin-left:12px}
+.stat .v{font-size:16px;font-weight:600;letter-spacing:-.015em;white-space:nowrap;line-height:1.2}
+.stat .l{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.tips{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 calc(var(--pad) * -1);padding:6px var(--pad) 10px}
+.tips::-webkit-scrollbar{display:none}
+.tip{flex:0 0 100%;scroll-snap-align:center;background:var(--surface);border-radius:999px;box-shadow:var(--sh-2);padding:14px 22px 14px 14px;display:flex;gap:12px;align-items:center;min-height:64px}
+.orb{display:block;flex:0 0 26px;width:26px;height:26px;border-radius:999px;background:radial-gradient(circle at 34% 28%,#CFFBD9 0%,#5DD68A 38%,#1FA35A 72%,#147A42 100%);box-shadow:0 0 0 5px rgba(64,196,110,.12),0 0 16px rgba(64,196,110,.45)}
+.orb.k-wear{background:radial-gradient(circle at 34% 28%,#E6DEFF,#9B86F0 38%,#6A4FD8 72%,#4A34B0);box-shadow:0 0 0 5px rgba(124,108,224,.12),0 0 16px rgba(124,108,224,.4)}
+.orb.k-food{background:radial-gradient(circle at 34% 28%,#FFE6CC,#FCAF62 38%,#EE7F2A 72%,#B85A14);box-shadow:0 0 0 5px rgba(245,158,66,.12),0 0 16px rgba(245,158,66,.4)}
+.orb.k-shop{background:radial-gradient(circle at 34% 28%,#FFDDEB,#F58AB7 38%,#E4508A 72%,#B12C64);box-shadow:0 0 0 5px rgba(236,90,147,.12),0 0 16px rgba(236,90,147,.4)}
+.orb.k-gem{background:radial-gradient(circle at 34% 28%,#FFF3C4,#F3C74C 38%,#D9A520 72%,#A0770C);box-shadow:0 0 0 5px rgba(217,165,32,.12),0 0 16px rgba(217,165,32,.4)}
+.tip p{margin:0;font-size:12.5px;line-height:1.4;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tip p b{color:var(--ink);font-weight:600}
+.tip.x p{-webkit-line-clamp:unset}
+.tip.x{border-radius:26px}
+.dots{display:flex;justify-content:center;gap:4px;margin:0 0 26px}
+.dots i{width:5px;height:5px;border-radius:999px;background:#DADAD6}.dots i.on{background:var(--ink)}
+.sechead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sechead h2{font-size:17px;font-weight:600;margin:0;letter-spacing:-.015em}
+.sechead .cnt{font-size:12px;font-weight:500;color:var(--ink);background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:6px}
+.sechead .cnt svg{width:12px;height:12px;color:var(--ink-3)}
+
+/* ============ timeline ============ */
+.tl{position:relative;padding-left:40px}
+.tl::before{content:"";position:absolute;left:14px;top:20px;bottom:30px;width:1.5px;background:#E6E6E3}
+.stop{position:relative;margin-bottom:10px}
+.ic{position:absolute;left:-40px;top:16px;width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 0 0 3px var(--ring)}
+.ic svg{width:14px;height:14px}
+.card{display:block;width:100%;background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);overflow:hidden}
+.card .bd{padding:13px 14px 13px;position:relative}
+.card .nm{font-size:14.5px;font-weight:600;line-height:1.35;letter-spacing:-.01em;padding-right:24px}
+.more .img{height:150px;border-radius:10px;margin-bottom:12px}
+.chev{position:absolute;right:12px;top:14px;width:16px;height:16px;color:var(--ink-3);transition:transform .2s}
+.stop.open .chev{transform:rotate(180deg)}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:10px;font-weight:600;letter-spacing:.01em;padding:3px 8px;border-radius:999px;line-height:1.3}
+.tag.must{background:#FDEBE6;color:#C3432A}.tag.booked{background:#FBF1D3;color:#8F6A0C}.tag.halal{background:#E4F5EA;color:#1E7A45}.tag.opt{background:var(--tint);color:var(--ink-3)}.tag.now{background:var(--ink);color:#fff}
+.meta{display:flex;gap:12px;margin-top:7px;font-size:12px;color:var(--ink-3);align-items:center}
+.meta span{display:inline-flex;align-items:center;gap:5px;min-width:0}
+.meta .pl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta svg{width:13px;height:13px;flex:0 0 auto}
+.more{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.stop.open .more{display:block}
+.why{font-size:13.5px;color:var(--ink-2);line-height:1.5;margin:0}
+.sec{margin-top:12px}
+.sec .h{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.sec .h svg{width:14px;height:14px;color:var(--ink-3)}
+.sec ul{margin:0;padding:0;list-style:none}
+.sec li{font-size:13px;color:var(--ink-2);line-height:1.45;padding:2px 0 2px 13px;position:relative}
+.sec li::before{content:"";position:absolute;left:0;top:10px;width:4px;height:4px;border-radius:999px;background:#CFCFCA}
+.sec.tipbox{background:#FBF7EA;border-radius:12px;padding:10px 12px;margin-top:14px}
+.sec.tipbox .h svg{color:#C9961C}.sec.tipbox li::before{background:#D9A520}
+.mapbtn{display:inline-flex;align-items:center;gap:7px;margin-top:14px;height:44px;padding:0 16px;font-size:13px;font-weight:600;color:var(--ink);background:var(--tint);border-radius:999px}
+.mapbtn svg{width:12px;height:12px}
+.stop.done .card{opacity:.55}
+.ess h3{font-size:14px;font-weight:600;margin:24px 0 9px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:7px 11px;background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;color:var(--ink);line-height:1.3}
+.cta{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--sab) + 18px);width:min(60%,260px);height:50px;border-radius:999px;background:#1B1B1B;color:#fff;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 12px 30px rgba(0,0,0,.24);z-index:50}
+.cta .d{width:28px;height:28px;border-radius:999px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center}
+.cta .d svg{width:13px;height:13px}
+
+/* ============ stays / moves ============ */
+.stay{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
+.stay .img{height:150px}
+.stay .bd{padding:13px 14px 14px}
+.stay .line{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.4}
+.stay .line svg{width:13px;height:13px;flex:0 0 auto;margin-top:3px;color:var(--ink-3)}
+.stay .acts{display:flex;gap:8px;flex-wrap:wrap}
+.stay .acts .mapbtn{margin-top:12px}
+.stay .ic2{width:34px;height:34px;border-radius:999px;background:var(--c-hotel);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 0 0 3px color-mix(in srgb,var(--c-hotel) 22%,var(--bg))}
+.stay .ic2 svg{width:16px;height:16px}
+.stay .t{font-size:14.5px;font-weight:600;line-height:1.3}
+.stay .k{font-size:12px;color:var(--ink-3);margin-top:2px}
+.stay .n{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.45}
+.mv .row{display:flex;gap:12px;background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);padding:12px 14px;margin-bottom:8px;align-items:flex-start}
+.mv .ic2{width:28px;height:28px;border-radius:999px;color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px}
+.mv .ic2 svg{width:14px;height:14px}
+.mv .t{font-size:14px;font-weight:600;line-height:1.3}
+.mv .k{font-size:11.5px;color:var(--ink-3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mv .h{font-size:12.5px;color:var(--ink-2);margin-top:5px;line-height:1.45}
+.st{font-size:10px;font-weight:600;padding:2px 7px;border-radius:999px}
+.st.booked{background:#E4F5EA;color:#1E7A45}.st.tobook{background:#FBF1D3;color:#8F6A0C}.st.suica{background:var(--tint);color:var(--ink-2)}
+ul.plain{margin:0;padding:0;list-style:none}
+ul.plain li{font-size:13px;color:var(--ink-2);line-height:1.45;padding:6px 0 6px 14px;position:relative;border-bottom:1px solid var(--line)}
+ul.plain li:last-child{border-bottom:0}
+ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;height:4px;border-radius:999px;background:#CFCFCA}
+
+/* ============ desktop ============ */
+.aside{padding:0 var(--pad) calc(var(--sab) + 100px)}
+@media (min-width:900px){
+  .app{max-width:none;background:var(--bg)}
+  .ov{max-width:1120px;margin:0 auto;padding:0 40px 60px}
+  .ov-top{padding-top:44px}
+  .cover{height:300px}
+  .ov-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+  .day-grid{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr) 320px;min-height:100vh;gap:0}
+  .hero{position:sticky;top:0;height:100vh;max-height:none;min-height:0}
+  .hero .cap{bottom:56px}
+  .sheet{margin-top:0;border-radius:0;padding:28px 44px 80px;max-width:720px}
+  .dsw{position:static;margin:0 0 20px;padding:0;border-radius:0}
+  .aside{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 32px 40px 0;border-left:1px solid var(--line);margin-left:0}
+  .aside .ess{padding-left:32px}
+  .aside .ess h3:first-child{margin-top:0}
+  .cta{position:static;transform:none;width:100%;margin:28px 0 0 32px;width:calc(100% - 32px)}
+  .aside .cta{display:flex}
+  .titlerow h1{font-size:34px}
+  .wx{width:150px;padding:11px 14px}
+  .wx .t{font-size:20px}
+  .wx .c{font-size:11.5px}
+  .desc{font-size:15px}
+  .tip{min-height:70px}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="screen active" id="overview">
+  <div class="ov">
+    <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub">7 to 19 October · 13 days · 3 travellers</div></div></div>
+    <div class="cover img" id="cover"></div>
+    <div class="tagrow" id="tagrow"></div>
+    <div class="ov-grid">
+      <div class="ov-main">
+        <div class="h2">Itinerary</div>
+        <div id="daylist"></div>
+      </div>
+      <div class="ov-side">
+        <div class="h2">Where we stay</div>
+        <div id="stays"></div>
+        <div class="h2">How we move</div>
+        <div class="mv" id="moves"></div>
+        <div class="h2">Getting around</div>
+        <div class="note" style="padding:6px 14px 8px"><ul class="plain" id="getting"></ul></div>
+        <div class="h2">Trip notes</div>
+        <div id="notes"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="screen" id="day">
+  <div class="day-grid">
+  <div class="hero">
+    <div class="gal" id="gal"></div><div class="shade"></div>
+    <button class="fab back" id="backBtn" aria-label="All days"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="fab pill" id="dayPill"></div>
+    <div class="cap" id="cap"></div><div class="gdots" id="gdots"></div>
+    <button class="garr l" id="gprev" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="garr r" id="gnext" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+  <div class="sheet">
+    <div class="dsw" id="dsw"></div>
+    <div class="daterow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dDate"></span></div>
+    <div class="titlerow"><h1 id="dTitle"></h1><div class="wx" id="dWx"></div></div>
+    <p class="desc" id="dDesc"></p>
+    <div class="stats" id="dStats"></div>
+    <div class="tips" id="dTips"></div><div class="dots" id="dDots"></div>
+    <div class="sechead"><h2>Stops & activities</h2><span class="cnt" id="dCnt"></span></div>
+    <div class="tl" id="dStops"></div>
+  </div>
+  <aside class="aside"><div class="ess" id="dEss"></div>
+  <a class="cta" id="cta" target="_blank" rel="noopener"><span id="ctaTxt">Open route in Maps</span><span class="d"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l4 8-4-2-4 2 4-8zm0 20l-4-8 4 2 4-2-4 8zM2 12l8-4-2 4 2 4-8-4zm20 0l-8 4 2-4-2-4 8 4z"/></svg></span></a>
+  </aside>
+  </div>
+</section>
+</div>
+<script>
+const IMG_DIR='img/';
+/* Unsplash photos: [photo path, photographer, username] — Unsplash licence, hotlinked via images.unsplash.com */
+const PH={
+ kaminarimon:['photo-1628523197648-74f46812c7d7','Maria P.','nihonnoyume'],
+ sensoji:['photo-1580167310921-e70cd85ce68d','Nicholas Doherty','nrdoherty'],
+ nakamise:['photo-1673330245973-6f267657731f','Matt Ketchum','mkultraman'],
+ shibuya:['photo-1542051841857-5f90071e7989','Jezael Melgoza','jezar'],
+ disney:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
+ fantasy:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
+ mysterious:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
+ medharbor:['photo-1718870008334-90194ba7a74f','Joshua Tsu','joshdatsu'],
+ fushimi:['photo-1613487691352-7d9b4ee5045b','Stefan K','stefankst'],
+ kiyomizu:['photo-1602897387777-f89c6b7e4a9e','LU XISH','luxish'],
+ gion:['photo-1597730763269-c49ab9f9db0f','Jay','jmanalog'],
+ higashiyama:['photo-1597730763269-c49ab9f9db0f','Jay','jmanalog'],
+ shirakawa:['photo-1597730763269-c49ab9f9db0f','Jay','jmanalog'],
+ ninenzaka:['photo-1578469645742-46cae010e5d4','Cosmin Georgian','cosmingeorgian'],
+ yasaka:['photo-1578469645742-46cae010e5d4','Cosmin Georgian','cosmingeorgian'],
+ nishiki:['photo-1701001909948-8048598fbc92','Rebecca Clarke','rebeccaclarke'],
+ teramachi:['photo-1701001909948-8048598fbc92','Rebecca Clarke','rebeccaclarke'],
+ ineura:['photo-1784862837510-d73896e8466b','PJH','dokae'],
+ funaya:['photo-1784862837510-d73896e8466b','PJH','dokae'],
+ ineboat:['photo-1784862837510-d73896e8466b','PJH','dokae'],
+ amano:['photo-1752898514899-edecbc8a5d80','PJH','dokae'],
+ okuno:['photo-1480554840075-72cbdabbf689','Gary Bendig','kris_ricepees'],
+ okunomuseum:['photo-1480554840075-72cbdabbf689','Gary Bendig','kris_ricepees'],
+ tadanoumi:['photo-1480554840075-72cbdabbf689','Gary Bendig','kris_ricepees'],
+ narapark:['photo-1693380767492-00fb0bcc4ce6','María Cosmen','mcosme00'],
+ narast:['photo-1693380767492-00fb0bcc4ce6','María Cosmen','mcosme00'],
+ todaiji:['photo-1634898954682-cdbdce03a514','Andrei Daniel Petrica','danielpetrica'],
+ naramachi:['photo-1634898954682-cdbdce03a514','Andrei Daniel Petrica','danielpetrica'],
+ dotonbori:['photo-1560291544-515e5417bddb','Robby McCullough','mybbor'],
+ hozenji:['photo-1560291544-515e5417bddb','Robby McCullough','mybbor'],
+ shinsaibashi:['photo-1601328281102-cf8ae51f94c9','Senad Palic','senadpalic'],
+ teamlab:['photo-1593073862407-a3ce22748763','note thanun','notethanun'],
+ kabukicho:['photo-1699014172412-d550ce4b07be','Siddhesh Mangela','siddacool'],
+ tmg:['photo-1699014172412-d550ce4b07be','Siddhesh Mangela','siddacool'],
+ omoide:['photo-1556710303-af0c5260e173','Astemir Almov','astik07'],
+ daikoku:['photo-1610391619787-90c1d12d9a45','Felix','felifox'],
+ tokyost:['photo-1514337224818-9787cf717f2a','Fikri Rasyid','fikrirasyid'],
+ shinosaka:['photo-1514337224818-9787cf717f2a','Fikri Rasyid','fikrirasyid'],
+ mihara:['photo-1514337224818-9787cf717f2a','Fikri Rasyid','fikrirasyid'],
+ kyotost:['photo-1647235365422-3a8b96b7abd2','Akira Cake','akira100'],
+ ameyoko:['photo-1672061802594-c9d39638679e','ayumi kubo','ayumikubo'],
+ ueno:['photo-1672061802594-c9d39638679e','ayumi kubo','ayumikubo'],
+ ginza:['photo-1551641506-ee5bf4cb45f1','Jezael Melgoza','jezar'],
+ itoya:['photo-1551641506-ee5bf4cb45f1','Jezael Melgoza','jezar'],
+ uniqlo:['photo-1551641506-ee5bf4cb45f1','Jezael Melgoza','jezar'],
+ akiba:['photo-1683995259187-54142c49338b','Snowscat','snowscat'],
+ yanaka:['photo-1621212908996-27e1429b112f','Mylène Larnaud','mylenela'],
+ donki:['photo-1689659177530-fb005b02ac19','Vito Papuan','vonfrank125'],
+ haneda:['photo-1674725690428-948af1d7f5a1','mos design','mosdesign'],
+ narita:['photo-1674725690428-948af1d7f5a1','mos design','mosdesign'],
+ halalya:['photo-1774014045844-a471a834933c','Harman Tatla','harmant'],
+ gyumon:['photo-1774014045844-a471a834933c','Harman Tatla','harmant'],
+ gyumonnara:['photo-1774014045844-a471a834933c','Harman Tatla','harmant'],
+ honolu:['photo-1614563637806-1d0e645e0940','Susann Schuster','susannschuster'],
+ shimokita:['photo-1626666756883-a1c9de6fab60','Susann Schuster','susannschuster'],
+ arashiyama:['photo-1632923754832-60642c12a7ed','Duong Nguyen','duonguyen'],
+ togetsukyo:['photo-1632923754832-60642c12a7ed','Duong Nguyen','duonguyen'],
+ cover:['photo-1543223140-fd718dd8b82a','Simon Shim','simonshim']
+};
+const DIRECT={tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
+const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w||1200}&q=80`;
+
+const CAT={transport:{c:'#DCE9FB',f:'#2A62B8',e:'🚉'},food:{c:'#FDE8D6',f:'#C6631B',e:'🍜'},attraction:{c:'#FBE1DB',f:'#BF3F27',e:'⛩️'},hotel:{c:'#E9E2FB',f:'#5F41C4',e:'🏨'},shopping:{c:'#FBDDEA',f:'#BE2F69',e:'🛍️'},nature:{c:'#DDF3E5',f:'#237A46',e:'🌿'},booked:{c:'#FBF0CF',f:'#8F6A0C',e:'🎟️'},coffee:{c:'#EEE3DA',f:'#7A5033',e:'☕'},flex:{c:'#ECECEE',f:'#6E6E73',e:'✦'}};
+const P={ // key: [maps query, emoji]
+ narita:['Narita International Airport','✈️'],haneda:['Haneda Airport Terminal 3','✈️'],kaminarimon:['Kaminarimon Gate Asakusa','🏮'],nakamise:['Nakamise Shopping Street','🎏'],sensoji:['Sensoji Temple','⛩️'],halalya:['HALAL-Ya Asakusa','🍱'],sumida:['Sumida Park Asakusa','🌉'],skytree:['Tokyo Skytree','🗼'],shibuya:['Shibuya Scramble Crossing','🚦'],gyumon:['GYUMON Shibuya halal wagyu','🥩'],disney:['Tokyo DisneySea','🌋'],fantasy:['Fantasy Springs Tokyo DisneySea','🧚'],mysterious:['Mysterious Island Tokyo DisneySea','🌋'],medharbor:['Mediterranean Harbor Tokyo DisneySea','⛵'],tokyost:['Tokyo Station','🚄'],kyotost:['Kyoto Station','🚄'],nishiki:['Nishiki Market Kyoto','🍢'],teramachi:['Teramachi Street Kyoto','🏮'],saray:['Istanbul Saray Kyoto','🥙'],fushimi:['Fushimi Inari Taisha','⛩️'],kiyomizu:['Kiyomizu-dera','🏯'],ninenzaka:['Ninenzaka Kyoto','🍵'],raju:['Raju halal Indian restaurant Kyoto','🍛'],higashiyama:['Higashiyama Kyoto','🏘️'],yasaka:['Yasaka Shrine','🏮'],gion:['Hanamikoji Street Gion','👘'],shirakawa:['Gion Shirakawa','🌳'],amano:['Amanohashidate','🌲'],ineura:['Ineura Park','🛶'],funaya:['Funayanosato Ine','🏡'],ineboat:['Ine Bay sightseeing boat','⛴️'],shinosaka:['Shin-Osaka Station','🚄'],mihara:['Mihara Station','🚉'],tadanoumi:['Tadanoumi Port','🐰'],okuno:['Okunoshima','🐇'],okunomuseum:['Okunoshima Poison Gas Museum','🏚️'],narast:['JR Nara Station','🚉'],narapark:['Nara Park','🦌'],todaiji:['Todai-ji','🧘'],gyumonnara:['GYUMON Nara halal','🥩'],naramachi:['Naramachi','🏘️'],shinsaibashi:['Shinsaibashi-suji Shopping Street','🛍️'],dotonbori:['Dotonbori Glico Sign','🏃'],hozenji:['Hozenji Yokocho','🕯️'],alis:["Ali's Kitchen Osaka halal",'🍛'],ginza:['Ginza Tokyo','💎'],akiba:['Akihabara Electric Town','🎮'],hakone:['Hakone-Yumoto','♨️'],ueno:['Ueno Park','🌳'],ameyoko:['Ameyoko','🏪'],yanaka:['Yanaka Ginza','🐈'],uniqlo:['UNIQLO Ginza','👕'],itoya:['Ginza Itoya','✒️'],teamlab:['teamLab Planets TOKYO','💡'],tmg:['Tokyo Metropolitan Government Building observatory','🌆'],kabukicho:['Kabukicho Shinjuku','🎆'],omoide:['Omoide Yokocho','🏮'],honolu:['Honolu Shinjuku Gyoenmae halal ramen','🍜'],daikoku:['Daikoku Parking Area','🏎️'],donki:['MEGA Don Quijote Shibuya','🐧'],shimokita:['Shimokitazawa','🎧'],hotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],airbnb:['Hankyu Arashiyama Station','🏠'],tokyohotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],kyotoapt:['Forestage Arashiyama','🏠'],kyotoapt2:['Forestage Arashiyama','🏠'],arashiyama:['Arashiyama Bamboo Grove','🎋'],togetsukyo:['Togetsukyo Bridge','🌉'],sagaarashiyama:['Saga-Arashiyama Station','🚉']
+};
+/* stop fields: t time, n name, p place key, cat, key (hero photo), must, opt, halal, m why, see/eat/buy/tip arrays */
+const DAYS=[
+{id:'oct07',n:1,d:'Wednesday, 7 October',short:'Wed 7 Oct',title:'Arrival in Tokyo',hero:['haneda','narita'],mode:'transit',wx:{t:23,c:'Part cloudy',i:'🌤️',ll:[35.68,139.77]},
+ desc:'Not a sightseeing day. Dubai lands at Narita, Sydney lands at Haneda, and Kochi arrives at 04:55 the next morning. Get in, get connected, eat near the hotel, sleep.',
+ stats:[['17:35','First landing'],['1h 30m','Airport to hotel']],
+ tips:[{k:'tip',h:'iPhone users: add a Suica card in Apple Wallet before you land.',t:'Top up with Apple Pay and tap through every train, bus and konbini. No queue at the machines.'},{k:'tip',h:'Cash comes from 7-Eleven ATMs.',t:'They take foreign cards, are everywhere, and both airports have them after customs.'},{k:'gem',h:'The convenience store is tonight\'s hidden gem.',t:'Onigiri, fruit, yoghurt, green tea, premium desserts. Read ingredients: seafood or vegetable does not automatically mean halal.'},{k:'wear',h:'Travel clothes.',t:'Comfortable trousers, T-shirt, light layer, walking shoes.'},{k:'shop',h:'Buy nothing tonight.',t:'Breakfast supplies only.'}],
+ stops:[
+  {t:'17:35',n:'Dubai flight lands at Narita',p:'narita',cat:'transport',key:true,m:'Immigration, baggage, SIM or eSIM, cash, then into the city.',see:['Keisei Skyliner to Ueno takes about 41 minutes, the Narita Express to Tokyo Station about an hour','Fill in Visit Japan Web before landing to skip the paper forms'],tip:['Pocket Wi-Fi and SIM counters are in arrivals; an eSIM bought before the flight is faster']},
+  {t:'20:35',n:'Sydney flight lands at Haneda',p:'haneda',cat:'transport',key:true,m:'Same drill. Haneda is much closer to the city.',see:['Keikyu line or Tokyo Monorail, both roughly 20 to 30 minutes to central Tokyo','Terminal 3 has the Edo Koji shopping street if you need a last-minute anything']},
+  {t:'22:00',n:'Hotel check-in',p:'hotel',cat:'hotel',m:'Screenshot the hotel address in Japanese for taxi drivers.'},
+  {t:'22:30',n:'Simple dinner near the hotel',cat:'food',halal:true,m:'Halal ramen, Indian or Pakistani, or halal wagyu if it happens to be nearby. Do not cross Tokyo for a famous place tonight.'},
+  {t:'23:00',n:'Convenience store run',cat:'shopping',m:'Breakfast for the morning.',eat:['Onigiri (tuna mayo, salmon, umeboshi)','Egg sandwich','Pocari Sweat for the jet lag','Meiji or Morinaga premium puddings']}],
+ ess:{wear:['Travel clothes','Walking shoes','Light layer'],eat:['Halal ramen','Indian / Pakistani','Konbini snacks'],buy:['Suica in Apple Wallet','Nothing else yet']}},
+
+{id:'oct08',n:2,d:'Thursday, 8 October',short:'Thu 8 Oct',title:'Asakusa → Shibuya',hero:['sensoji','kaminarimon','shibuya','gyumon'],mode:'transit',wx:{t:24,c:'Showers',i:'🌦️',ll:[35.71,139.80]},
+ desc:'First real Tokyo day, but Kochi only lands at 04:55, so the morning is recovery. Asakusa from late morning, the river in the afternoon, Shibuya at night only if everyone still feels good.',
+ stats:[['04:55','Kochi lands'],['2h 10m','Travel time']],
+ tips:[{k:'tip',h:'Do not attempt a full sightseeing day straight off the plane.',t:'Leave luggage at the hotel if the room is not ready, freshen up, eat, head out around 11:00.'},{k:'wear',h:'Breathable tee, light overshirt, comfortable trousers, umbrella.',t:'No brand-new shoes. You will walk 15,000 steps.'},{k:'food',h:'Halal wagyu skewer in Asakusa, A5 halal yakiniku in Shibuya.',t:'Those two are the first Japan food memories.'},{k:'shop',h:'Nakamise: fans, chopsticks, tenugui, small ceramics, maneki-neko.',t:'Nothing large yet. Bulk shopping is 16 to 18 October.'},{k:'gem',h:'Denboin-dori and the lanes between Senso-ji and the river.',t:'Edo-style shopfronts and almost no tour groups.'}],
+ stops:[
+  {t:'04:55',n:'Kochi flight lands at Haneda',p:'haneda',cat:'transport',m:'Immigration, luggage, SIM. At the hotel by 08:00.'},
+  {t:'08:00',n:'Hotel: drop bags, freshen up, eat',p:'hotel',cat:'hotel',m:'If the room is not ready, reception will hold luggage.'},
+  {t:'11:00',n:'Kaminarimon',p:'kaminarimon',cat:'attraction',key:true,must:true,m:'The giant red lantern is the entrance to Asakusa and the classic first photo.',see:['Look up under the lantern: there is a carved dragon on its base','The god statues either side, Fujin (wind) and Raijin (thunder)'],tip:['Shoot from across the road with the lantern centred and Nakamise running behind it']},
+  {t:'11:30',n:'Nakamise-dori',p:'nakamise',cat:'shopping',m:'About 250 m of stalls between the gates, roughly 90 shops. Stalls open around 10:00.',eat:['Age-manju (fried sweet bun) with matcha or custard filling','Ningyo-yaki, tiny sponge cakes shaped like the lantern and pigeons','Kibi dango skewers','Melon pan from Kagetsudo, one street over'],buy:['Tenugui hand towels','Folding fans','Chopsticks','Maneki-neko','Small ceramics'],tip:['No walking while eating here, stand to the side of the stall']},
+  {t:'12:00',n:'Senso-ji',p:'sensoji',cat:'attraction',key:true,must:true,m:'Tokyo\'s oldest temple, founded in 628. The grounds never close and the main hall opens from 06:00.',see:['Hozomon gate with the giant straw sandals on the back','Five-storey pagoda','The incense burner: waft smoke over yourself for good health','Omikuji fortune for ¥100, tie a bad one to the rack and leave it behind','Skytree framed above the temple roofs from the west side'],tip:['Come back after 19:00 if you can, the whole complex is lit and nearly empty']},
+  {t:'13:00',n:'Lunch: HALAL-Ya or CANOW Wagyu',p:'halalya',cat:'food',key:true,halal:true,m:'HALAL-Ya is a halal-Japanese souvenir shop with 130+ Japanese-made products, 100+ halal-certified. CANOW does halal wagyu skewers and burgers.',eat:['Wagyu skewer','Wagyu burger','Halal Japanese curry retort packs from HALAL-Ya to take home'],buy:['Halal-certified Japanese snacks and sauces as gifts']},
+  {t:'14:30',n:'Sumida River walk',p:'sumida',cat:'nature',m:'Cross to the east bank for the postcard shot of Skytree with the Asahi flame.',see:['Sumida Park riverside','Azuma-bashi bridge view','Yokoami side streets'],tip:['The Tokyo Mizumachi walkway under the rail tracks leads to Skytree in 20 minutes on foot']},
+  {t:'16:00',n:'Tokyo Skytree',p:'skytree',cat:'flex',opt:true,m:'Only if the group really wants the panorama. Otherwise save the time and legs.',tip:['Book the Tembo Deck online to skip the queue if you do go']},
+  {t:'18:00',n:'Shibuya Crossing',p:'shibuya',cat:'attraction',key:true,must:true,m:'Busiest between 18:00 and 20:00, and rain makes it better: a sea of umbrellas from above.',see:['Hachiko statue by the station exit','Cross it once, then watch from above','Mag\'s Park rooftop on Shibuya 109 for the cheapest overhead view','Shibuya Sky for the big one: sunset slots sell out weeks ahead','Miyashita Park rooftop and Nonbei Yokocho alley'],buy:['Sneakers and streetwear along Center-gai','Character goods at Shibuya Parco'],tip:['Shoot the crossing from the Starbucks window on the second floor of Tsutaya or the JR walkway']},
+  {t:'19:30',n:'Dinner: GYUMON Shibuya',p:'gyumon',cat:'food',must:true,halal:true,m:'Halal wagyu yakiniku with a halal wagyu ramen branch one minute from the station.',eat:['A5 wagyu yakiniku set','Halal wagyu ramen','Gyukatsu'],tip:['Reserve, it fills up on Thursday and Friday nights']}],
+ ess:{wear:['Breathable tee','Light overshirt','Trousers','Walking shoes','Compact umbrella'],eat:['Halal wagyu skewer','Age-manju','A5 halal yakiniku'],buy:['Tenugui','Fans','Maneki-neko','Halal snacks from HALAL-Ya']}},
+
+{id:'oct09',n:3,d:'Friday, 9 October',short:'Fri 9 Oct',title:'Tokyo DisneySea',hero:['disney','fantasy','medharbor'],mode:'transit',wx:{t:23,c:'Cloudy',i:'🌥️',ll:[35.63,139.88]},
+ desc:'Park hours 09:00 to 21:00, inside the 25th anniversary programme and Disney Halloween. Priority rides first, then secondary rides, food, shows, sunset and the night atmosphere.',
+ stats:[['06:30','Wake'],['15 to 20k','Steps']],
+ tips:[{k:'tip',h:'Be at the gate 60 to 75 minutes before opening.',t:'The moment you scan in, open the app and grab Fantasy Springs entry (Standby Pass or paid Premier Access). It goes in minutes.'},{k:'wear',h:'Comfortable shoes, tee and light layer, light waterproof shell, cap.',t:'Thin spare socks in the bag. No new shoes, no heavy jacket.'},{k:'food',h:'Park food is hit and miss for halal.',t:'Gyoza dogs and most hot snacks contain pork. Stick to sweets, popcorn and a proper halal dinner after.'},{k:'shop',h:'Buy only DisneySea-exclusive things here.',t:'Duffy & Friends, Halloween merch, pins, 25th anniversary items. Not generic Japan souvenirs.'},{k:'gem',h:'Fortress Explorations in Mediterranean Harbor.',t:'No queue, a real explorable galleon and fortress, and the best harbour photos.'}],
+ stops:[
+  {t:'06:30',n:'Wake, breakfast, leave hotel',p:'hotel',cat:'hotel',m:'Minimal backpack. Power bank charged.'},
+  {t:'07:45',n:'Arrive at the gate',p:'disney',cat:'transport',key:true,m:'Tickets in the app, ready to scan.',tip:['Head straight for the Fantasy Springs entry in the app, then walk to Mysterious Island']},
+  {t:'09:00',n:'Fantasy Springs',p:'fantasy',cat:'booked',key:true,must:true,m:'The 2024 area: Frozen Kingdom, Rapunzel\'s Forest, Peter Pan\'s Never Land.',see:['Anna and Elsa\'s Frozen Journey','Peter Pan\'s Never Land Adventure','Rapunzel\'s Lantern Festival boat ride'],eat:['Frozen-themed sweets at Oaken\'s OK Foods (check ingredients)']},
+  {t:'10:30',n:'Journey to the Center of the Earth',p:'mysterious',cat:'attraction',must:true,m:'DisneySea\'s signature thrill ride under the volcano.',see:['20,000 Leagues Under the Sea next door','Mount Prometheus erupting on the hour']},
+  {t:'11:30',n:'Soaring: Fantastic Flight',p:'medharbor',cat:'attraction',must:true,m:'Flying theatre over world landmarks. Usually the longest standby line, so use Premier Access if you have it.'},
+  {t:'13:00',n:'Park lunch',cat:'food',m:'Seasonal Halloween food is everywhere. Read ingredients.',eat:['Popcorn in a souvenir bucket (curry, caramel, black pepper)','Sea salt ice cream monaka in Port Discovery','Churros']},
+  {t:'15:00',n:'Secondary rides and shows',cat:'flex',m:'Tower of Terror, Indiana Jones, Raging Spirits, Sindbad\'s Storybook Voyage. Loose plan, not a rigid schedule.'},
+  {t:'17:30',n:'Sunset at Mediterranean Harbor',p:'medharbor',cat:'nature',must:true,m:'Then stay for the night harbour show.',see:['Venetian gondolas','Fortress Explorations galleon','Mount Prometheus lit at night']},
+  {t:'19:00',n:'Merchandise',cat:'shopping',buy:['Duffy & Friends (Cape Cod shop)','Halloween exclusives','25th anniversary items','Pins, mugs, popcorn bucket']},
+  {t:'21:00',n:'Halal dinner after the park',cat:'food',halal:true,m:'If park food did not cover it. Maihama has little, so eat back in the city.'}],
+ ess:{wear:['Comfortable shoes','Tee + light layer','Waterproof shell','Cap','Spare socks'],eat:['Popcorn bucket','Sea salt ice cream','Halal dinner after'],buy:['DisneySea exclusives','Duffy & Friends','Halloween merch']}},
+
+{id:'oct10',n:4,d:'Saturday, 10 October',short:'Sat 10 Oct',title:'Tokyo → Kyoto',hero:['tokyost','nishiki','teramachi'],mode:'transit',wx:{t:24,c:'Mild',i:'🌤️',ll:[35.01,135.77]},
+ desc:'Checkout sweep, ekiben at Tokyo Station, Shinkansen west. Afternoon is an orientation walk through Nishiki, Teramachi and Kawaramachi from your Kyoto apartment.',
+ stats:[['08:00','Checkout'],['2h 15m','Shinkansen']],
+ tips:[{k:'tip',h:'Sit on the right side (seats D or E) Tokyo → Kyoto for Mount Fuji.',t:'About 40 minutes in, around Shin-Fuji. Clear mornings only.'},{k:'food',h:'Ekiben at Ekiben-ya Matsuri, Gransta, inside Tokyo Station.',t:'170-odd kinds. Buy before boarding, eat once the train moves.'},{k:'gem',h:'Kyoto\'s official Muslim-friendly programme.',t:'Halal / Muslim Friendly / Muslim Welcome / Pork-Free tiers. Use it for every meal.'},{k:'shop',h:'Nishiki: matcha, yatsuhashi, Aritsugu knives, Kyukyodo stationery on Teramachi.',t:'Handmade over mass-produced.'},{k:'wear',h:'Long sleeve, light jacket, comfortable travel shoes.',t:''}],
+ stops:[
+  {t:'08:00',n:'Breakfast and Tokyo checkout',p:'hotel',cat:'hotel',m:'Full sweep: passport, chargers, wallet, key card, Disney bags, under the bed.'},
+  {t:'10:00',n:'Tokyo Station',p:'tokyost',cat:'transport',key:true,m:'Find the Tokaido Shinkansen gates first, then food. Allow 40 minutes.',eat:['Ekiben (rice-box bento)','Green tea in the pull-cord can','Tokyo Banana as a gift'],see:['Marunouchi red-brick facade from outside','Character Street in the basement']},
+  {t:'10:40',n:'Shinkansen to Kyoto',cat:'booked',m:'Nozomi is about 2h 15m. Oversized luggage needs a reserved spot behind the last row.'},
+  {t:'13:00',n:'Arrive Kyoto Station',p:'kyotost',cat:'transport',m:'Big station. Kyoto Tower is straight outside the central exit. JR Sagano line to Saga-Arashiyama is 15 minutes.'},
+  {t:'14:00',n:'Forestage Arashiyama check-in',p:'airbnb',cat:'hotel',m:'One minute from Hankyu Arashiyama Station, about 1 km from JR Saga-Arashiyama. Ministop is 120 m away, Kawakatsu supermarket 750 m. Washing machine and detergent in the room.'},
+  {t:'16:00',n:'Nishiki Market',p:'nishiki',cat:'food',key:true,must:true,m:'Hankyu from Arashiyama to Kyoto-Kawaramachi, 17 minutes. 400 m of market, around 130 shops. Many close 17:00 to 18:00, so go here first.',eat:['Tamagoyaki (rolled omelette) from Miki Keiran','Warabi mochi and dango','Yuba (tofu skin) snacks','Matcha soft-serve','Pickles samples (tsukemono)'],buy:['Aritsugu kitchen knives, engraved while you wait','Yatsuhashi','Loose-leaf Uji tea'],tip:['No eating while walking, each stall has a spot to stand']},
+  {t:'17:00',n:'Teramachi and Shinkyogoku arcades',p:'teramachi',cat:'shopping',m:'Two covered arcades running north from Nishiki.',buy:['Kyukyodo for incense and washi stationery','Vintage kimono shops','Capsule toys'],see:['Nishiki Tenmangu shrine at the arcade junction']},
+  {t:'19:00',n:'Dinner: Istanbul Saray or Raju',p:'saray',cat:'food',key:true,halal:true,m:'Both on the Kyoto Muslim-friendly list. Raju is classified fully halal.',eat:['Turkish mixed grill and pide at Saray','Butter chicken and naan at Raju']},
+  {t:'20:45',n:'Togetsukyo Bridge at night',p:'togetsukyo',cat:'nature',opt:true,m:'Back at Arashiyama, the bridge is two minutes from the apartment. Quiet river, lit hills, no crowds. Only if energy remains.'}],
+ ess:{wear:['Long sleeve','Light jacket','Travel shoes'],eat:['Ekiben','Tamagoyaki','Matcha soft-serve'],buy:['Aritsugu knife','Yatsuhashi','Uji tea','Kyukyodo incense']}},
+
+{id:'oct11',n:5,d:'Sunday, 11 October',short:'Sun 11 Oct',title:'Classic Kyoto',hero:['fushimi','kiyomizu','ninenzaka','gion'],mode:'transit',wx:{t:23,c:'Cloudy',i:'⛅',ll:[34.99,135.78]},
+ desc:'Your big cultural day and one of the heaviest walking days. Fushimi Inari before the crowds, Kiyomizu and the slopes by mid-morning, Gion when it turns magical after dark.',
+ stats:[['07:00','Fushimi Inari'],['1h 20m','Travel time']],
+ tips:[{k:'tip',h:'Fushimi at 07:00 is the whole point.',t:'By 09:00 the lower gates are shoulder to shoulder. Walk up to the Yotsutsuji viewpoint, about 35 minutes, and the crowds fall away.'},{k:'wear',h:'Long trousers, light overshirt, rain shell, socks, small towel.',t:'Some temple halls mean removing shoes. Dress respectfully.'},{k:'food',h:'Honke Tankuma Honten does halal kaiseki with advance reservation.',t:'Raju is the simpler fully-halal lunch.'},{k:'shop',h:'One folding fan or one handcrafted ceramic from the slopes.',t:'Yojiya blotting papers are the classic small gift.'},{k:'gem',h:'Shirakawa canal and Tatsumi bridge after dark.',t:'Willow trees, lanterns, quiet. Two minutes from Hanamikoji.'}],
+ stops:[
+  {t:'07:00',n:'Fushimi Inari',p:'fushimi',cat:'attraction',key:true,must:true,m:'10,000 vermilion torii up the mountain. Open 24 hours, free. From Arashiyama: Hankyu to Kawaramachi, walk to Gion-Shijo, Keihan to Fushimi-Inari, about 45 minutes, so leave by 06:10.',see:['Senbon Torii double tunnel','Fox statues holding keys and scrolls','Yotsutsuji crossroads viewpoint over Kyoto','The quiet upper loop if legs allow'],eat:['Inari sushi and kitsune udon at the base'],buy:['Mini torii charm','Fox ema plaque'],tip:['Empty-gate photos happen above Yotsutsuji, not at the bottom']},
+  {t:'09:30',n:'Kiyomizu-dera',p:'kiyomizu',cat:'attraction',key:true,must:true,m:'Wooden stage 13 m above the hillside with the city behind it.',see:['The main stage from the Okunoin hall opposite','Otowa waterfall: drink from one stream only','Jishu shrine love stones','Koyasu pagoda across the valley']},
+  {t:'11:00',n:'Ninenzaka and Sannenzaka',p:'ninenzaka',cat:'shopping',must:true,m:'The preserved stone slopes down from Kiyomizu. Slow down here.',eat:['Yatsuhashi from Shogoin','Matcha parfait','Tatami-room Starbucks on Ninenzaka','Percent Arabica coffee near Yasaka Pagoda'],buy:['Yojiya blotting paper','Ceramics','Incense','Folding fan'],tip:['Yasaka pagoda lane is the photo, shoot it uphill with the pagoda centred']},
+  {t:'13:00',n:'Lunch: Raju',p:'raju',cat:'food',halal:true,m:'A proper halal meal beats street snacks today.'},
+  {t:'15:00',n:'Higashiyama walk',p:'higashiyama',cat:'nature',m:'Maruyama Park and the lanes toward Yasaka.',see:['Chion-in\'s giant Sanmon gate','Maruyama Park weeping cherry (bare in October, still lovely)']},
+  {t:'17:00',n:'Yasaka Shrine',p:'yasaka',cat:'attraction',m:'Gateway to Gion. The lantern-covered dance stage lights up at dusk.'},
+  {t:'18:00',n:'Gion at dusk',p:'gion',cat:'attraction',key:true,must:true,m:'Hanamikoji between 17:30 and 18:30 is when geiko and maiko head to appointments.',see:['Hanamikoji wooden teahouses','Kenninji temple gate at the end of the street'],eat:['Gion Tsujiri matcha parfait'],tip:['Never photograph in the private side alleys, signs say so and fines apply']},
+  {t:'19:00',n:'Shirakawa lanes',p:'shirakawa',cat:'nature',m:'Hidden gem. Canal, willows, lanterns, no crowds.',see:['Tatsumi bridge','Tatsumi Daimyojin shrine'],tip:['Cross the river afterwards for Pontocho alley if energy remains']}],
+ ess:{wear:['Long trousers','Light overshirt','Rain shell','Socks','Small towel'],eat:['Inari sushi','Yatsuhashi','Matcha parfait','Raju lunch'],buy:['Folding fan','Ceramic','Yojiya papers','Fox charm']}},
+
+{id:'oct12',n:6,d:'Monday, 12 October',short:'Mon 12 Oct',title:'Ine & Amanohashidate',hero:['funaya','amano','ineboat'],mode:'driving',wx:{t:23,c:'Windy',i:'🌬️',ll:[35.67,135.29]},
+ desc:'Adventure day by rental car. Amanohashidate first (about two hours north), then the funaya boat houses of Ine, the hilltop viewpoint and a bay boat. Back before dark.',
+ stats:[['08:00','Pick up car'],['4h 30m','Driving']],
+ tips:[{k:'tip',h:'Photograph every bumper, wheel, mirror, door, windscreen and the fuel gauge before driving.',t:'Confirm insurance, ETC card, fuel type and tolls. The driver\'s IDP must be the 1949 Geneva Convention format.'},{k:'food',h:'Bring halal snacks from Kyoto.',t:'This coast is seafood and sake. Eat only where ingredients are clear.'},{k:'gem',h:'Look through your legs at Amanohashidate.',t:'Matanozoki: from the viewpoint, bend and look upside down and the sandbar becomes a bridge to heaven. Everyone does it.'},{k:'wear',h:'Trousers, tee, light jacket, waterproof outer layer.',t:'Coastal weather is windier and wetter than Kyoto.'},{k:'shop',h:'Ine: regional snacks, maritime gifts, small crafts.',t:'No refrigerated food unless heading straight back.'}],
+ stops:[
+  {t:'08:00',n:'Rental car pickup, Kyoto',p:'kyotost',cat:'transport',m:'JR from Saga-Arashiyama to Kyoto Station, 15 minutes. Water, snacks, charger, driving documents, sunglasses, rain shell. No parking at the apartment, so return the car the same evening or use coin parking in Arashiyama.'},
+  {t:'10:00',n:'Amanohashidate',p:'amano',cat:'nature',key:true,must:true,m:'A 3.6 km pine-covered sandbar across Miyazu Bay, one of Japan\'s three scenic views.',see:['Kasamatsu Park viewpoint by cable car or chairlift','Chion-ji temple by the car park with its fan-shaped fortunes','Rent a bike and ride the sandbar, 20 minutes each way'],eat:['Chie-no-mochi rice cakes at the temple gate shops (rice, sugar, beans)'],tip:['Pick one viewpoint. Kasamatsu is the classic one']},
+  {t:'12:30',n:'Drive to Ine',cat:'transport',m:'30 to 40 minutes along the coast road.'},
+  {t:'13:00',n:'Ine Bay waterfront',p:'ineura',cat:'attraction',key:true,must:true,m:'Around 230 funaya boat houses ring the bay, boats parked underneath, families living above. Most are private homes.',see:['Walk the single lane behind the houses','Ineura Park by the water','Boat garages open to the sea'],eat:['Cafes along the lane, check ingredients'],tip:['Do not enter any funaya without permission, the town asks explicitly']},
+  {t:'13:45',n:'Funayanosato Ine viewpoint',p:'funaya',cat:'nature',must:true,m:'The roadside station on the hill with the full sweep of the bay below.',see:['Whole-bay panorama','Local produce shop'],buy:['Regional snacks','Maritime gifts']},
+  {t:'14:30',n:'Ine Bay sightseeing boat',p:'ineboat',cat:'booked',key:true,must:true,m:'About 25 minutes around the bay, the only way to see the funaya from the water.',see:['Funaya facades from the sea','Kites and gulls that follow the boat'],tip:['Small snack packets sold on board are for feeding the birds, they come very close']},
+  {t:'16:30',n:'Return to Kyoto',cat:'transport',m:'Do not drive back after dark if everyone is tired.'}],
+ ess:{wear:['Trousers','Light jacket','Waterproof layer','Walking shoes'],eat:['Halal snacks from Kyoto','Chie-no-mochi'],buy:['Regional snacks','Maritime gifts','Small crafts']}},
+
+{id:'oct13',n:7,d:'Tuesday, 13 October',short:'Tue 13 Oct',title:'Rabbit Island',hero:['okuno','tadanoumi','okunomuseum'],mode:'transit',wx:{t:23,c:'Breezy',i:'🌤️',ll:[34.31,132.99]},
+ desc:'Your longest travel day. Kyoto to Shin-Osaka, Shinkansen to Mihara, local to Tadanoumi, 15-minute ferry to Okunoshima. The island is 4 km around, full of rabbits and a much darker history.',
+ stats:[['05:30','Leave Kyoto'],['4h each way','Travel']],
+ tips:[{k:'tip',h:'A missed ferry here is a disaster. Start the return early.',t:'Lock exact train and ferry timings a week before.'},{k:'food',h:'Do not depend on the island for lunch.',t:'Pack halal sandwiches, rice, protein bars, fruit, water. Nothing is sold on the island except at the hotel.'},{k:'gem',h:'The rabbit food is not sold on the island.',t:'Buy pellets or a bag of cabbage at the Tadanoumi ferry terminal shop before boarding.'},{k:'wear',h:'Walking shoes, light trousers, light jacket, rain shell, hat.',t:'Wind makes it feel cooler.'},{k:'shop',h:'Tadanoumi terminal: rabbit plush, stationery, mugs, original goods.',t:'Plus the rabbit soft-serve.'}],
+ stops:[
+  {t:'05:30',n:'Arashiyama → Kyoto Station → Shin-Osaka',p:'shinosaka',cat:'transport',m:'Very early start. First JR Sagano trains run around 05:30; check the exact one a week before.'},
+  {t:'06:30',n:'Shinkansen Shin-Osaka → Mihara',p:'mihara',cat:'booked',m:'About 1h 15m on Kodama or Sakura services. Mihara is a small stop.'},
+  {t:'08:30',n:'Local train Mihara → Tadanoumi',cat:'transport',m:'Kure line, about 20 minutes.'},
+  {t:'09:00',n:'Tadanoumi Port',p:'tadanoumi',cat:'shopping',key:true,m:'The gateway. Worth 15 minutes before the ferry.',buy:['Rabbit food (pellets or cabbage)','Rabbit plush and stationery','Ferry tickets'],eat:['Rabbit soft-serve']},
+  {t:'09:30',n:'Ferry to Okunoshima',cat:'transport',m:'About 15 minutes.'},
+  {t:'09:45',n:'Okunoshima rabbits',p:'okuno',cat:'nature',key:true,must:true,m:'Hundreds of feral rabbits. They gather near the pier, the hotel lawn and the campsite.',see:['Rabbits at the pier on arrival','Hotel Kyukamura lawn','Coastal loop path, about 4 km'],tip:['Crouch and hold food low, they climb into laps','Do not feed by the road, and never pick them up']},
+  {t:'11:30',n:'Poison gas museum and ruins',p:'okunomuseum',cat:'attraction',must:true,m:'Japan secretly made chemical weapons here from 1929 to 1945. The island was wiped off maps.',see:['Small museum near the pier','Power plant ruins, the most photographed building','Battery ruins on the hill']},
+  {t:'12:30',n:'Packed halal lunch',cat:'food',halal:true,m:'From Kyoto. Then start the return well before the last connection.'}],
+ ess:{wear:['Walking shoes','Light trousers','Light jacket','Rain shell','Hat'],eat:['Packed halal lunch','Rabbit soft-serve (check)'],buy:['Rabbit food at the port','Rabbit plush','Tadanoumi originals']}},
+
+{id:'oct14',n:8,d:'Wednesday, 14 October',short:'Wed 14 Oct',title:'Nara → Osaka',hero:['narapark','todaiji','dotonbori','hozenji'],mode:'transit',wx:{t:25,c:'Sunny',i:'☀️',ll:[34.69,135.84]},
+ desc:'Probably the most fun two-city day. Deer and the Great Buddha in the morning, Naramachi after lunch, then Shinsaibashi and Dotonbori after dark before the train back to Kyoto.',
+ stats:[['07:30','Train to Nara'],['2h 20m','Travel time']],
+ tips:[{k:'tip',h:'Deer crackers are ¥200 a bundle. Bow, and the deer bow back.',t:'Hide the paper in your bag or they chew through everything.'},{k:'food',h:'Nara: kakinoha-zushi, Yoshino kudzu, cha-gayu. Osaka: takoyaki, okonomiyaki, kushikatsu.',t:'Halal-verified versions only. GYUMON in Nara, Ali\'s Kitchen in Osaka.'},{k:'gem',h:'Hozenji Yokocho, one lane behind Dotonbori.',t:'A moss-covered Fudo statue that people splash water on, stone paving, lanterns, silence.'},{k:'shop',h:'Nara: deer goods. Osaka: takoyaki novelties, funny Don Quijote finds.',t:'No big haul yet. Tokyo is your shopping window.'},{k:'wear',h:'Tee, light trousers, walking shoes, small umbrella.',t:''}],
+ stops:[
+  {t:'07:30',n:'Kyoto → Nara',p:'narast',cat:'transport',m:'JR Nara line about 45 minutes, or Kintetsu to Kintetsu-Nara which is closer to the park.'},
+  {t:'09:00',n:'Nara Park deer',p:'narapark',cat:'nature',key:true,must:true,m:'About 1,300 free-roaming deer, protected as national treasures.',see:['Deer bowing for crackers','Nandaimon gate with the two giant guardian statues','Kofuku-ji five-storey pagoda on the way in'],eat:['Nakatanidou mochi shop near Sanjo-dori, watch the high-speed pounding'],buy:['Deer crackers ¥200']},
+  {t:'10:00',n:'Todai-ji Great Buddha',p:'todaiji',cat:'attraction',key:true,must:true,m:'15 m bronze Buddha in one of the largest wooden buildings on earth.',see:['Daibutsuden hall','The pillar with a hole the size of the Buddha\'s nostril, crawl through for luck','Nigatsudo hall up the hill for the free city view']},
+  {t:'12:00',n:'Lunch: GYUMON Nara',p:'gyumonnara',cat:'food',halal:true,m:'Halal wagyu ramen and gyukatsu near Nara Station.',eat:['Halal wagyu ramen','Gyukatsu set']},
+  {t:'13:00',n:'Naramachi',p:'naramachi',cat:'attraction',m:'Hidden gem. Old merchant town of narrow machiya houses.',see:['Koshi-no-ie, a free open machiya house','Red migawari-zaru monkey charms hanging outside doors'],buy:['Nara fude calligraphy brushes','Deer-themed stationery']},
+  {t:'14:30',n:'Train to Osaka',cat:'transport',m:'Kintetsu Nara to Osaka-Namba is about 40 minutes and lands you at Dotonbori.'},
+  {t:'16:00',n:'Shinsaibashi and Amerikamura',p:'shinsaibashi',cat:'shopping',key:true,m:'580 m covered shopping street, then Amerikamura for youth fashion and secondhand.',buy:['Streetwear and vintage in Amerikamura','Drugstore cosmetics on Shinsaibashi-suji'],see:['Triangle Park, Amerikamura\'s hangout square']},
+  {t:'18:00',n:'Dotonbori',p:'dotonbori',cat:'attraction',key:true,must:true,m:'Osaka\'s neon canal. Loud, bright, exactly what you came for.',see:['Glico running man from Ebisubashi bridge','Kani Doraku moving crab','Kuidaore Taro drumming clown','Canal cruise from the Tazaemon-bashi pier, 20 minutes'],tip:['Shoot the Glico sign from the north side of Ebisubashi after dark']},
+  {t:'18:45',n:'Hozenji Yokocho',p:'hozenji',cat:'nature',m:'One lane south of Dotonbori. Splash water on the moss-covered Fudo Myoo statue.'},
+  {t:'19:30',n:'Dinner: Ali\'s Kitchen',p:'alis',cat:'food',must:true,halal:true,m:'Pakistani and Arabic halal near Shinsaibashi. Then the train back to Kyoto.',eat:['Biryani','Nihari','Kabsa','Kebabs']}],
+ ess:{wear:['Tee','Light trousers','Walking shoes','Umbrella'],eat:['Nakatanidou mochi','Halal wagyu ramen','Biryani at Ali\'s'],buy:['Deer crackers','Deer stationery','Osaka novelties']}},
+
+{id:'oct15',n:9,d:'Thursday, 15 October',short:'Thu 15 Oct',title:'Kyoto → Tokyo',hero:['arashiyama','tokyost','ginza'],mode:'transit',wx:{t:24,c:'Mild',i:'🌤️',ll:[35.68,139.77]},
+ desc:'Bamboo Grove at dawn while it is empty, then a clean transfer day. Direct Shinkansen, check in, shower, rest. One district in the evening, nothing more. Hakone stays optional.',
+ stats:[['07:00','Bamboo Grove'],['2h 15m','Shinkansen']],
+ tips:[{k:'tip',h:'Direct Kyoto → Tokyo is the default.',t:'Your body will thank you after Ine, Okunoshima and Nara/Osaka.'},{k:'gem',h:'Hakone variant only if you insist.',t:'Kyoto → Odawara → Hakone → Tokyo, luggage forwarded from Kyoto. Hakone runs 20 to 21°C by day, 13 to 14°C at night.'},{k:'wear',h:'Travel clothes.',t:'Full apartment sweep: fridge, chargers, bathroom, wardrobes, passport.'},{k:'food',h:'Evening: pick one of Ginza, Akihabara or Shibuya.',t:'Then sleep.'}],
+ stops:[
+  {t:'07:00',n:'Arashiyama Bamboo Grove',p:'arashiyama',cat:'nature',key:true,must:true,m:'Ten minutes on foot from the apartment. At 07:00 it is empty and silent; by 09:00 it is a queue.',see:['Bamboo Grove path','Tenryu-ji gardens from 08:30','Togetsukyo Bridge with the hills behind','Percent Arabica on the riverbank for coffee']},
+  {t:'09:00',n:'Apartment checkout sweep',p:'airbnb',cat:'hotel',m:'Fridge, chargers, bathroom, wardrobes, bags, passport. Ship big luggage to the Tokyo hotel with Yamato if you want free hands.'},
+  {t:'10:00',n:'JR Saga-Arashiyama → Kyoto Station',p:'sagaarashiyama',cat:'transport',m:'15 minutes.'},
+  {t:'10:45',n:'Shinkansen Kyoto → Tokyo',p:'kyotost',cat:'booked',m:'Fuji is on the left side this direction (seats A).'},
+  {t:'13:00',n:'Tokyo hotel check-in',p:'tokyost',cat:'hotel',key:true,m:'Shower. Rest. No giant sightseeing block.'},
+  {t:'18:00',n:'Pick one: Ginza, Akihabara or Shibuya',p:'ginza',cat:'flex',opt:true,m:'Ginza for a calm evening and window shopping. Akihabara for gaming, retro consoles and electronics.',see:['Ginza main street closes to cars on weekends only, so tonight it is normal traffic','Akihabara Radio Kaikan and Super Potato retro games']},
+  {t:'18:30',n:'Hakone (optional variant)',p:'hakone',cat:'flex',opt:true,m:'Only with luggage forwarding. Cooler and wetter than Tokyo. Ropeway, Owakudani black eggs, Lake Ashi pirate ship.'}],
+ ess:{wear:['Travel clothes'],eat:['One good dinner'],buy:['Nothing today']}},
+
+{id:'oct16',n:10,d:'Friday, 16 October',short:'Fri 16 Oct',title:'Ueno & Ginza',hero:['ameyoko','yanaka','uniqlo','itoya'],mode:'transit',wx:{t:24,c:'Showers',i:'🌦️',ll:[35.71,139.77]},
+ desc:'The smartest shopping day, because 17 and 18 October are still in hand for pickups and sold-out second chances. Ueno and Ameyoko in the morning, a quiet old neighbourhood at lunch, serious shopping from the afternoon.',
+ stats:[['09:30','Ueno'],['55m','Travel time']],
+ tips:[{k:'shop',h:'UNIQLO first. Anything needing alteration, custom order or another size: do it today.',t:'Ginza flagship does hemming in-store, usually same day or next day.'},{k:'gem',h:'Yanaka Ginza.',t:'Old shitamachi shopping street ten minutes from Ueno, cats everywhere, sunset from the Yuyake Dandan steps.'},{k:'tip',h:'Shopping list: clothes, skincare and sunscreen, stationery, kitchenware, camera bits, tea and sweets for gifts.',t:'Spread it across today and tomorrow.'},{k:'wear',h:'Tee or long sleeve, light jacket, walking shoes, compact umbrella.',t:''},{k:'food',h:'Ameyoko has several halal kebab stands and halal restaurants around Okachimachi.',t:''}],
+ stops:[
+  {t:'09:30',n:'Ueno Park',p:'ueno',cat:'nature',m:'Or a second Senso-ji visit if the 8th was rushed.',see:['Shinobazu pond lotus beds','Toshogu shrine gold gate','Ueno Zoo pandas if kids-at-heart']},
+  {t:'10:30',n:'Ameyoko',p:'ameyoko',cat:'shopping',key:true,must:true,m:'500 m of stalls under the tracks between Ueno and Okachimachi.',buy:['Niki no Kashi for cheap KitKats and snacks in bulk','Cosmetics at OS Drug','Sneakers and bags','Kitchen items'],eat:['Halal kebab stands','Fresh-cut fruit on sticks'],see:['2k540 Aki-Oka Artisan, a craft arcade under the tracks toward Akihabara']},
+  {t:'12:00',n:'Yanaka Ginza',p:'yanaka',cat:'attraction',m:'Hidden gem. Old Tokyo street that survived the war.',see:['Yuyake Dandan steps','Cat statues on the rooftops','Yanaka cemetery avenue'],eat:['Menchi katsu from the butcher (beef, check)','Shaved-ice and dango stalls']},
+  {t:'13:00',n:'Lunch near Ueno',cat:'food',halal:true,m:'Kebab stands or a halal restaurant around Okachimachi.'},
+  {t:'14:30',n:'UNIQLO Ginza: alterations and custom orders',p:'uniqlo',cat:'shopping',key:true,must:true,m:'12-floor global flagship. Priority #1 of the afternoon.',buy:['Ultra Light Down','Heattech for the Sydney winter later','UTme custom T-shirts printed in-store','Trousers hemmed while you shop']},
+  {t:'16:00',n:'Ginza shopping',p:'itoya',cat:'shopping',key:true,m:'Everything else on the list within five blocks.',buy:['Ginza Itoya: 12 floors of stationery','Muji Ginza flagship','Loft for lifestyle and kitchen','Akomeya for tea and rice gifts','Dover Street Market if streetwear'],see:['Ginza Six rooftop garden, free']},
+  {t:'18:30',n:'Evening: Shibuya or Ginza',p:'shibuya',cat:'flex',opt:true,m:'Pick one.'},
+  {t:'19:30',n:'Dinner',cat:'food',halal:true,m:'Halal wagyu, Japanese curry or ramen.'}],
+ ess:{wear:['Long sleeve','Light jacket','Walking shoes','Umbrella'],eat:['Halal kebab','Japanese curry','Matcha dessert'],buy:['UNIQLO','Skincare + sunscreen','Stationery at Itoya','Kitchenware at Loft','Tea + sweets']}},
+
+{id:'oct17',n:11,d:'Saturday, 17 October',short:'Sat 17 Oct',title:'teamLab & JDM night',hero:['teamlab','tmg','omoide','daikoku'],mode:'transit',wx:{t:23,c:'Part cloudy',i:'🌤️',ll:[35.65,139.79]},
+ desc:'Your nimble day. Shopping overflow in the morning, a timed teamLab Planets slot around 13:00, Shinjuku neon in the evening and a booked JDM car-culture experience at night.',
+ stats:[['10:00','Shops open'],['1h 30m','Travel time']],
+ tips:[{k:'tip',h:'Book a reputable JDM provider. Do not build the night around an unofficial meet.',t:'Daikoku PA is only reachable by car and gets cleared by police some nights. A guided tour handles both.'},{k:'wear',h:'teamLab: you go barefoot and wade through knee-deep water.',t:'Shorts or roll-up trousers, lockers provided, avoid anything that goes see-through when wet.'},{k:'gem',h:'Tokyo Metropolitan Government Building observatory.',t:'45th floor, free, open late, a Fuji silhouette at sunset on clear days.'},{k:'food',h:'Honolu Shinjuku-Gyoenmae halal ramen.',t:'Lunch 11:30 to 14:30, dinner 17:00 to 21:00.'},{k:'shop',h:'Anything sold out yesterday: today is the second chance.',t:'UNIQLO, Shibuya, Ginza, custom-order collection.'}],
+ stops:[
+  {t:'10:00',n:'Shopping overflow: Shibuya or Ginza',p:'shibuya',cat:'shopping',m:'Second chances and custom-order pickups.'},
+  {t:'13:00',n:'teamLab Planets',p:'teamlab',cat:'booked',key:true,must:true,m:'Immersive digital art in Toyosu, timed entry. Water rooms, mirror rooms, the floating flower garden.',see:['Infinite Crystal Universe','Koi swimming on the water surface','Floating Flower Garden','The new Forest and Athletics areas'],tip:['Book the earliest slot you can, mid-afternoon is busiest','Bring a small towel for feet']},
+  {t:'15:30',n:'Food and rest',cat:'flex',m:''},
+  {t:'17:30',n:'Tokyo Metropolitan Government Building',p:'tmg',cat:'attraction',m:'Hidden gem. Free 45th-floor observatory, sunset over Shinjuku.'},
+  {t:'18:30',n:'Shinjuku: Kabukicho neon',p:'kabukicho',cat:'attraction',key:true,m:'Station area, Kabukicho gate, Godzilla head on the Hotel Gracery.',see:['Kabukicho Ichibangai gate','Godzilla head at Hotel Gracery','Kabukicho Tower']},
+  {t:'19:00',n:'Omoide Yokocho',p:'omoide',cat:'attraction',key:true,m:'Lantern-lit alleys of tiny yakitori bars by the tracks. Photos and atmosphere rather than food.',tip:['Ask before photographing people at the counters']},
+  {t:'19:30',n:'Dinner: Honolu halal ramen',p:'honolu',cat:'food',must:true,halal:true,m:'Shinjuku-Gyoenmae.',eat:['Halal tonkotsu-style chicken ramen','Karaage']},
+  {t:'21:30',n:'JDM experience, Daikoku PA',p:'daikoku',cat:'booked',key:true,must:true,m:'Yokohama\'s legendary car meet under the highway junction. Booked provider only.',see:['Skylines, Supras, RX-7s, itasha, VIP sedans','Kanjo-style Civics if lucky'],tip:['Friday and Saturday nights are the big ones','Keep hands off the cars, ask before opening doors']}],
+ ess:{wear:['Roll-up trousers','Easy-off shoes','Small towel','Light layer for night'],eat:['Halal ramen at Honolu'],buy:['Sold-out second chances','Custom-order pickups']}},
+
+{id:'oct18',n:12,d:'Sunday, 18 October',short:'Sun 18 Oct',title:'Last shop & pack',hero:['donki','uniqlo','gyumon'],mode:'transit',wx:{t:22,c:'Rain',i:'🌧️',ll:[35.66,139.70]},
+ desc:'The safety net. Ask what you missed, collect anything custom, do the Don Quijote mega-shop, and be back at the hotel by 16:00 to pack and weigh everything before dinner.',
+ stats:[['10:00','Start'],['16:00','Back at hotel']],
+ tips:[{k:'tip',h:'Back at the hotel by 16:00 to 17:00. This is crucial.',t:'Bag 1 clothes, bag 2 shopping, cabin bag passport, electronics, camera, valuables. Weigh everything before dinner.'},{k:'shop',h:'Don Quijote is 24 hours with a tax-free counter.',t:'Carry your passport. Tax-free sealed bags cannot be opened in Japan.'},{k:'tip',h:'Knives go in checked luggage, and Kyoto knives need the blade wrapped.',t:'Liquids: double-check airline rules.'},{k:'food',h:'One final proper Japanese meal.',t:'Then sleep. Tomorrow starts at 05:30 for two of you.'},{k:'wear',h:'Comfortable walking clothing.',t:''}],
+ stops:[
+  {t:'10:00',n:'What did we miss?',cat:'flex',m:'The day for it.'},
+  {t:'11:00',n:'Custom pickups and second stores',p:'uniqlo',cat:'shopping',m:'Collect anything ordered on the 16th.'},
+  {t:'13:00',n:'MEGA Don Quijote Shibuya',p:'donki',cat:'shopping',key:true,must:true,m:'Final mega-shop. Six floors of chaos with a tax-free counter.',buy:['KitKat regional flavours','Pocky and Pretz varieties','Matcha everything','Japanese cosmetics and sheet masks','Capsule toys','Household oddities','Travel supplies'],tip:['Go with a list or you lose two hours']},
+  {t:'16:00',n:'Back to hotel: pack and weigh',p:'hotel',cat:'hotel',must:true,m:'Before dinner. Airline scales do not negotiate.'},
+  {t:'19:00',n:'Final dinner',p:'gyumon',cat:'food',key:true,halal:true,m:'One last proper Japanese meal.',eat:['A5 halal wagyu yakiniku']},
+  {t:'21:30',n:'Sleep',p:'hotel',cat:'hotel',m:'Early alarm for Haneda.'}],
+ ess:{wear:['Comfortable clothing'],eat:['Final Japanese dinner'],buy:['KitKat varieties','Pocky','Matcha products','Cosmetics','Capsule toys','Gifts']}},
+
+{id:'oct19',n:13,d:'Monday, 19 October',short:'Mon 19 Oct',title:'Departure',hero:['haneda','shimokita','narita'],mode:'transit',wx:{t:22,c:'Mild',i:'🌤️',ll:[35.55,139.78]},
+ desc:'Sydney and Kochi leave Haneda around 08:30 and 08:50, so the hotel exit is 05:30. Dubai flies from Narita at 22:30, which leaves a bonus solo Tokyo day.',
+ stats:[['05:30','Leave hotel'],['08:30','First flight']],
+ tips:[{k:'tip',h:'No sightseeing for the Haneda pair.',t:'Straight to the airport.'},{k:'gem',h:'Dubai solo day: a final café, last shopping, a quiet neighbourhood walk.',t:'Then the Narita Express early. Not part of the three-person plan.'},{k:'wear',h:'Travel clothes.',t:''},{k:'tip',h:'Cabin bag: passport, electronics, camera, valuables, documents.',t:'Weighed last night, so no surprises.'}],
+ stops:[
+  {t:'05:30',n:'Leave hotel for Haneda (Sydney + Kochi)',p:'haneda',cat:'transport',key:true,must:true,m:'Taxi at this hour, trains start around 05:00.'},
+  {t:'08:30',n:'Sydney and Kochi flights depart Haneda',p:'haneda',cat:'booked',m:'08:30 and 08:50.'},
+  {t:'10:00',n:'Dubai: solo café and quiet walk',p:'shimokita',cat:'coffee',opt:true,m:'Shimokitazawa: vintage shops, small cafés, record stores, ten minutes from Shibuya. The easiest low-key last morning in Tokyo.',see:['Reload and Bonus Track, the new low-rise shopping lanes','Vintage clothing along the station streets'],eat:['Coffee at Bear Pond Espresso or Ogawa Coffee']},
+  {t:'17:00',n:'Narita Express to the airport',p:'tokyost',cat:'transport',m:'About an hour from Tokyo Station. Go early.'},
+  {t:'22:30',n:'Dubai flight departs Narita',p:'narita',cat:'booked',key:true,m:''}],
+ ess:{wear:['Travel clothes'],eat:['Airport meal'],buy:['Airport last-minute gifts']}}
+];
+
+
+const STAYS=[
+ {img:'tokyohotel',city:'Tokyo',name:'Mitsui Garden Hotel Jingugaien Tokyo Premier',range:'7 to 10 Oct',nights:3,addr:'11-3 Kasumigaoka-machi, Shinjuku-ku, Tokyo 160-0013',station:'Kokuritsu-Kyogijo Station, 200 m (Oedo line); Sendagaya JR 5 min',note:'Three travellers arrive on different flights. Ask reception to hold bags for the 04:55 Kochi arrival on the 8th. Oedo line runs direct to Shinjuku and Roppongi; JR from Sendagaya to Shibuya in 10 min.',q:'Mitsui Garden Hotel Jingugaien Tokyo Premier',link:''},
+ {img:'kyotoapt',city:'Kyoto',name:'Forestage Arashiyama (Airbnb)',range:'10 to 15 Oct',nights:5,addr:'Arashiyama, west Kyoto. One minute from Hankyu Arashiyama Station (exact address on the Airbnb booking)',station:'Hankyu Arashiyama → Kyoto-Kawaramachi 17 min (change at Katsura). JR Saga-Arashiyama → Kyoto Station 15 min, about 1 km walk',note:'35 sqm, up to 4 guests: two double floor mattresses, living room, kitchen, washing machine, bathtub, small courtyard, Dyson dryer. Ministop konbini 120 m, Kawakatsu supermarket 750 m. Bamboo Grove, Tenryu-ji and Togetsukyo Bridge are a walk away, so do them at 07:00 on a quiet morning. Halal-friendly local option: Wagyu Donburi-ya Nikuni (check with staff).',q:'Hankyu Arashiyama Station',link:''},
+ {img:'tokyohotel',city:'Tokyo',name:'Mitsui Garden Hotel Jingugaien Tokyo Premier',range:'15 to 19 Oct',nights:4,addr:'11-3 Kasumigaoka-machi, Shinjuku-ku, Tokyo 160-0013',station:'Kokuritsu-Kyogijo Station, 200 m',note:'Shopping days. Shinjuku is two stops, Shibuya ten minutes by JR from Sendagaya, Ginza about 20 minutes. Taxi to Haneda on the 19th is roughly 35 to 45 minutes at 05:30.',q:'Mitsui Garden Hotel Jingugaien Tokyo Premier',link:''}
+];
+const MOVES=[
+ {d:'7 Oct',t:'17:35',from:'Dubai',to:'Tokyo Narita',mode:'flight',how:'Flight, then Narita Express or Keisei Skyliner into the city',st:'booked'},
+ {d:'7 Oct',t:'20:35',from:'Sydney',to:'Tokyo Haneda',mode:'flight',how:'Flight, then Keikyu line or monorail, 20 to 30 min',st:'booked'},
+ {d:'8 Oct',t:'04:55',from:'Kochi',to:'Tokyo Haneda',mode:'flight',how:'Flight, taxi or first train to the hotel',st:'booked'},
+ {d:'8 to 9 Oct',t:'',from:'Tokyo',to:'Asakusa, Shibuya, DisneySea',mode:'train',how:'Metro and JR on Suica. DisneySea is 15 min from Tokyo Station on the Keiyo line',st:'suica'},
+ {d:'10 Oct',t:'10:40',from:'Tokyo',to:'Kyoto',mode:'shinkansen',how:'Nozomi, about 2h 15m. Reserve seats; oversized luggage needs the rear-row space',st:'to book'},
+ {d:'10 to 15 Oct',t:'',from:'Arashiyama',to:'central Kyoto',mode:'train',how:'Hankyu Arashiyama → Kawaramachi 17 min (change at Katsura). JR Saga-Arashiyama → Kyoto Station 15 min',st:'suica'},
+ {d:'11 Oct',t:'06:10',from:'Arashiyama',to:'Fushimi, Higashiyama, Gion',mode:'train',how:'Hankyu to Kawaramachi, Keihan from Gion-Shijo to Fushimi-Inari, then buses and walking',st:'suica'},
+ {d:'12 Oct',t:'08:00',from:'Kyoto',to:'Amanohashidate and Ine',mode:'car',how:'Rental car, about 2 h each way. Driver needs a 1949-format International Driving Permit. ETC card for tolls',st:'to book'},
+ {d:'13 Oct',t:'05:30',from:'Kyoto',to:'Okunoshima',mode:'shinkansen',how:'Shin-Osaka → Mihara by Shinkansen, Kure line to Tadanoumi, 15 min ferry',st:'to book'},
+ {d:'14 Oct',t:'07:30',from:'Kyoto',to:'Nara, then Osaka',mode:'train',how:'JR or Kintetsu to Nara, Kintetsu to Osaka-Namba, JR back to Kyoto at night',st:'suica'},
+ {d:'15 Oct',t:'10:30',from:'Kyoto',to:'Tokyo',mode:'shinkansen',how:'Nozomi, about 2h 15m. Optional Hakone detour with luggage forwarded by Yamato',st:'to book'},
+ {d:'17 Oct',t:'21:30',from:'Tokyo',to:'Daikoku PA, Yokohama',mode:'car',how:'Guided JDM tour with pickup. Not reachable by train',st:'to book'},
+ {d:'19 Oct',t:'05:30',from:'Tokyo',to:'Haneda (Sydney, Kochi)',mode:'flight',how:'Taxi at 05:30, flights 08:30 and 08:50',st:'booked'},
+ {d:'19 Oct',t:'17:00',from:'Tokyo',to:'Narita (Dubai)',mode:'flight',how:'Narita Express from Tokyo Station, flight 22:30',st:'booked'}
+];
+const GETTING=['Suica in Apple Wallet for every train, bus and konbini','No JR Pass: two Shinkansen legs cost less than a 7-day pass','Taxis via GO app or Uber for the 05:30 airport run','Yamato luggage forwarding, hotel to hotel, about ¥2,500 a bag, next day'];
+
+const NOTES=[
+ {t:'Capsule wardrobe',chk:['4 to 5 T-shirts','2 long-sleeves','2 trousers','1 nicer trouser or jean','1 lightweight jacket','1 rain shell','1 slightly smarter outfit','2 pairs of shoes','7 to 8 underwear','7 to 8 socks']},
+ {t:'Daily day-bag',chk:['Passport','Power bank','Phone','Cash and card','Umbrella','Water','Tissues','Hand sanitiser','Small snack','Translation app','Hotel address screenshot']},
+ {t:'Food bucket list',html:'<h4>Tokyo</h4><ul><li>Halal wagyu yakiniku (GYUMON)</li><li>Halal wagyu ramen</li><li>Japanese curry</li><li>Matcha dessert</li><li>Konbini egg sandwich and onigiri</li></ul><h4>Kyoto</h4><ul><li>Matcha, yatsuhashi</li><li>Tamagoyaki at Nishiki</li><li>Kaiseki splurge (Honke Tankuma, reserve ahead)</li><li>Kyoto udon</li></ul><h4>Nara</h4><ul><li>Nakatanidou mochi, kakinoha-zushi, cha-gayu</li></ul><h4>Osaka</h4><ul><li>Takoyaki, okonomiyaki, kushikatsu, verified halal versions only</li></ul>'},
+ {t:'Halal food guide',html:'<h4>Kyoto official tiers</h4><ul><li><b>Halal</b>: all food halal</li><li><b>Muslim Friendly</b>: designated halal menu</li><li><b>Muslim Welcome</b>: no pork, no alcohol flavouring</li><li><b>Pork-Free</b>: no pork, alcohol flavouring possible</li></ul><h4>Reliable stops</h4><ul><li>Tokyo: GYUMON (Shibuya, wagyu yakiniku and ramen), CANOW and HALAL-Ya (Asakusa), Honolu (Shinjuku ramen)</li><li>Kyoto: Raju (fully halal), Istanbul Saray, Honke Tankuma kaiseki by reservation</li><li>Nara: GYUMON Nara</li><li>Osaka: Ali\'s Kitchen (Shinsaibashi)</li><li>Ine, Okunoshima, DisneySea: carry your own</li></ul>'},
+ {t:'If tired: keep vs cut',html:'<h4>Never cut</h4><ul><li>Asakusa, Shibuya at night, DisneySea</li><li>Fushimi Inari early, Kiyomizu + the slopes, Gion</li><li>Ine, Rabbit Island</li><li>Nara deer + Todai-ji, Dotonbori</li><li>teamLab, JDM night, one major shopping day</li></ul><h4>Cut first</h4><ul><li>Tokyo Skytree, Tokyo Tower</li><li>Osaka Castle, extra temples</li><li>Second shopping centre, optional museums</li><li>Hakone</li></ul>'},
+ {t:'What to buy where',html:'<ul><li><b>Asakusa</b>: crafts, fans, maneki-neko, sweets</li><li><b>Harajuku / Shibuya</b>: streetwear, sneakers, character goods</li><li><b>Akihabara</b>: electronics, gaming, anime</li><li><b>Kyoto</b>: matcha, ceramics, fans, knives</li><li><b>Ine</b>: maritime regional goods</li><li><b>Tadanoumi</b>: rabbit goods</li><li><b>Nara</b>: deer goods, brushes, sweets</li><li><b>Osaka</b>: snacks, novelties</li><li><b>Tokyo final days</b>: everything else, bulk</li></ul>'},
+ {t:'Photo files to add',html:'<p style="margin:0 0 6px">Most places use Unsplash photos. These few still need a photo: drop a jpg named by key into an <b>img/</b> folder, or tell Claude to search again.</p><ul id="imgList"></ul>'}
+];
+
+/* ---------- icons ---------- */
+const I={
+ train:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1-3M15 21l-1-3"/><circle cx="9" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="14" r="1" fill="currentColor" stroke="none"/></svg>',
+ food:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M8 21h8M12 17v4M6 8l6-4 6 4"/></svg>',
+ landmark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6c3 1.5 15 1.5 18 0M5 6v3M19 6v3M4 10h16M7 10v11M17 10v11M5 15h14"/></svg>',
+ bed:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V8M3 14h18v4M21 14v-3a3 3 0 00-3-3h-7v6"/><circle cx="7" cy="10" r="2"/></svg>',
+ bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>',
+ leaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l7-7"/></svg>',
+ ticket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V7a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4z"/><path d="M13 5v14" stroke-dasharray="2 3"/></svg>',
+ cup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v6a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M17 10h2a2 2 0 010 4h-2M7 3v2M11 3v2"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+ chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+ ext:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg>',
+ eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.7.6 1 1.5 1 2.5h6c0-1 .3-1.9 1-2.5A6 6 0 0012 3z"/></svg>',
+ photo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/></svg>',
+ cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+ flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h12l-2 4 2 4H5"/></svg>',
+ sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+ car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5a2 2 0 012-1h10a2 2 0 012 1l2 5v5H3z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/></svg>'
+};
+const CATI={transport:'train',food:'food',attraction:'landmark',hotel:'bed',shopping:'bag',nature:'leaf',booked:'ticket',coffee:'cup',flex:'star'};
+const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(--c-attraction)',hotel:'var(--c-hotel)',shopping:'var(--c-shopping)',nature:'var(--c-nature)',booked:'var(--c-booked)',coffee:'var(--c-coffee)',flex:'var(--c-flex)'};
+
+/* ---------- helpers ---------- */
+function mkImg(key,cls){
+  const d=document.createElement('div');d.className='img '+(cls||'');
+  const ph=PH[key];const direct=DIRECT[key];const file=(key&&!ph&&!direct)?IMG_DIR+key+'.jpg':'';
+  d.innerHTML=`<div class="ph">${I.photo}${file?`<small>${file}</small>`:''}</div>`;
+  const src=ph?phUrl(ph[0],cls==='cover'||cls==='hero'?1400:800):(direct||file);
+  if(src){const i=new Image();i.onload=()=>{d.style.backgroundImage=`url("${src}")`;d.classList.add('loaded');if(ph)d.insertAdjacentHTML('beforeend',`<a class="credit" href="https://unsplash.com/@${ph[2]}?utm_source=japan2026&utm_medium=referral" target="_blank" rel="noopener">${ph[1]} / Unsplash</a>`);};i.src=src;}
+  return d;
+}
+function jstNow(){return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Tokyo'}));}
+function todayId(){const n=jstNow();if(n.getFullYear()!==2026||n.getMonth()!==9)return null;const id='oct'+String(n.getDate()).padStart(2,'0');return DAYS.find(x=>x.id===id)?id:null;}
+function nowStopIndex(day){if(day.id!==todayId())return -1;const n=jstNow();const cur=n.getHours()*60+n.getMinutes();let idx=-1;day.stops.forEach((s,i)=>{const[h,m]=s.t.split(':').map(Number);if(h*60+m<=cur)idx=i;});return idx;}
+
+/* ---------- overview ---------- */
+function renderOverview(){
+  document.getElementById('cover').replaceWith(mkImg('cover','cover'));
+  document.getElementById('tagrow').innerHTML=[[I.cal,'7 to 19 Oct'],[I.flag,'6 cities'],[I.landmark,DAYS.reduce((a,d)=>a+d.stops.filter(s=>s.must).length,0)+' must-sees'],[I.bed,'2 hotels, 1 apartment']].map(x=>`<span class="tag-c">${x[0]}${x[1]}</span>`).join('');
+  const MI={flight:['✈',I.train],train:['',I.train],shinkansen:['',I.train],car:['',I.car]};const MC={flight:'var(--c-booked)',train:'var(--c-transport)',shinkansen:'var(--c-transport)',car:'var(--c-nature)'};
+  document.getElementById('stays').innerHTML='';STAYS.forEach(x=>{const d=document.createElement('div');d.className='stay';d.innerHTML=`<div class="bd"><div class="t">${x.name}</div><div class="k">${x.city} · ${x.range} · ${x.nights} nights</div><div class="line">${I.pin}<span>${x.addr}</span></div><div class="line">${I.train}<span>${x.station}</span></div><div class="n">${x.note}</div><div class="acts">${x.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(x.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:''}${x.link?`<a class="mapbtn" href="${x.link}" target="_blank" rel="noopener">Airbnb listing ${I.ext}</a>`:''}</div></div>`;d.prepend(mkImg(x.img));document.getElementById('stays').appendChild(d);});
+  const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
+  document.getElementById('moves').innerHTML=MOVES.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('');
+  document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
+  const list=document.getElementById('daylist');const tid=todayId();
+  DAYS.forEach(day=>{
+    const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);
+    const must=day.stops.filter(s=>s.must).length;
+    b.innerHTML=`<div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} · ${day.short}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}<span>${day.mode==='driving'?I.car:I.sun}${day.mode==='driving'?'Road trip':day.wx.t+'°'}</span></div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
+    b.appendChild(mkImg(day.hero[0]));list.appendChild(b);
+  });
+  const notes=document.getElementById('notes');
+  NOTES.forEach(n=>{const d=document.createElement('details');d.className='note';const body=n.html||n.chk.map(c=>`<label class="chk"><input type="checkbox"><span>${c}</span></label>`).join('');d.innerHTML=`<summary>${n.t}${I.chev}</summary><div class="body">${body}</div>`;notes.appendChild(d);});
+  const keys=Object.keys(P).filter(k=>P[k][0]!==''&&!PH[k]);const il=document.getElementById('imgList');if(il)il.innerHTML=keys.map(k=>`<li>${IMG_DIR}${k}.jpg <span style="color:var(--ink-3)">(${k==='cover'?'trip cover photo':P[k][0]})</span></li>`).join('');
+}
+
+/* ---------- weather ---------- */
+const WMO={0:['Clear','☀️'],1:['Mostly clear','🌤️'],2:['Partly cloudy','⛅'],3:['Overcast','☁️'],45:['Fog','🌫️'],48:['Fog','🌫️'],51:['Drizzle','🌦️'],53:['Drizzle','🌦️'],55:['Drizzle','🌧️'],61:['Light rain','🌦️'],63:['Rain','🌧️'],65:['Heavy rain','🌧️'],80:['Showers','🌦️'],81:['Showers','🌧️'],82:['Heavy showers','⛈️'],95:['Thunderstorm','⛈️']};
+async function weather(day){
+  const box=document.getElementById('dWx');
+  box.innerHTML=`<div><div class="t">${day.wx.t}°</div><div class="c">${day.wx.c}</div><div class="src">estimate</div></div><div class="i">${day.wx.i}</div>`;
+  const date='2026-10-'+day.id.slice(3);
+  try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${day.wx.ll[0]}&longitude=${day.wx.ll[1]}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=Asia%2FTokyo&start_date=${date}&end_date=${date}`);
+    const j=await r.json();if(!j.daily||j.daily.temperature_2m_max[0]==null||curDay!==day)return;
+    const w=WMO[j.daily.weathercode[0]]||['Mixed','🌤️'];const pp=j.daily.precipitation_probability_max[0];
+    box.innerHTML=`<div><div class="t">${Math.round(j.daily.temperature_2m_max[0])}°</div><div class="c">${w[0]}${pp!=null?', '+pp+'% rain':''}</div><div class="src">low ${Math.round(j.daily.temperature_2m_min[0])}° · live</div></div><div class="i">${w[1]}</div>`;}catch(e){}
+}
+
+/* ---------- day detail ---------- */
+let curDay=null;
+const sec=(label,icon,arr,cls)=>(!arr||!arr.length)?'':`<div class="sec ${cls||''}"><div class="h">${icon}${label}</div><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+function openDay(id){
+  const day=DAYS.find(d=>d.id===id);if(!day)return;
+  const switching=curDay&&document.getElementById('day').classList.contains('active');curDay=day;
+  document.getElementById('overview').classList.remove('active');document.getElementById('day').classList.add('active');
+  if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
+  const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
+  const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
+  const cap=document.getElementById('cap');const setCap=i=>{const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
+  const gi=()=>Math.max(0,Math.min(day.hero.length-1,Math.round(gal.scrollLeft/gal.clientWidth)));const go=n=>gal.scrollTo({left:Math.max(0,Math.min(day.hero.length-1,n))*gal.clientWidth,behavior:'smooth'});
+  const arr=()=>{document.getElementById('gprev').disabled=gi()===0;document.getElementById('gnext').disabled=gi()===day.hero.length-1;};
+  setCap(0);gal.scrollLeft=0;gal.onscroll=()=>{setCap(gi());arr();};arr();
+  document.getElementById('gprev').onclick=()=>go(gi()-1);document.getElementById('gnext').onclick=()=>go(gi()+1);
+  document.onkeydown=e=>{if(!document.getElementById('day').classList.contains('active'))return;if(e.key==='ArrowRight')go(gi()+1);if(e.key==='ArrowLeft')go(gi()-1);};
+  const sw=document.getElementById('dsw');sw.innerHTML=DAYS.map(d=>`<button class="${d.id===day.id?'on':''}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b></button>`).join('');
+  const onb=sw.querySelector('.on');if(onb)requestAnimationFrame(()=>{sw.scrollLeft=onb.offsetLeft-sw.clientWidth/2+onb.offsetWidth/2;});
+  document.getElementById('dayPill').textContent=`Day ${String(day.n).padStart(2,'0')} of ${DAYS.length}`;
+  document.getElementById('dDate').textContent=day.d;
+  document.getElementById('dTitle').textContent=day.title;
+  document.getElementById('dDesc').textContent=day.desc;
+  document.getElementById('dStats').innerHTML=[...day.stats,[String(day.stops.length),'Planned stops']].map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="l">${s[1]}</div></div>`).join('');
+  const tips=document.getElementById('dTips');tips.innerHTML=day.tips.map(t=>`<div class="tip" role="button" tabindex="0"><span class="orb k-${t.k}"></span><p><b>${t.h}</b>${t.t?' '+t.t:''}</p></div>`).join('');tips.querySelectorAll('.tip').forEach(el=>el.onclick=()=>el.classList.toggle('x'));
+  const dots=document.getElementById('dDots');dots.innerHTML=day.tips.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');tips.scrollLeft=0;
+  tips.onscroll=()=>{const i=Math.round(tips.scrollLeft/tips.clientWidth);[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));};
+  const nowIdx=nowStopIndex(day);
+  document.getElementById('dCnt').innerHTML=I.star+day.stops.filter(s=>s.must).length+' must-see';
+  const tl=document.getElementById('dStops');tl.innerHTML='';
+  day.stops.forEach((s,i)=>{
+    const place=s.p&&P[s.p]?P[s.p][0]:'';
+    const st=document.createElement('div');st.className='stop'+(i<nowIdx?' done':'');
+    const tags=[i===nowIdx?'<span class="tag now">Now</span>':'',s.must?'<span class="tag must">Must see</span>':'',s.cat==='booked'?'<span class="tag booked">Booked</span>':'',s.halal?'<span class="tag halal">Halal</span>':'',s.opt?'<span class="tag opt">Optional</span>':''].filter(Boolean).join('');
+    const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:'';
+    const more=`${s.m?`<p class="why">${s.m}</p>`:''}${sec('See',I.eye,s.see)}${sec('Eat',I.food,s.eat)}${sec('Buy',I.bag,s.buy)}${sec('Insider tip',I.bulb,s.tip,'tipbox')}${maps}`;
+    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}${place}</span>`:''}</div><div class="more">${more}</div></div></button>`;
+    if(s.p==='hotel')st.querySelector('.more').prepend(mkImg('tokyohotel'));else if(s.p==='airbnb')st.querySelector('.more').prepend(mkImg('kyotoapt'));else if(s.key&&s.p&&P[s.p][0]!=='')st.querySelector('.more').prepend(mkImg(s.p));
+    st.querySelector('.card').onclick=e=>{if(e.target.closest('a'))return;st.classList.toggle('open');st.querySelector('.card').setAttribute('aria-expanded',st.classList.contains('open'));};
+    tl.appendChild(st);
+  });
+  const e=day.ess;
+  document.getElementById('dEss').innerHTML=`<h3>Wear today</h3><div class="chips">${e.wear.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Eat</h3><div class="chips">${e.eat.map(x=>`<span class="chip">${x}</span>`).join('')}</div><h3>Buy here</h3><div class="chips">${e.buy.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`;
+  const pts=[];const seen=new Set();day.stops.forEach(s=>{if(s.p&&P[s.p]&&P[s.p][0]!==''&&!seen.has(s.p)){seen.add(s.p);pts.push(P[s.p][0]);}});
+  const cta=document.getElementById('cta');
+  if(pts.length>=2){const w=pts.slice(1,-1).slice(0,9);cta.href=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(pts[0])}&destination=${encodeURIComponent(pts[pts.length-1])}${w.length?'&waypoints='+encodeURIComponent(w.join('|')):''}&travelmode=${day.mode}`;cta.style.display='flex';document.getElementById('ctaTxt').textContent=day.id===todayId()?"Start today's route":'Open route in Maps';}else cta.style.display='none';
+  weather(day);location.hash=day.id;
+}
+document.getElementById('backBtn').onclick=()=>{document.getElementById('day').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
+renderOverview();
+const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
+</script>
+</body>
+</html>
