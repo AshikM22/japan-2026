@@ -257,6 +257,9 @@ html.dark .count{background:#F2F2F2;color:#141414}
 .stay .n{font-size:12.5px;color:var(--ink-2);margin-top:8px;line-height:1.45}
 .stay .acts{display:flex;gap:8px;flex-wrap:wrap}
 .stay .acts .mapbtn{margin-top:12px}
+.mvg{margin-bottom:14px}
+.mvh{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px 2px;display:flex;gap:6px;align-items:center}
+.mvh span{font-weight:500;color:var(--ink-3);opacity:.7}
 .mv .row{display:flex;gap:12px;background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);padding:12px 14px;margin-bottom:8px;align-items:flex-start}
 .mv .ic2{width:28px;height:28px;border-radius:999px;color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px}
 .mv .ic2 svg{width:14px;height:14px}
@@ -501,7 +504,7 @@ const PH={
  hakone:['photo-1773452306873-cb7d63765a73','Lazzzis','lazzzis'],
  cover:['photo-1543223140-fd718dd8b82a','Simon Shim','simonshim']
 };
-const DIRECT={tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
+const DIRECT={odawara:'img/odawara.jpg',raju:'img/raju.jpg',saray:'img/saray.jpg',skytree:'img/skytree.jpg',sumida:'img/sumida.jpg',tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
 const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w||1200}&q=80`;
 
 const CAT={transport:{c:'#DCE9FB',f:'#2A62B8',e:'🚉'},food:{c:'#FDE8D6',f:'#C6631B',e:'🍜'},attraction:{c:'#FBE1DB',f:'#BF3F27',e:'⛩️'},hotel:{c:'#E9E2FB',f:'#5F41C4',e:'🏨'},shopping:{c:'#FBDDEA',f:'#BE2F69',e:'🛍️'},nature:{c:'#DDF3E5',f:'#237A46',e:'🌿'},booked:{c:'#FBF0CF',f:'#8F6A0C',e:'🎟️'},coffee:{c:'#EEE3DA',f:'#7A5033',e:'☕'},flex:{c:'#ECECEE',f:'#6E6E73',e:'✦'}};
@@ -767,7 +770,7 @@ const MOVES=[
  {d:'10 to 15 Oct',t:'',from:'Arashiyama',to:'central Kyoto',mode:'train',how:'Hankyu Arashiyama → Kawaramachi 17 min (change at Katsura). JR Saga-Arashiyama → Kyoto Station 15 min',st:'suica'},
  {d:'11 Oct',t:'06:10',from:'Arashiyama',to:'Fushimi, Higashiyama, Gion',mode:'train',how:'Hankyu to Kawaramachi, Keihan from Gion-Shijo to Fushimi-Inari, then buses and walking',st:'suica'},
  {d:'12 Oct',t:'08:00',from:'Kyoto',to:'Amanohashidate and Ine',mode:'car',how:'Rental car, about 2 h each way. Driver needs a 1949-format International Driving Permit. ETC card for tolls',st:'to book'},
- {d:'13 Oct',t:'05:30',from:'Kyoto',to:'Okunoshima',mode:'shinkansen',how:'Shin-Osaka → Mihara by Shinkansen, Kure line to Tadanoumi, 15 min ferry',st:'to book'},
+ {d:'13 Oct',t:'05:45',from:'Kyoto',to:'Okunoshima',mode:'shinkansen',how:'Shinkansen to Fukuyama, Kodama to Mihara, hourly Kure line to Tadanoumi, 15 min ferry. About 3h 30m each way',st:'to book'},
  {d:'14 Oct',t:'07:30',from:'Kyoto',to:'Nara, then Osaka',mode:'train',how:'JR or Kintetsu to Nara, Kintetsu to Osaka-Namba, JR back to Kyoto at night',st:'suica'},
  {d:'15 Oct',t:'10:45',from:'Kyoto',to:'Tokyo',mode:'shinkansen',how:'Direct option: Nozomi, about 2h 15m',st:'to book'},
  {d:'15 Oct',t:'09:10',from:'Kyoto',to:'Hakone, then Shinjuku',mode:'shinkansen',how:'Hakone option: Hikari to Odawara 2h 05m, Hakone Freepass loop, Romancecar Hakone-Yumoto → Shinjuku 85 min. Suitcases sent ahead by Yamato on the 14th',st:'to book'},
@@ -831,7 +834,7 @@ const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(
 /* ---------- helpers ---------- */
 const WEBP=(()=>{try{return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp')}catch(e){return false}})();
 const DPR=Math.min(window.devicePixelRatio||1,2);
-const FOCUS={tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
+const FOCUS={skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
 /* target box per role, in CSS px; Unsplash crops server-side to this aspect so the subject stays in frame */
 function box(cls){
   const vw=Math.min(window.innerWidth,1400);
@@ -880,8 +883,10 @@ function renderOverview(){
   document.getElementById('tagrow').innerHTML=[[I.cal,'7 to 19 Oct'],[I.flag,'6 cities'],[I.landmark,DAYS.reduce((a,d)=>a+d.stops.filter(s=>s.must).length,0)+' must-sees'],[I.bed,'2 hotels, 1 apartment']].map(x=>`<span class="tag-c">${x[0]}${x[1]}</span>`).join('');
   const MI={flight:['✈',I.train],train:['',I.train],shinkansen:['',I.train],car:['',I.car]};const MC={flight:'var(--c-booked)',train:'var(--c-transport)',shinkansen:'var(--c-transport)',car:'var(--c-nature)'};
   document.getElementById('stays').innerHTML='';STAYS.forEach(x=>{const d=document.createElement('div');d.className='stay';d.innerHTML=`<button class="row" aria-expanded="false"><span class="thumb"></span><span class="txt"><span class="t">${x.name}</span><span class="k">${x.city} · ${x.range} · ${x.nights} nights</span></span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner"><div class="line">${I.pin}<span>${x.addr}</span></div><div class="line">${I.train}<span>${x.station}</span></div><div class="n">${x.note}</div><div class="acts">${x.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(x.q)}" target="_blank" rel="noopener">Navigate ${I.ext}</a>`:''}${x.link?`<a class="mapbtn" href="${x.link}" target="_blank" rel="noopener">Airbnb listing ${I.ext}</a>`:''}</div></div></div>`;d.querySelector('.thumb').replaceWith(mkImg(x.img,'thumb'));d.querySelector('.row').onclick=()=>{d.classList.toggle('open');d.querySelector('.row').setAttribute('aria-expanded',d.classList.contains('open'));};document.getElementById('stays').appendChild(d);});
-    const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
-  document.getElementById('moves').innerHTML=MOVES.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('');
+    const GI_plane='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 10-4-4-4 1 3-4-9 5z"/></svg>';
+  const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
+  const groups=[['Flights',m=>m.mode==='flight'],['Between cities',m=>m.mode==='shinkansen'],['Road trip',m=>m.mode==='car'&&/Ine|Amanohashidate/.test(m.to)],['Around Tokyo',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^Tokyo/.test(m.from)],['Around Kyoto and Kansai',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^(Kyoto|Arashiyama)/.test(m.from)&&!/Ine|Amanohashidate/.test(m.to)]];
+  const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><div class="mvh">${label}<span>${rows.length}</span></div>${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div>`;}).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
