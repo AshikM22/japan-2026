@@ -180,6 +180,25 @@ html.dark .count{background:#F2F2F2;color:#141414}
 .tip.x{border-radius:26px}
 .dots{display:flex;justify-content:center;gap:4px;margin:-8px 0 26px}
 .dots i{width:5px;height:5px;border-radius:999px;background:#DADAD6}.dots i.on{background:var(--ink)}
+.gcount{position:absolute;right:16px;bottom:34px;background:rgba(0,0,0,.42);color:#fff;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);letter-spacing:.02em;pointer-events:none}
+.gal .img .credit{bottom:34px;right:auto;left:var(--pad)}
+.gtk{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1) 22px;padding:2px var(--pad) 12px}
+.gtk::-webkit-scrollbar{display:none}
+.gtk .g{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:var(--surface);box-shadow:var(--sh-1);border-radius:14px;padding:9px 12px;min-width:118px;animation:rise .4s var(--ease) both}
+.gtk .g:nth-child(2){animation-delay:60ms}.gtk .g:nth-child(3){animation-delay:120ms}.gtk .g:nth-child(4){animation-delay:180ms}.gtk .g:nth-child(5){animation-delay:240ms}
+.gtk .g svg{width:16px;height:16px;color:var(--ink-3);flex:0 0 auto}
+.gtk .g b{display:block;font-size:13px;font-weight:600;line-height:1.2}
+.gtk .g small{display:block;font-size:10.5px;color:var(--ink-3);margin-top:1px}
+.hl{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--sh-1);padding:14px 16px 8px;margin-bottom:26px}
+.hl .h{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.hl button{display:flex;gap:10px;align-items:flex-start;width:100%;padding:7px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.4;color:var(--ink)}
+.hl button:first-of-type{border-top:0}
+.hl .ck{width:18px;height:18px;border-radius:999px;background:var(--accent,var(--ink));color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px}
+.hl .ck svg{width:11px;height:11px;stroke-dasharray:20;stroke-dashoffset:20;animation:draw .5s var(--ease) forwards}
+.hl button:nth-child(3) .ck svg{animation-delay:.1s}.hl button:nth-child(4) .ck svg{animation-delay:.2s}.hl button:nth-child(5) .ck svg{animation-delay:.3s}.hl button:nth-child(6) .ck svg{animation-delay:.4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hl button small{color:var(--ink-3);font-size:12px;margin-left:auto;white-space:nowrap;padding-left:8px}
+.hl button:active{opacity:.7}
 .sechead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sechead h2{font-size:17px;font-weight:600;margin:0;letter-spacing:-.015em}
 .sechead .cnt{font-size:12px;font-weight:500;color:var(--ink);background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:6px}
@@ -430,7 +449,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
     <div class="gal" id="gal"></div><div class="shade"></div>
     <button class="fab back" id="backBtn" aria-label="All days"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <div class="fab pill" id="dayPill"></div>
-    <div class="cap" id="cap"></div><div class="gdots" id="gdots"></div>
+    <div class="cap" id="cap"></div><div class="gdots" id="gdots"></div><div class="gcount" id="gcount"></div>
     <button class="garr l" id="gprev" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <button class="garr r" id="gnext" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
@@ -444,6 +463,8 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
     <p class="desc" id="dDesc"></p>
     <div class="stats" id="dStats"></div>
     <div class="tips" id="dTips"></div><div class="dots" id="dDots"></div>
+    <div class="gtk" id="dGtk"></div>
+    <div class="hl" id="dHl"></div>
     <div class="sechead"><h2>Stops & activities</h2><span class="cnt" id="dCnt"></span></div>
     <div class="tl" id="dStops"></div>
   </div>
@@ -846,6 +867,8 @@ const I={
  car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5a2 2 0 012-1h10a2 2 0 012 1l2 5v5H3z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/></svg>'
 };
 const CATI={transport:'train',food:'food',attraction:'landmark',hotel:'bed',shopping:'bag',nature:'leaf',booked:'ticket',coffee:'cup',flex:'star'};
+const GI={walk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.5"/><path d="M10 21l2-6 3 3v3M7 12l3-3 3 1 2 3h3M10 9l-1 4-3 2"/></svg>',train:I.train,taxi:I.car,car:I.car,bus:I.car,boat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2 3h14l2-3M4 17l8-3 8 3M6 14V8h12v6M12 3v5"/></svg>',plane:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 10-4-4-4 1 3-4-9 5z"/></svg>'};
+const GL={walk:'Walk',train:'Train',taxi:'Taxi',car:'Drive',bus:'Bus',boat:'Boat',plane:'Flight'};
 const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(--c-attraction)',hotel:'var(--c-hotel)',shopping:'var(--c-shopping)',nature:'var(--c-nature)',booked:'var(--c-booked)',coffee:'var(--c-coffee)',flex:'var(--c-flex)'};
 
 /* ---------- helpers ---------- */
@@ -950,7 +973,7 @@ function openDay(id,vi){
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
   const cap=document.getElementById('cap');let capI=-1;const setCap=i=>{if(i===capI)return;capI=i;cap.classList.add('sw');setTimeout(()=>{cap.classList.remove('sw');},220);const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
   let gcur=0;const gn=day.hero.length;
-  const goTo=(n,anim=true)=>{gcur=Math.max(0,Math.min(gn-1,n));gal.style.transition=anim?'transform .38s var(--ease)':'none';gal.style.transform=`translateX(${-gcur*100}%)`;setCap(gcur);document.getElementById('gprev').disabled=gcur===0;document.getElementById('gnext').disabled=gcur===gn-1;};
+  const gcount=document.getElementById('gcount');const goTo=(n,anim=true)=>{gcur=Math.max(0,Math.min(gn-1,n));gcount.textContent=`${gcur+1} / ${gn}`;gal.style.transition=anim?'transform .38s var(--ease)':'none';gal.style.transform=`translateX(${-gcur*100}%)`;setCap(gcur);document.getElementById('gprev').disabled=gcur===0;document.getElementById('gnext').disabled=gcur===gn-1;};
   gal.style.transform='none';goTo(0,false);
   document.getElementById('gprev').onclick=()=>goTo(gcur-1);document.getElementById('gnext').onclick=()=>goTo(gcur+1);
   [...gd.children].forEach((d,i)=>{d.onclick=()=>goTo(i);});
@@ -975,11 +998,17 @@ function openDay(id,vi){
   const tips=document.getElementById('dTips');tips.innerHTML=day.tips.map(t=>`<div class="slide"><div class="tip" role="button" tabindex="0"><span class="orb k-${t.k}"></span><p><b>${t.h}</b>${t.t?' '+t.t:''}</p></div></div>`).join('');tips.querySelectorAll('.tip').forEach(el=>el.onclick=()=>el.classList.toggle('x'));
   const dots=document.getElementById('dDots');dots.innerHTML=day.tips.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');tips.scrollLeft=0;
   tips.onscroll=()=>{const i=Math.round(tips.scrollLeft/tips.clientWidth);[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));};
+  // good to know (Klook-style info chips), derived from the day's data
+  const modes={};day.stops.forEach(x=>{if(x.go&&x.go.m)modes[x.go.m]=(modes[x.go.m]||0)+1;});
+  const walkMin=day.stops.reduce((a,x)=>{if(x.go&&x.go.m==='walk'&&x.go.t){const m=parseInt(x.go.t);if(!isNaN(m))return a+m;}return a;},0);
+  const booked=day.stops.filter(x=>x.cat==='booked').length;const first=day.stops[0]?day.stops[0].t:'';const last=day.stops[day.stops.length-1]?day.stops[day.stops.length-1].t:'';
+  const gtk=[[I.clock,`${first} to ${last}`,'Day span'],[I.train,Object.entries(modes).filter(([m])=>m!=='walk').map(([m,n])=>`${n} ${m}`).join(' · ')||'On foot','Transfers'],[GI.walk,walkMin?`~${walkMin} min`:'Light','Walking between stops'],[I.ticket,booked?`${booked} booked`:'None','Reservations'],[I.sun,`${day.wx.t}° ${day.wx.c}`,'Forecast estimate']];
+  document.getElementById('dGtk').innerHTML=gtk.map(g=>`<div class="g">${g[0]}<div><b>${g[1]}</b><small>${g[2]}</small></div></div>`).join('');
+  const musts=day.stops.map((x,i)=>[x,i]).filter(([x])=>x.must);
+  document.getElementById('dHl').innerHTML=musts.length?`<div class="h">Highlights</div>`+musts.map(([x,i])=>`<button onclick="(function(){const el=document.querySelectorAll('#dStops .stop')[${i}];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}})()"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span>${x.n}</span><small>${x.t}</small></button>`).join(''):'';
   const nowIdx=nowStopIndex(day);
   document.getElementById('dCnt').innerHTML=I.star+day.stops.filter(s=>s.must).length+' must-see';
   const tl=document.getElementById('dStops');tl.innerHTML='';
-  const GI={walk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.5"/><path d="M10 21l2-6 3 3v3M7 12l3-3 3 1 2 3h3M10 9l-1 4-3 2"/></svg>',train:I.train,taxi:I.car,car:I.car,bus:I.car,boat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2 3h14l2-3M4 17l8-3 8 3M6 14V8h12v6M12 3v5"/></svg>',plane:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 10-4-4-4 1 3-4-9 5z"/></svg>'};
-  const GL={walk:'Walk',train:'Train',taxi:'Taxi',car:'Drive',bus:'Bus',boat:'Boat',plane:'Flight'};
   day.stops.forEach((s,i)=>{
     const place=s.p&&P[s.p]?P[s.p][0]:'';
     if(s.go&&(s.go.t||s.go.d)){const gdiv=document.createElement('button');gdiv.className='go';gdiv.style.setProperty('--i',i);gdiv.innerHTML=`<span class="gi">${GI[s.go.m]||I.train}</span><span class="gt"><b>${GL[s.go.m]||''}${s.go.t?' · '+s.go.t:''}</b>${s.go.d?`<span class="gd">${s.go.d}</span>`:''}</span>${s.go.d?`<span class="gc">${I.chev}</span>`:''}`;if(s.go.d)gdiv.onclick=()=>gdiv.classList.toggle('open');tl.appendChild(gdiv);}
