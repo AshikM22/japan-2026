@@ -381,7 +381,6 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
     <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
     <div class="tagrow" id="tagrow"></div>
-    <div class="tools" id="tools"></div>
     <div class="ov-grid">
       <div class="ov-main">
         <div class="h2">Itinerary</div>
@@ -877,8 +876,6 @@ function renderOverview(){
   const stl={booked:'<span class="st booked">Booked</span>','to book':'<span class="st tobook">To book</span>',suica:'<span class="st suica">Suica</span>'};
   document.getElementById('moves').innerHTML=MOVES.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
-  document.getElementById('tools').innerHTML=`<span class="count">${I.cal}${countdown()}</span><a class="mapbtn" href="#" id="printBtn">Print summary ${I.ext}</a><a class="mapbtn" href="https://wa.me/?text=${encodeURIComponent('Japan 2026 plan: https://ashikm22.github.io/japan-2026/ — idea/change: ')}" target="_blank" rel="noopener">Suggest a change ${I.ext}</a>`;
-  document.getElementById('printBtn').onclick=e=>{e.preventDefault();printView();};
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);
