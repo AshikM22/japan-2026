@@ -416,6 +416,35 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .stay.open .more,.mvg.open .more{margin-top:0;padding-top:0}
 @media (prefers-reduced-motion:reduce){#sheetBody.sl,#sheetBody.sr{animation:none}.screen.active,.stop,.img.loaded,.note[open] .body{animation:none!important}.more,.chev,.cta,.gal{transition:none!important}.img .ph::after{display:none}}
 
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:0 14px;height:48px;margin-top:16px}
+.search svg{width:18px;height:18px;color:var(--ink-3);flex:0 0 auto}
+.search input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:15px;color:var(--ink);outline:none;height:100%}
+.search input::placeholder{color:var(--ink-3)}
+.search input::-webkit-search-cancel-button{display:none}
+.search #qx{width:28px;height:28px;border-radius:999px;background:var(--tint);color:var(--ink-2);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center}
+.results{background:var(--surface);box-shadow:var(--sh-2);border-radius:var(--r-m);margin-top:8px;overflow:hidden;animation:screenIn .25s var(--ease)}
+.results button{display:flex;gap:12px;align-items:center;width:100%;padding:11px 14px;border-top:1px solid var(--line);min-height:52px}
+.results button:first-child{border-top:0}
+.results .ic{position:static;width:30px;height:30px;box-shadow:none;flex:0 0 auto}
+.results .ic svg{width:14px;height:14px}
+.results .t{font-size:14px;font-weight:600;line-height:1.3;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.results .k{font-size:12px;color:var(--ink-3);margin-top:1px}
+.results .txt{flex:1;min-width:0}
+.results .none{padding:14px;font-size:13.5px;color:var(--ink-3)}
+.results mark{background:transparent;color:var(--accent,#B8402A);font-weight:700}
+.pl-row{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+.pl-row:first-child{border-top:0}
+.pl-row .d{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+.pl-row .n{flex:1;min-width:0;color:var(--ink)}
+.pl-row .n .tag{white-space:nowrap;vertical-align:middle;margin-left:4px}
+.pl-row .why{font-size:12px;color:var(--ink-3);display:block;margin-top:1px;line-height:1.35}
+.pl-row .star{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);flex:0 0 auto;transition:transform .2s var(--spring),color .2s}
+.pl-row .star svg{width:16px;height:16px}
+.pl-row .star.on{color:var(--c-booked)}.pl-row .star.on svg{fill:currentColor}
+.pl-row .star:active{transform:scale(.8)}
+.pl-sub{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 4px}
+.pl-sub:first-child{margin-top:0}
+
 </style>
 </head>
 <body>
@@ -425,12 +454,16 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
     <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
     <div class="tagrow" id="tagrow"></div>
+    <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search a place, food or stop" autocomplete="off" aria-label="Search the itinerary"><button id="qx" class="hidden" aria-label="Clear">×</button></div>
+    <div class="results hidden" id="results"></div>
     <div class="ov-grid">
       <div class="ov-main">
         <div class="h2">Itinerary</div>
         <div id="daylist"></div>
       </div>
       <div class="ov-side">
+        <div class="h2">Places by city</div>
+        <div class="mv" id="places"></div>
         <div class="h2">Where we stay</div>
         <div id="stays"></div>
         <div class="h2">How we move</div>
@@ -832,6 +865,15 @@ const BOOKINGS=[
  {t:'Taxi to Haneda, 19 Oct 05:30',by:'18 Oct evening at reception',note:''},
  {t:'Narita Express Shinjuku → Narita, 19 Oct',by:'18 Oct',note:'Reserved seat, Dubai traveller only'}
 ];
+const CITY={oct07:'Tokyo',oct08:'Tokyo',oct09:'Tokyo',oct10:'Kyoto',oct11:'Kyoto',oct12:'Ine & Amanohashidate',oct13:'Okunoshima',oct14:'Nara & Osaka',oct15:'Kyoto',oct16:'Tokyo',oct17:'Tokyo',oct18:'Tokyo',oct19:'Tokyo'};
+const IDEAS={
+ 'Tokyo':[['Meiji Jingu','Forest shrine next to Harajuku, 20 min from the hotel, best 08:00'],['Takeshita Street, Harajuku','Crepes, purikura, teen fashion; loud and fun for an hour'],['Tsukiji Outer Market','Morning food stalls, tamagoyaki and fruit daifuku; seafood-heavy'],['Nakano Broadway','Retro toys, figures, Mandarake; the nerd alternative to Akihabara'],['Shibuya Sky','Book a sunset slot weeks ahead; the crossing from 230 m'],['Tokyo Tower at night','Old-school Tokyo icon, quieter than Skytree'],['Ghibli Museum, Mitaka','Tickets sell on the 10th of the prior month, usually gone in minutes'],['Odaiba and the Unicorn Gundam','Waterfront, the giant robot transforms on the hour'],['Kappabashi kitchen street','Knives and fake food samples, near Asakusa']],
+ 'Kyoto':[['Kinkaku-ji','The gold pavilion; 40 min from Arashiyama by bus, go at 09:00 opening'],['Nijo Castle','Shogun palace with nightingale floors, 25 min from Arashiyama'],['Philosopher\'s Path and Ginkaku-ji','Canal walk, quiet even in October'],['Nishiki again for a proper lunch','If the 14:00 pass on the 11th felt rushed'],['Sagano Romantic Train','Scenic railway from Arashiyama along the gorge; book seats'],['Monkey Park Iwatayama','20-minute climb from Togetsukyo, monkeys and a city view'],['Kifune and Kurama','Half-day mountain shrine walk north of the city; only if a day frees up']],
+ 'Nara & Osaka':[['Kasuga Taisha','Thousands of lanterns in the deer forest, 15 min past Todai-ji'],['Kuromon Ichiba market','Osaka\'s kitchen, five minutes from Dotonbori; check ingredients'],['Umeda Sky Building','Floating garden observatory, on the way to Hankyu Umeda'],['Osaka Castle','Big, rebuilt, good from the park; on the cut-first list'],['Shinsekai and Tsutenkaku','Retro Osaka, kushikatsu alley; check ingredients']],
+ 'Ine & Amanohashidate':[['Amanohashidate View Land','The other viewpoint, on the Monju side, with a monorail'],['Ine sea kayaking','Paddle under the funaya, 2 hours, book ahead']],
+ 'Okunoshima':[['Rabbit Line fast boat from Mihara Port','Skips the hourly Kure line if it runs that Tuesday'],['Onomichi','Hillside temple town near Mihara, an hour if the day allows']],
+ 'Hakone':[['Hakone Open-Air Museum','Already the fallback stop; make it a must if the ropeway is shut'],['Owakudani black eggs','On the plan'],['Onsen at Hakone-Yumoto','Day-use bath before the Romancecar, 45 minutes']]
+};
 const NOTES=[
  {t:'Bookings tracker',chk:BOOKINGS.map(b=>`<b>${b.t}</b><br><span style="font-size:12px;color:var(--ink-3)">Book: ${b.by}${b.note?' · '+b.note:''}</span>`)},
  {t:'Capsule wardrobe',chk:['4 to 5 T-shirts','2 long-sleeves','2 trousers','1 nicer trouser or jean','1 lightweight jacket','1 rain shell','1 slightly smarter outfit','2 pairs of shoes','7 to 8 underwear','7 to 8 socks']},
@@ -912,11 +954,61 @@ function nowStopIndex(day){if(day.id!==todayId())return -1;const n=jstNow();cons
 document.getElementById('themeBtn').onclick=()=>{const d=!document.documentElement.classList.contains('dark');document.documentElement.classList.toggle('dark',d);localStorage.setItem('theme',d?'dark':'light');document.querySelector('meta[name=theme-color]').content=d?'#121212':'#F8F8F6';};
 function countdown(){const now=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);const days=Math.ceil((start-now)/864e5);if(now<start)return `${days} day${days===1?'':'s'} to go`;if(now<end)return `Day ${Math.min(13,Math.floor((now-start)/864e5)+1)} of 13`;return 'Trip complete';}
 function printView(){const w=window.open('','_blank');if(!w)return;const esc=x=>String(x).replace(/</g,'&lt;');
-  let h=`<!doctype html><html><head><meta charset="utf-8"><title>Japan 2026 summary</title><style>body{font:12px/1.45 Inter,-apple-system,Helvetica,Arial,sans-serif;color:#141414;margin:28px;max-width:820px}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 6px;border-bottom:1px solid #ddd;padding-bottom:4px;break-after:avoid}h3{font-size:12px;margin:14px 0 4px;color:#555;text-transform:uppercase;letter-spacing:.06em}.d{color:#666;margin:0 0 8px}table{width:100%;border-collapse:collapse}td{vertical-align:top;padding:4px 6px 4px 0;border-bottom:1px solid #eee}td.t{width:46px;font-weight:600;white-space:nowrap}td.g{color:#666;font-size:11px;width:38%}.stay{margin:4px 0}.small{color:#666;font-size:11px}@media print{body{margin:12mm}h2{page-break-inside:avoid}}</style></head><body>`;
+  let h=`<!doctype html><html><head><meta charset="utf-8"><title>Japan 2026 summary</title><style>body{font:12px/1.45 Inter,-apple-system,Helvetica,Arial,sans-serif;color:#141414;margin:28px;max-width:820px}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 6px;border-bottom:1px solid #ddd;padding-bottom:4px;break-after:avoid}h3{font-size:12px;margin:14px 0 4px;color:#555;text-transform:uppercase;letter-spacing:.06em}.d{color:#666;margin:0 0 8px}table{width:100%;border-collapse:collapse}td{vertical-align:top;padding:4px 6px 4px 0;border-bottom:1px solid #eee}td.t{width:46px;font-weight:600;white-space:nowrap}td.g{color:#666;font-size:11px;width:38%}.stay{margin:4px 0}.small{color:#666;font-size:11px}@media print{body{margin:12mm}h2{page-break-inside:avoid}}.search{display:flex;align-items:center;gap:10px;background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:0 14px;height:48px;margin-top:16px}
+.search svg{width:18px;height:18px;color:var(--ink-3);flex:0 0 auto}
+.search input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:15px;color:var(--ink);outline:none;height:100%}
+.search input::placeholder{color:var(--ink-3)}
+.search input::-webkit-search-cancel-button{display:none}
+.search #qx{width:28px;height:28px;border-radius:999px;background:var(--tint);color:var(--ink-2);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center}
+.results{background:var(--surface);box-shadow:var(--sh-2);border-radius:var(--r-m);margin-top:8px;overflow:hidden;animation:screenIn .25s var(--ease)}
+.results button{display:flex;gap:12px;align-items:center;width:100%;padding:11px 14px;border-top:1px solid var(--line);min-height:52px}
+.results button:first-child{border-top:0}
+.results .ic{position:static;width:30px;height:30px;box-shadow:none;flex:0 0 auto}
+.results .ic svg{width:14px;height:14px}
+.results .t{font-size:14px;font-weight:600;line-height:1.3;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.results .k{font-size:12px;color:var(--ink-3);margin-top:1px}
+.results .txt{flex:1;min-width:0}
+.results .none{padding:14px;font-size:13.5px;color:var(--ink-3)}
+.results mark{background:transparent;color:var(--accent,#B8402A);font-weight:700}
+.pl-row{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+.pl-row:first-child{border-top:0}
+.pl-row .d{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+.pl-row .n{flex:1;min-width:0;color:var(--ink)}
+.pl-row .n .tag{white-space:nowrap;vertical-align:middle;margin-left:4px}
+.pl-row .why{font-size:12px;color:var(--ink-3);display:block;margin-top:1px;line-height:1.35}
+.pl-row .star{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);flex:0 0 auto;transition:transform .2s var(--spring),color .2s}
+.pl-row .star svg{width:16px;height:16px}
+.pl-row .star.on{color:var(--c-booked)}.pl-row .star.on svg{fill:currentColor}
+.pl-row .star:active{transform:scale(.8)}
+.pl-sub{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 4px}
+.pl-sub:first-child{margin-top:0}
+
+</style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
   h+=`<h3>Bookings</h3><ul>`+BOOKINGS.map(b=>`<li><b>${esc(b.t)}</b> · ${esc(b.by)}${b.note?' · <span class="small">'+esc(b.note)+'</span>':''}</li>`).join('')+`</ul><p class="small">Generated ${new Date().toLocaleDateString()} from ashikm22.github.io/japan-2026</p></body></html>`;
   w.document.write(h);w.document.close();setTimeout(()=>w.print(),400);}
+/* ---------- search ---------- */
+function allStops(){const out=[];DAYS.forEach(d=>{const vs=d.variants?d.variants.map((v,i)=>[Object.assign({},d,v),i]):[[d,undefined]];vs.forEach(([day,vi])=>{day.stops.forEach((st,i)=>out.push({d,day,vi,st,i}));});});return out;}
+function jump(id,vi,i){openDay(id,vi);setTimeout(()=>{const el=document.querySelectorAll('#dStops .stop')[i];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}},380);}
+(function(){const q=document.getElementById('q'),res=document.getElementById('results'),qx=document.getElementById('qx');
+  const hl=(t,s)=>t.replace(new RegExp('('+s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>');
+  const run=()=>{const v=q.value.trim().toLowerCase();qx.classList.toggle('hidden',!v);if(v.length<2){res.classList.add('hidden');res.innerHTML='';return;}
+    const hits=allStops().filter(({st})=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';const blob=[st.n,pl,st.m,...(st.see||[]),...(st.eat||[]),...(st.buy||[]),st.guide||''].join(' ').toLowerCase();return blob.includes(v);}).slice(0,12);
+    res.classList.remove('hidden');
+    res.innerHTML=hits.length?hits.map(({d,day,vi,st,i})=>`<button onclick="jump('${d.id}',${vi===undefined?'undefined':vi},${i})"><span class="ic" style="background:${CATC[st.cat]}">${I[CATI[st.cat]]}</span><span class="txt"><span class="t">${hl(st.n,v)}</span><span class="k">Day ${String(d.n).padStart(2,'0')} · ${d.short} · ${st.t}${vi!==undefined?' · '+day.label:''}</span></span></button>`).join(''):'<div class="none">Nothing in the plan matches. Try a place or a food.</div>';};
+  q.oninput=run;qx.onclick=()=>{q.value='';run();q.focus();};
+  q.onkeydown=e=>{if(e.key==='Escape'){q.value='';run();q.blur();}};})();
+/* ---------- places by city ---------- */
+function renderPlaces(){const byCity={};allStops().forEach(({d,day,vi,st,i})=>{if(!st.p||['hotel','airbnb'].includes(st.p)||st.cat==='transport'||st.cat==='hotel'||st.cat==='flex'||/Shinkansen|Kodama|Ferry|Ropeway|Hankyu|Romancecar|Odawara:|Freepass/i.test(st.n))return;const city=(vi===1&&d.id==='oct15')?'Hakone':CITY[d.id];(byCity[city]=byCity[city]||[]).push({d,vi,st,i});});
+  const order=['Tokyo','Kyoto','Ine & Amanohashidate','Okunoshima','Nara & Osaka','Hakone'];
+  document.getElementById('places').innerHTML=order.map(city=>{const rows=byCity[city]||[];const ideas=IDEAS[city]||[];if(!rows.length&&!ideas.length)return '';
+    const seen=new Set();const uniq=rows.filter(r=>{const k=r.st.n;if(seen.has(k))return false;seen.add(k);return true;});
+    return `<div class="mvg"><button class="mvh" aria-expanded="false" onclick="this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',this.parentNode.classList.contains('open'))"><span class="lbl">${city}</span><span class="cnt">${uniq.length}${ideas.length?' + '+ideas.length:''}</span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner">
+      <div class="pl-sub">In the plan</div>${uniq.map(r=>`<div class="pl-row"><span class="n">${r.st.n}${r.st.must?' <span class="tag must">Must see</span>':''}</span><span class="d">${r.d.short.split(' ')[1]} ${r.d.short.split(' ')[2]}${r.vi===1?' (Hakone)':''}</span></div>`).join('')}
+      ${ideas.length?`<div class="pl-sub">Ideas, not scheduled</div>${ideas.map((x,k)=>`<div class="pl-row"><span class="n">${x[0]}<span class="why">${x[1]}</span></span><button class="star" data-k="${city}-${k}" aria-label="Star this idea"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z"/></svg></button></div>`).join('')}`:''}
+    </div></div></div>`;}).join('');
+  document.querySelectorAll('.pl-row .star').forEach(b=>{b.classList.toggle('on',localStorage.getItem('star:'+b.dataset.k)==='1');b.onclick=()=>{b.classList.toggle('on');localStorage.setItem('star:'+b.dataset.k,b.classList.contains('on')?'1':'0');};});}
 /* ---------- overview ---------- */
 function renderOverview(){
   document.getElementById('cover').replaceWith(mkImg('cover','cover'));
@@ -1048,7 +1140,7 @@ document.getElementById('backBtn').onclick=()=>{document.getElementById('day').c
 })();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
-renderOverview();
+renderOverview();renderPlaces();
 const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
 </script>
 </body>
