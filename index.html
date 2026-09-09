@@ -475,71 +475,50 @@ body.party #dStops .go .gc{display:none}
 body.party #dStops .nowline{margin:0 0 18px}
 body.party #dStops .nowline::before{left:50%;margin-left:-6px}
 
-.confetti{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;background:#0A1230 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1600' preserveAspectRatio='xMidYMid slice'><defs><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234FD1FF'/><stop offset='1' stop-color='%23FF4FA3'/></linearGradient><linearGradient id='b' x1='1' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23FFC24F'/><stop offset='1' stop-color='%234FD1FF'/></linearGradient></defs><rect width='800' height='1600' fill='%230A1230'/><g fill='none' stroke-width='2' stroke-linecap='round'><path d='M-100 300C150 200 250 500 450 380S750 150 900 320' stroke='url(%23a)' opacity='.55'/><path d='M-100 340C150 240 250 540 450 420S750 190 900 360' stroke='url(%23a)' opacity='.3'/><path d='M-100 380C150 280 250 580 450 460S750 230 900 400' stroke='url(%23a)' opacity='.15'/><path d='M-100 900C120 780 300 1100 500 950S760 700 900 880' stroke='url(%23b)' opacity='.5'/><path d='M-100 940C120 820 300 1140 500 990S760 740 900 920' stroke='url(%23b)' opacity='.28'/><path d='M-100 980C120 860 300 1180 500 1030S760 780 900 960' stroke='url(%23b)' opacity='.14'/><path d='M-100 1450C150 1350 250 1650 450 1530S750 1300 900 1470' stroke='url(%23a)' opacity='.45'/><path d='M-100 1490C150 1390 250 1690 450 1570S750 1340 900 1510' stroke='url(%23a)' opacity='.22'/></g><g><circle cx='650' cy='220' r='180' fill='%23FF4FA3' opacity='.12'/><circle cx='120' cy='760' r='220' fill='%234FD1FF' opacity='.12'/><circle cx='700' cy='1250' r='200' fill='%23FFC24F' opacity='.1'/></g></svg>") center/cover no-repeat;transition:opacity .6s var(--ease)}
-.confetti::after{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 20%,rgba(79,209,255,.18),transparent 40%),radial-gradient(circle at 75% 70%,rgba(255,79,163,.16),transparent 40%);animation:glow 12s ease-in-out infinite alternate}
-@keyframes glow{from{transform:translate(0,0) scale(1)}to{transform:translate(-3%,4%) scale(1.08)}}
-body.party .confetti{opacity:1}
-body.party{--bg:#0A1230;--surface:#141C3F;--tint:#1E2750;--line:#26305C;--ink:#F4F6FF;--ink-2:#B9C1E3;--ink-3:#7F89B8;--sh-1:0 4px 16px rgba(0,0,0,.35);--sh-2:0 12px 32px rgba(0,0,0,.5);--accent:#4FD1FF}
-body.party #day .sheet{background:transparent}
-body.party #day .dsw{background:rgba(10,18,48,.94)}
-body.party .aside{background:transparent}
-body.party .desc{color:#B9C1E3}body.party .sec li{color:#C9CFEA}body.party .guide{background:#122A2E}body.party .guide p{color:#BFE7EA}body.party .guide p b{color:#E6FBFF}body.party .sec.tipbox{background:#2A2418}
-body.party .img{background:#1E2750}body.party .img .ph{background:linear-gradient(160deg,#1E2750,#141C3F);color:#4C5688}
-body.party .tag.must{background:#3A1F2A;color:#FF9CC5}body.party .tag.booked{background:#3A3014;color:#FFD46B}body.party .tag.opt{background:var(--tint);color:var(--ink-3)}
-body.party .fab,body.party .garr{background:rgba(20,28,63,.9);color:#F4F6FF}body.party .cta{background:#4FD1FF;color:#0A1230}body.party .cta .d{background:rgba(0,0,0,.1)}
-body.party .dsw button{background:var(--surface)}body.party .dsw button.on{background:#4FD1FF;color:#0A1230}body.party .dsw button.on small{color:rgba(10,18,48,.6)}
-body.party .mapbtn{background:var(--tint)}body.party .seg{background:var(--tint)}
-body.party .nextchip,body.party .sechead .cnt,body.party .gtk .g,body.party .hl,body.party .card,body.party .tip{background:var(--surface)}
-body.party .wx{background:var(--surface)}body.party .stat+.stat{border-color:var(--line)}
-body.party .hl .ck{background:#4FD1FF;color:#0A1230}
-body.party .credit{background:rgba(0,0,0,.5)}
-body.party #dStops .go .gt{background:rgba(10,18,48,.85)}
-body.party #dStops .ic{box-shadow:0 0 0 5px #0A1230,0 4px 12px rgba(0,0,0,.4)}
-body.party #dStops.tl::before{border-left-color:#4FD1FF;opacity:.5}
-body.party .meta .best{color:#FFD46B}body.party .meta .best svg{color:#FFD46B}
-body.party .dots i{background:#26305C}body.party .dots i.on{background:#4FD1FF}
-@media (prefers-reduced-motion:reduce){.confetti::after{animation:none}}
 
 
-/* DisneySea day: refined cards and compact transit */
-body.party #dStops .card{border-radius:22px;background:linear-gradient(180deg,#182352,#131C42);border:1px solid rgba(255,255,255,.06);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+
+/* DisneySea day: light, slightly darker canvas, floating cards, larger lists, compact transit */
+body.party{--bg:#EDEDE8;--accent:#2B5FB3}
+body.party #day .sheet{background:var(--bg)}
+body.party #day .dsw{background:var(--bg)}
+body.party .aside{background:var(--bg)}
+body.party #dStops .card{border-radius:22px;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.04),0 14px 34px rgba(20,18,12,.14)}
 body.party #dStops .card .bd{padding:18px 20px 20px}
-body.party #dStops .card .nm{font-size:17px;font-weight:700;letter-spacing:-.015em;color:#FFFFFF;line-height:1.3}
-body.party #dStops .meta{font-size:13px;color:#A7B0D8;margin-top:9px}
-body.party #dStops .meta .best{color:#FFD46B}
+body.party #dStops .card .nm{font-size:17px;font-weight:700;letter-spacing:-.015em;line-height:1.3}
+body.party #dStops .meta{font-size:13px;margin-top:9px}
 body.party #dStops .tag{font-size:10px;padding:4px 9px}
 body.party #dStops .more .inner .img{border-radius:14px;height:180px}
-body.party #dStops .why{font-size:15px;line-height:1.55;color:#DDE2F7}
-body.party #dStops .sec{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
-body.party #dStops .sec .h{font-size:12px;letter-spacing:.08em;color:#8FD9FF;margin-bottom:8px}
-body.party #dStops .sec .h svg{color:#8FD9FF;width:15px;height:15px}
-body.party #dStops .sec li{font-size:15px;line-height:1.5;color:#EEF1FF;padding:4px 0 4px 16px}
-body.party #dStops .sec li::before{background:#4FD1FF;width:5px;height:5px;top:12px}
-body.party #dStops .sec.tipbox{background:#2B2818;border-radius:14px;padding:12px 14px;border-top:0}
-body.party #dStops .sec.tipbox .h{color:#FFD46B}body.party #dStops .sec.tipbox .h svg{color:#FFD46B}
-body.party #dStops .sec.tipbox li{color:#FFF1C6}body.party #dStops .sec.tipbox li::before{background:#FFD46B}
-body.party #dStops .guide{background:#0F2A2F;border:1px solid rgba(79,209,255,.15);border-radius:14px;padding:12px 14px;margin-top:16px}
-body.party #dStops .guide p{font-size:14.5px;line-height:1.5;color:#CFF3F8}body.party #dStops .guide p b{color:#FFFFFF}
-body.party #dStops .mapbtn{background:#4FD1FF;color:#0A1230;height:44px;font-size:13.5px}
-body.party #dStops .chev{color:#8FD9FF}
+body.party #dStops .why{font-size:15px;line-height:1.55;color:#3D3D3D}
+body.party #dStops .sec{margin-top:16px;padding-top:14px;border-top:1px solid #EEEEEA}
+body.party #dStops .sec .h{font-size:12px;letter-spacing:.08em;color:#2B5FB3;margin-bottom:8px}
+body.party #dStops .sec .h svg{color:#2B5FB3;width:15px;height:15px}
+body.party #dStops .sec li{font-size:15px;line-height:1.5;color:#1F1F1F;padding:4px 0 4px 16px}
+body.party #dStops .sec li::before{background:#2B5FB3;width:5px;height:5px;top:12px}
+body.party #dStops .sec.tipbox{background:#FFF6DC;border-radius:14px;padding:12px 14px;border-top:0}
+body.party #dStops .sec.tipbox .h{color:#8F6A0C}body.party #dStops .sec.tipbox .h svg{color:#C9961C}
+body.party #dStops .sec.tipbox li{color:#4A3B12}body.party #dStops .sec.tipbox li::before{background:#D9A520}
+body.party #dStops .guide{background:#EAF6EE;border-radius:14px;padding:12px 14px;margin-top:16px}
+body.party #dStops .guide p{font-size:14.5px;line-height:1.5;color:#2E4A38}body.party #dStops .guide p b{color:#173A25}
+body.party #dStops .mapbtn{background:#2B5FB3;color:#fff;height:44px;font-size:13.5px}
+body.party #dStops .ic{box-shadow:0 0 0 5px var(--bg),0 6px 14px rgba(0,0,0,.16)}
+body.party #dStops.tl::before{border-left-color:#2B5FB3;opacity:.35}
 /* compact transit: one pill, details on tap */
 body.party #dStops .go{padding:8px 0 12px;gap:6px}
-body.party #dStops .go .gi{width:26px;height:26px;background:#141C3F;border:1px solid rgba(255,255,255,.08);color:#8FD9FF;box-shadow:none}
-body.party #dStops .go .gt{background:#141C3F;border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:6px 14px;font-size:12.5px;color:#DDE2F7;max-width:none}
-body.party #dStops .go .gt b{color:#FFFFFF;font-weight:600}
-body.party #dStops .go .gd{display:none;color:#B9C1E3;margin-top:6px;font-size:13px;line-height:1.45;text-align:center;max-width:300px}
+body.party #dStops .go .gi{width:26px;height:26px;background:#fff;box-shadow:var(--sh-1);color:#2B5FB3}
+body.party #dStops .go .gt{background:#fff;box-shadow:var(--sh-1);border-radius:999px;padding:6px 14px;font-size:12.5px;color:#4A4A4A;max-width:none}
+body.party #dStops .go .gt b{color:#1F1F1F;font-weight:600}
+body.party #dStops .go .gd{display:none;color:#4A4A4A;margin-top:6px;font-size:13px;line-height:1.45;text-align:center;max-width:300px}
 body.party #dStops .go.open .gt{border-radius:16px}
 body.party #dStops .go.open .gd{display:block}
 body.party #dStops .go .gc{display:none}
-/* essentials chips on this day */
-body.party .ess h3{color:#8FD9FF}body.party .chip{background:#141C3F;color:#EEF1FF;font-size:13px;border:1px solid rgba(255,255,255,.06)}
-body.party .hl button{font-size:15px;color:#FFFFFF}body.party .hl button small{color:#A7B0D8}
-body.party .gtk .g b{color:#FFFFFF;font-size:14px}body.party .gtk .g small{color:#A7B0D8}
-
+body.party .hl,body.party .gtk .g,body.party .tip,body.party .wx,body.party .sechead .cnt,body.party .chip{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px rgba(20,18,12,.12)}
+body.party .hl button{font-size:15px}
+body.party .chip{font-size:13px}
+html.dark body.party{--bg:#121212}
 </style>
 </head>
 <body>
-<div class="confetti" aria-hidden="true"></div>
 <div class="app">
 <section class="screen active" id="overview">
   <div class="ov">
@@ -1248,7 +1227,7 @@ function openDay(id,vi){
   const base=DAYS.find(d=>d.id===id);if(!base)return;
   if(vi!==undefined)variantSel[id]=vi;
   const day=base.variants?Object.assign({},base,base.variants[variantSel[id]||0]):base;
-  document.documentElement.style.setProperty('--accent',ACCENT[id]||'#1B1B1B');document.body.classList.toggle('party',id==='oct09');document.querySelector('meta[name=theme-color]').content=id==='oct09'?'#0A1230':(document.documentElement.classList.contains('dark')?'#121212':'#F8F8F6');
+  document.documentElement.style.setProperty('--accent',ACCENT[id]||'#1B1B1B');document.body.classList.toggle('party',id==='oct09');document.querySelector('meta[name=theme-color]').content=id==='oct09'?'#EDEDE8':(document.documentElement.classList.contains('dark')?'#121212':'#F8F8F6');
   const seg=document.getElementById('seg');
   if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
   const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
