@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Japan 2026">
 <title>Japan 2026</title>
+<link rel="preconnect" href="https://images.unsplash.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,7 +40,9 @@ a{color:inherit;text-decoration:none}
 .screen{display:none}.screen.active{display:block}
 
 /* ============ image frames ============ */
-.img{position:relative;overflow:hidden;background:#EDEDEA;background-size:cover;background-position:center}
+.img{position:relative;overflow:hidden;background:#EDEDEA;background-size:cover;background-position:center 45%;background-repeat:no-repeat}
+.img.loaded{animation:fade .35s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
 .img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#C2C2BD;background:linear-gradient(160deg,#EFEFEC 0%,#E4E4DF 100%)}
 .img .ph svg{width:26px;height:26px}
 .img .ph small{position:absolute;right:8px;bottom:6px;font-size:10px;color:#A4A4A0;font-weight:500}
@@ -619,12 +622,35 @@ const CATI={transport:'train',food:'food',attraction:'landmark',hotel:'bed',shop
 const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(--c-attraction)',hotel:'var(--c-hotel)',shopping:'var(--c-shopping)',nature:'var(--c-nature)',booked:'var(--c-booked)',coffee:'var(--c-coffee)',flex:'var(--c-flex)'};
 
 /* ---------- helpers ---------- */
+const WEBP=(()=>{try{return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp')}catch(e){return false}})();
+const DPR=Math.min(window.devicePixelRatio||1,2);
+const FOCUS={tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
+/* target box per role, in CSS px; Unsplash crops server-side to this aspect so the subject stays in frame */
+function box(cls){
+  const vw=Math.min(window.innerWidth,1400);
+  if(cls==='hero'){const g=document.getElementById('gal');return [g&&g.clientWidth||vw,g&&g.clientHeight||Math.round(vw*0.9)];}
+  if(cls==='cover'){const c=document.querySelector('.cover');return [c&&c.clientWidth||vw-48,c&&c.clientHeight||190];}
+  if(cls==='thumb')return [80,80];
+  return [Math.min(vw-48,720),150];
+}
+function srcFor(key,cls){
+  const ph=PH[key];const [w,h]=box(cls);
+  if(ph)return `https://images.unsplash.com/${ph[0]}?auto=format,compress&fit=crop&crop=entropy&w=${Math.round(w*DPR)}&h=${Math.round(h*DPR)}&q=${cls==='thumb'?60:70}`;
+  const d=DIRECT[key];if(d)return WEBP?d.replace(/\.jpg$/,'.webp'):d;
+  return key?IMG_DIR+key+'.jpg':'';
+}
+const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){loadImg(e.target);io.unobserve(e.target);}}),{rootMargin:'300px'}):null;
+function loadImg(d){
+  if(d.dataset.loaded)return;d.dataset.loaded='1';
+  const key=d.dataset.key,cls=d.dataset.cls,ph=PH[key];const src=srcFor(key,cls);if(!src)return;
+  const i=new Image();i.onload=()=>{d.style.backgroundImage=`url("${src}")`;d.style.backgroundPosition=FOCUS[key]||'center 45%';d.classList.add('loaded');if(ph)d.insertAdjacentHTML('beforeend',`<a class="credit" href="https://unsplash.com/@${ph[2]}?utm_source=japan2026&utm_medium=referral" target="_blank" rel="noopener">${ph[1]} / Unsplash</a>`);};i.src=src;
+}
 function mkImg(key,cls){
-  const d=document.createElement('div');d.className='img '+(cls||'');
-  const ph=PH[key];const direct=DIRECT[key];const file=(key&&!ph&&!direct)?IMG_DIR+key+'.jpg':'';
+  const d=document.createElement('div');d.className='img '+(cls||'');d.dataset.key=key||'';d.dataset.cls=cls||'';
+  const file=(key&&!PH[key]&&!DIRECT[key])?IMG_DIR+key+'.jpg':'';
   d.innerHTML=`<div class="ph">${I.photo}${file?`<small>${file}</small>`:''}</div>`;
-  const src=ph?phUrl(ph[0],cls==='cover'||cls==='hero'?1400:800):(direct||file);
-  if(src){const i=new Image();i.onload=()=>{d.style.backgroundImage=`url("${src}")`;d.classList.add('loaded');if(ph)d.insertAdjacentHTML('beforeend',`<a class="credit" href="https://unsplash.com/@${ph[2]}?utm_source=japan2026&utm_medium=referral" target="_blank" rel="noopener">${ph[1]} / Unsplash</a>`);};i.src=src;}
+  if(!key)return d;
+  if(cls==='hero'||cls==='cover')requestAnimationFrame(()=>loadImg(d));else if(io)io.observe(d);else loadImg(d);
   return d;
 }
 function jstNow(){return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Tokyo'}));}
@@ -645,7 +671,7 @@ function renderOverview(){
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);
     const must=day.stops.filter(s=>s.must).length;
     b.innerHTML=`<div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} · ${day.short}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}<span>${day.mode==='driving'?I.car:I.sun}${day.mode==='driving'?'Road trip':day.wx.t+'°'}</span></div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
-    b.appendChild(mkImg(day.hero[0]));list.appendChild(b);
+    b.appendChild(mkImg(day.hero[0],'thumb'));list.appendChild(b);
   });
   const notes=document.getElementById('notes');
   NOTES.forEach(n=>{const d=document.createElement('details');d.className='note';const body=n.html||n.chk.map(c=>`<label class="chk"><input type="checkbox"><span>${c}</span></label>`).join('');d.innerHTML=`<summary>${n.t}${I.chev}</summary><div class="body">${body}</div>`;notes.appendChild(d);});
