@@ -103,17 +103,18 @@ html.dark .count{background:#F2F2F2;color:#141414}
 
 /* ============ day: hero ============ */
 .hero{position:relative;height:40vh;min-height:280px;max-height:400px;overflow:hidden;background:#E9E9E5}
-.gal{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-.gal::-webkit-scrollbar{display:none}
-.gal .img{flex:0 0 100%;height:100%;scroll-snap-align:start}
+.gal{display:flex;height:100%;overflow:visible;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.gal:active{cursor:grabbing}
+.gal .img{flex:0 0 100%;height:100%}
+.gal .img .credit{pointer-events:auto}
 .gal .img .ph svg{width:40px;height:40px}
 .gal .img .ph small{bottom:52px;right:var(--pad)}
 .shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,0) 60%,rgba(0,0,0,.40) 100%)}
 .hero .cap{position:absolute;left:var(--pad);right:var(--pad);bottom:44px;color:#fff;pointer-events:none;text-shadow:0 1px 12px rgba(0,0,0,.35)}
 .hero .cap .k{font-size:12px;font-weight:500;opacity:.85}
 .hero .cap .n{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-top:2px}
-.gdots{position:absolute;left:0;right:0;bottom:32px;display:flex;justify-content:center;gap:5px;pointer-events:none}
-.gdots i{width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.45)}.gdots i.on{background:#fff}
+.gdots{position:absolute;left:0;right:0;bottom:32px;display:flex;justify-content:center;gap:5px}
+.gdots i{width:5px;height:5px;cursor:pointer;padding:0;box-sizing:content-box;border:6px solid transparent;background-clip:padding-box;border-radius:999px;background:rgba(255,255,255,.45)}.gdots i.on{background:#fff}
 .fab{position:absolute;z-index:5;height:44px;min-width:44px;border-radius:999px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:var(--ink)}
 .fab.back{top:calc(var(--sat) + 12px);left:16px;width:44px}
 .garr{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:var(--ink);opacity:.9}
@@ -346,6 +347,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .tip{transition:border-radius .3s var(--ease),box-shadow .3s}
 /* hero parallax + caption crossfade */
 .gal{will-change:transform}
+.hero>.gal{margin-top:var(--py,0px)}
 .hero .cap{transition:opacity .25s var(--ease),transform .25s var(--ease)}
 .hero .cap.sw{opacity:0;transform:translateY(4px)}
 #sheetBody.sl{animation:slideL .36s var(--ease) both}#sheetBody.sr{animation:slideR .36s var(--ease) both}
@@ -518,7 +520,7 @@ const PH={
  hakone:['photo-1773452306873-cb7d63765a73','Lazzzis','lazzzis'],
  cover:['photo-1543223140-fd718dd8b82a','Simon Shim','simonshim']
 };
-const DIRECT={gora:'img/gora.jpg',kawaramachi:'img/kawaramachi.jpg',ashi:'img/ashi.jpg',openair:'img/openair.jpg',shinjukust:'img/shinjukust.jpg',hankyuarashiyama:'img/hankyuarashiyama.jpg',odawara:'img/odawara.jpg',raju:'img/raju.jpg',saray:'img/saray.jpg',skytree:'img/skytree.jpg',sumida:'img/sumida.jpg',tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
+const DIRECT={okuno:'img/okuno.jpg',okunomuseum:'img/okunomuseum.jpg',gora:'img/gora.jpg',kawaramachi:'img/kawaramachi.jpg',ashi:'img/ashi.jpg',openair:'img/openair.jpg',shinjukust:'img/shinjukust.jpg',hankyuarashiyama:'img/hankyuarashiyama.jpg',odawara:'img/odawara.jpg',raju:'img/raju.jpg',saray:'img/saray.jpg',skytree:'img/skytree.jpg',sumida:'img/sumida.jpg',tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
 const STANDIN={okuno:'generic rabbit, not the island',okunomuseum:'generic rabbit',tadanoumi:'generic rabbit',todaiji:'Kofuku-ji, not the Great Buddha hall',naramachi:'Kofuku-ji',narast:'Nara deer',tokyost:'a Shinkansen platform',shinosaka:'a Shinkansen platform',mihara:'a Shinkansen platform',fantasy:'Mediterranean Harbor, not Fantasy Springs',mysterious:'Mediterranean Harbor',medharbor:'same DisneySea photo',tmg:'Kabukicho street, not the observatory',ueno:'Ameyoko, not the park',itoya:'Ginza street',uniqlo:'Ginza street',hozenji:'Dotonbori, not the alley',halalya:'generic wagyu plate',gyumon:'generic wagyu plate',gyumonnara:'generic wagyu plate',honolu:'generic ramen bowl',hakone:'Owakudani, not Hakone-Yumoto',togetsukyo:'bamboo grove, not the bridge',shirakawa:'Hanamikoji, not the canal',higashiyama:'Hanamikoji',teramachi:'Nishiki market',kabukicho:'ok',daikoku:'a Tokyo street at night, not Daikoku PA',yanaka:'a Yanaka lane',amano:'ok',funaya:'the bay from the water, fine',ineura:'fine',ineboat:'fine'};
 const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w||1200}&q=80`;
 
@@ -849,7 +851,7 @@ const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(
 /* ---------- helpers ---------- */
 const WEBP=(()=>{try{return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp')}catch(e){return false}})();
 const DPR=Math.min(window.devicePixelRatio||1,2);
-const FOCUS={openair:'center 50%',gora:'center 60%',skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
+const FOCUS={okuno:'center 35%',okunomuseum:'center 50%',openair:'center 50%',gora:'center 60%',skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
 /* target box per role, in CSS px; Unsplash crops server-side to this aspect so the subject stays in frame */
 function box(cls){
   const vw=Math.min(window.innerWidth,1400);
@@ -947,11 +949,17 @@ function openDay(id,vi){
   const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
   const cap=document.getElementById('cap');let capI=-1;const setCap=i=>{if(i===capI)return;capI=i;cap.classList.add('sw');setTimeout(()=>{cap.classList.remove('sw');},220);const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
-  const gi=()=>Math.max(0,Math.min(day.hero.length-1,Math.round(gal.scrollLeft/gal.clientWidth)));const go=n=>gal.scrollTo({left:Math.max(0,Math.min(day.hero.length-1,n))*gal.clientWidth,behavior:'smooth'});
-  const arr=()=>{document.getElementById('gprev').disabled=gi()===0;document.getElementById('gnext').disabled=gi()===day.hero.length-1;};
-  setCap(0);gal.scrollLeft=0;gal.onscroll=()=>{setCap(gi());arr();};arr();
-  document.getElementById('gprev').onclick=()=>go(gi()-1);document.getElementById('gnext').onclick=()=>go(gi()+1);
-  document.onkeydown=e=>{if(!document.getElementById('day').classList.contains('active'))return;if(e.key==='ArrowRight')go(gi()+1);if(e.key==='ArrowLeft')go(gi()-1);};
+  let gcur=0;const gn=day.hero.length;
+  const goTo=(n,anim=true)=>{gcur=Math.max(0,Math.min(gn-1,n));gal.style.transition=anim?'transform .38s var(--ease)':'none';gal.style.transform=`translateX(${-gcur*100}%)`;setCap(gcur);document.getElementById('gprev').disabled=gcur===0;document.getElementById('gnext').disabled=gcur===gn-1;};
+  gal.style.transform='none';goTo(0,false);
+  document.getElementById('gprev').onclick=()=>goTo(gcur-1);document.getElementById('gnext').onclick=()=>goTo(gcur+1);
+  [...gd.children].forEach((d,i)=>{d.onclick=()=>goTo(i);});
+  let sx=0,sy=0,dx=0,drag=false,axis=null;const w=()=>gal.clientWidth||1;
+  gal.onpointerdown=e=>{sx=e.clientX;sy=e.clientY;dx=0;drag=true;axis=null;gal.setPointerCapture&&gal.setPointerCapture(e.pointerId);gal.style.transition='none';};
+  gal.onpointermove=e=>{if(!drag)return;const mx=e.clientX-sx,my=e.clientY-sy;if(!axis){if(Math.abs(mx)>6||Math.abs(my)>6)axis=Math.abs(mx)>Math.abs(my)?'x':'y';else return;}if(axis!=='x')return;dx=mx;const edge=(gcur===0&&dx>0)||(gcur===gn-1&&dx<0);gal.style.transform=`translateX(calc(${-gcur*100}% + ${edge?dx*0.35:dx}px))`;};
+  const end=()=>{if(!drag)return;drag=false;if(axis==='x'&&Math.abs(dx)>w()*0.18)goTo(gcur+(dx<0?1:-1));else goTo(gcur);};
+  gal.onpointerup=end;gal.onpointercancel=end;gal.onpointerleave=end;
+  document.onkeydown=e=>{if(!document.getElementById('day').classList.contains('active'))return;if(e.key==='ArrowRight')goTo(gcur+1);if(e.key==='ArrowLeft')goTo(gcur-1);};
   const sw=document.getElementById('dsw');
   if(!sw.dataset.built){sw.innerHTML=DAYS.map(d=>`<button data-id="${d.id}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b>${d.variants?'<span class="v" title="Two options"></span>':''}</button>`).join('');sw.dataset.built='1';}
   sw.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.id===day.id));
@@ -975,11 +983,11 @@ function openDay(id,vi){
   day.stops.forEach((s,i)=>{
     const place=s.p&&P[s.p]?P[s.p][0]:'';
     if(s.go&&(s.go.t||s.go.d)){const gdiv=document.createElement('button');gdiv.className='go';gdiv.style.setProperty('--i',i);gdiv.innerHTML=`<span class="gi">${GI[s.go.m]||I.train}</span><span class="gt"><b>${GL[s.go.m]||''}${s.go.t?' · '+s.go.t:''}</b>${s.go.d?`<span class="gd">${s.go.d}</span>`:''}</span>${s.go.d?`<span class="gc">${I.chev}</span>`:''}`;if(s.go.d)gdiv.onclick=()=>gdiv.classList.toggle('open');tl.appendChild(gdiv);}
-    const st=document.createElement('div');st.className='stop'+(i<nowIdx?' done':'');
+    const st=document.createElement('div');st.className='stop open'+(i<nowIdx?' done':'');
     const tags=[i===nowIdx?'<span class="tag now">Now</span>':'',s.must?'<span class="tag must">Must see</span>':'',s.cat==='booked'?'<span class="tag booked">Booked</span>':'',s.halal?'<span class="tag halal">Halal</span>':'',s.opt?'<span class="tag opt">Optional</span>':''].filter(Boolean).join('');
     const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:'';
     const more=`${s.m?`<p class="why">${s.m}</p>`:''}${s.guide?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${s.guide}</p></div>`:''}${sec('See',I.eye,s.see)}${sec('Eat',I.food,s.eat)}${sec('Buy',I.bag,s.buy)}${sec('Insider tip',I.bulb,s.tip,'tipbox')}${maps}`;
-    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="false"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}<em>${place}</em></span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></button>`;
+    st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><button class="card" aria-expanded="true"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${place?`<span class="pl">${I.pin}<em>${place}</em></span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></button>`;
     const inner=st.querySelector('.more .inner');if(s.p==='hotel')inner.prepend(mkImg('tokyohotel'));else if(s.p==='airbnb')inner.prepend(mkImg('kyotoapt'));else if(s.key&&s.p&&P[s.p][0]!=='')inner.prepend(mkImg(s.p));
     st.style.setProperty('--i',i);
     st.querySelector('.card').onclick=e=>{if(e.target.closest('a'))return;st.classList.toggle('open');st.querySelector('.card').setAttribute('aria-expanded',st.classList.contains('open'));};
@@ -1005,7 +1013,7 @@ document.getElementById('backBtn').onclick=()=>{document.getElementById('day').c
   const gal=document.getElementById('gal');const hero=document.querySelector('.hero');const cta=document.getElementById('cta');
   let lastY=0,ticking=false;const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=window.scrollY;
-    if(!rm&&window.innerWidth<900&&document.getElementById('day').classList.contains('active')){const hh=hero.offsetHeight;if(y<hh)gal.style.transform=`translateY(${y*0.28}px)`;}
+    if(!rm&&window.innerWidth<900&&document.getElementById('day').classList.contains('active')){const hh=hero.offsetHeight;if(y<hh)hero.style.setProperty('--py',`${y*0.28}px`);}
     if(window.innerWidth<900){if(y>240&&y>lastY+6)cta.classList.add('hide');else if(y<lastY-6||y<240)cta.classList.remove('hide');}
     lastY=y;ticking=false;});},{passive:true});
 })();
