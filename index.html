@@ -348,6 +348,9 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .gal{will-change:transform}
 .hero .cap{transition:opacity .25s var(--ease),transform .25s var(--ease)}
 .hero .cap.sw{opacity:0;transform:translateY(4px)}
+#sheetBody.sl{animation:slideL .36s var(--ease) both}#sheetBody.sr{animation:slideR .36s var(--ease) both}
+@keyframes slideL{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}@keyframes slideR{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+#sheetBody[data-nostagger] .stop,#sheetBody[data-nostagger] .go{animation:none}
 /* sticky day row gains a shadow when stuck */
 .dsw{transition:box-shadow .3s var(--ease)}
 .dsw.stuck{box-shadow:0 10px 24px -14px rgba(0,0,0,.28);clip-path:inset(0 0 -40px 0)}
@@ -390,7 +393,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
 .daycard .t{font-size:15.5px}
 .img .credit{font-size:9px;letter-spacing:.01em}
 .stay.open .more,.mvg.open .more{margin-top:0;padding-top:0}
-@media (prefers-reduced-motion:reduce){.screen.active,.stop,.img.loaded,.note[open] .body{animation:none!important}.more,.chev,.cta,.gal{transition:none!important}.img .ph::after{display:none}}
+@media (prefers-reduced-motion:reduce){#sheetBody.sl,#sheetBody.sr{animation:none}.screen.active,.stop,.img.loaded,.note[open] .body{animation:none!important}.more,.chev,.cta,.gal{transition:none!important}.img .ph::after{display:none}}
 
 </style>
 </head>
@@ -431,6 +434,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   </div>
   <div class="sheet">
     <div class="dsw" id="dsw"></div>
+    <div id="sheetBody">
     <div class="seg hidden" id="seg"></div>
     <div class="nextchip hidden" id="nextchip"></div>
     <div class="daterow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dDate"></span></div>
@@ -440,6 +444,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
     <div class="tips" id="dTips"></div><div class="dots" id="dDots"></div>
     <div class="sechead"><h2>Stops & activities</h2><span class="cnt" id="dCnt"></span></div>
     <div class="tl" id="dStops"></div>
+  </div>
   </div>
   <aside class="aside"><div class="ess" id="dEss"></div>
   <a class="cta" id="cta" target="_blank" rel="noopener"><span id="ctaTxt">Open route in Maps</span><span class="d"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l4 8-4-2-4 2 4-8zm0 20l-4-8 4 2 4-2-4 8zM2 12l8-4-2 4 2 4-8-4zm20 0l-8 4 2-4-2-4 8 4z"/></svg></span></a>
@@ -946,8 +951,13 @@ function openDay(id,vi){
   setCap(0);gal.scrollLeft=0;gal.onscroll=()=>{setCap(gi());arr();};arr();
   document.getElementById('gprev').onclick=()=>go(gi()-1);document.getElementById('gnext').onclick=()=>go(gi()+1);
   document.onkeydown=e=>{if(!document.getElementById('day').classList.contains('active'))return;if(e.key==='ArrowRight')go(gi()+1);if(e.key==='ArrowLeft')go(gi()-1);};
-  const sw=document.getElementById('dsw');sw.innerHTML=DAYS.map(d=>`<button class="${d.id===day.id?'on':''}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b>${d.variants?'<span class="v" title="Two options"></span>':''}</button>`).join('');
-  const onb=sw.querySelector('.on');if(onb)requestAnimationFrame(()=>{sw.scrollLeft=onb.offsetLeft-sw.clientWidth/2+onb.offsetWidth/2;});
+  const sw=document.getElementById('dsw');
+  if(!sw.dataset.built){sw.innerHTML=DAYS.map(d=>`<button data-id="${d.id}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b>${d.variants?'<span class="v" title="Two options"></span>':''}</button>`).join('');sw.dataset.built='1';}
+  sw.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.id===day.id));
+  const onb=sw.querySelector('.on');if(onb){const left=onb.offsetLeft-sw.clientWidth/2+onb.offsetWidth/2;sw.scrollTo({left:Math.max(0,left),behavior:switching?'smooth':'auto'});}
+  // directional slide of the sheet content when moving between days
+  const body=document.getElementById('sheetBody');const prevIdx=DAYS.findIndex(d=>d.id===(window.__lastDay||day.id));const dir=DAYS.findIndex(d=>d.id===day.id)-prevIdx;window.__lastDay=day.id;
+  if(switching&&!sameDay){body.classList.remove('sl','sr');void body.offsetWidth;body.classList.add(dir>0?'sl':'sr');body.dataset.nostagger='1';}else{body.classList.remove('sl','sr');delete body.dataset.nostagger;}
   document.getElementById('dayPill').textContent=`Day ${String(day.n).padStart(2,'0')} of ${DAYS.length}`;
   document.getElementById('dDate').textContent=day.d;
   document.getElementById('dTitle').textContent=day.title;
