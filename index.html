@@ -115,6 +115,13 @@ a{color:inherit;text-decoration:none}
 .dsw button b{font-size:15px;font-weight:600;letter-spacing:-.01em}
 .dsw button.on{background:var(--ink);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.18)}
 .dsw button.on small{color:rgba(255,255,255,.6)}
+.seg{display:inline-flex;background:var(--tint);border-radius:999px;padding:3px;margin-bottom:14px;position:relative}
+.seg button{position:relative;z-index:1;padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--ink-2);min-width:96px;text-align:center;transition:color .25s}
+.seg button.on{color:var(--ink)}
+.seg .pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);background:var(--surface);border-radius:999px;box-shadow:var(--sh-1);transition:transform .32s var(--spring)}
+.seg.b .pill{transform:translateX(100%)}
+.dsw button .v{position:absolute;top:6px;right:6px;width:5px;height:5px;border-radius:999px;background:var(--c-booked)}
+.dsw button{position:relative}
 .daterow{display:flex;align-items:center;gap:7px;color:var(--ink-2);font-size:13px;font-weight:500}
 .daterow svg{width:15px;height:15px;color:var(--ink-3)}
 .titlerow{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:6px}
@@ -366,6 +373,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   </div>
   <div class="sheet">
     <div class="dsw" id="dsw"></div>
+    <div class="seg hidden" id="seg"></div>
     <div class="daterow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dDate"></span></div>
     <div class="titlerow"><h1 id="dTitle"></h1><div class="wx" id="dWx"></div></div>
     <p class="desc" id="dDesc"></p>
@@ -441,6 +449,10 @@ const PH={
  shimokita:['photo-1626666756883-a1c9de6fab60','Susann Schuster','susannschuster'],
  arashiyama:['photo-1632923754832-60642c12a7ed','Duong Nguyen','duonguyen'],
  togetsukyo:['photo-1632923754832-60642c12a7ed','Duong Nguyen','duonguyen'],
+ hakoneshrine:['photo-1613644384640-605c535ee94d','Faris Ariffin','farisck92'],
+ ashi:['photo-1613644384640-605c535ee94d','Faris Ariffin','farisck92'],
+ owakudani:['photo-1773452306873-cb7d63765a73','Lazzzis','lazzzis'],
+ hakone:['photo-1773452306873-cb7d63765a73','Lazzzis','lazzzis'],
  cover:['photo-1543223140-fd718dd8b82a','Simon Shim','simonshim']
 };
 const DIRECT={tokyohotel:'img/tokyo-hotel.jpg',kyotoapt:'img/kyoto-apt-1.jpg',kyotoapt2:'img/kyoto-apt-2.jpg'};
@@ -448,7 +460,7 @@ const phUrl=(id,w)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${
 
 const CAT={transport:{c:'#DCE9FB',f:'#2A62B8',e:'🚉'},food:{c:'#FDE8D6',f:'#C6631B',e:'🍜'},attraction:{c:'#FBE1DB',f:'#BF3F27',e:'⛩️'},hotel:{c:'#E9E2FB',f:'#5F41C4',e:'🏨'},shopping:{c:'#FBDDEA',f:'#BE2F69',e:'🛍️'},nature:{c:'#DDF3E5',f:'#237A46',e:'🌿'},booked:{c:'#FBF0CF',f:'#8F6A0C',e:'🎟️'},coffee:{c:'#EEE3DA',f:'#7A5033',e:'☕'},flex:{c:'#ECECEE',f:'#6E6E73',e:'✦'}};
 const P={ // key: [maps query, emoji]
- narita:['Narita International Airport','✈️'],haneda:['Haneda Airport Terminal 3','✈️'],kaminarimon:['Kaminarimon Gate Asakusa','🏮'],nakamise:['Nakamise Shopping Street','🎏'],sensoji:['Sensoji Temple','⛩️'],halalya:['HALAL-Ya Asakusa','🍱'],sumida:['Sumida Park Asakusa','🌉'],skytree:['Tokyo Skytree','🗼'],shibuya:['Shibuya Scramble Crossing','🚦'],gyumon:['GYUMON Shibuya halal wagyu','🥩'],disney:['Tokyo DisneySea','🌋'],fantasy:['Fantasy Springs Tokyo DisneySea','🧚'],mysterious:['Mysterious Island Tokyo DisneySea','🌋'],medharbor:['Mediterranean Harbor Tokyo DisneySea','⛵'],tokyost:['Tokyo Station','🚄'],kyotost:['Kyoto Station','🚄'],nishiki:['Nishiki Market Kyoto','🍢'],teramachi:['Teramachi Street Kyoto','🏮'],saray:['Istanbul Saray Kyoto','🥙'],fushimi:['Fushimi Inari Taisha','⛩️'],kiyomizu:['Kiyomizu-dera','🏯'],ninenzaka:['Ninenzaka Kyoto','🍵'],raju:['Raju halal Indian restaurant Kyoto','🍛'],higashiyama:['Higashiyama Kyoto','🏘️'],yasaka:['Yasaka Shrine','🏮'],gion:['Hanamikoji Street Gion','👘'],shirakawa:['Gion Shirakawa','🌳'],amano:['Amanohashidate','🌲'],ineura:['Ineura Park','🛶'],funaya:['Funayanosato Ine','🏡'],ineboat:['Ine Bay sightseeing boat','⛴️'],shinosaka:['Shin-Osaka Station','🚄'],mihara:['Mihara Station','🚉'],tadanoumi:['Tadanoumi Port','🐰'],okuno:['Okunoshima','🐇'],okunomuseum:['Okunoshima Poison Gas Museum','🏚️'],narast:['JR Nara Station','🚉'],narapark:['Nara Park','🦌'],todaiji:['Todai-ji','🧘'],gyumonnara:['GYUMON Nara halal','🥩'],naramachi:['Naramachi','🏘️'],shinsaibashi:['Shinsaibashi-suji Shopping Street','🛍️'],dotonbori:['Dotonbori Glico Sign','🏃'],hozenji:['Hozenji Yokocho','🕯️'],alis:["Ali's Kitchen Osaka halal",'🍛'],ginza:['Ginza Tokyo','💎'],akiba:['Akihabara Electric Town','🎮'],hakone:['Hakone-Yumoto','♨️'],ueno:['Ueno Park','🌳'],ameyoko:['Ameyoko','🏪'],yanaka:['Yanaka Ginza','🐈'],uniqlo:['UNIQLO Ginza','👕'],itoya:['Ginza Itoya','✒️'],teamlab:['teamLab Planets TOKYO','💡'],tmg:['Tokyo Metropolitan Government Building observatory','🌆'],kabukicho:['Kabukicho Shinjuku','🎆'],omoide:['Omoide Yokocho','🏮'],honolu:['Honolu Shinjuku Gyoenmae halal ramen','🍜'],daikoku:['Daikoku Parking Area','🏎️'],donki:['MEGA Don Quijote Shibuya','🐧'],shimokita:['Shimokitazawa','🎧'],hotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],airbnb:['Hankyu Arashiyama Station','🏠'],tokyohotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],kyotoapt:['Forestage Arashiyama','🏠'],kyotoapt2:['Forestage Arashiyama','🏠'],arashiyama:['Arashiyama Bamboo Grove','🎋'],togetsukyo:['Togetsukyo Bridge','🌉'],sagaarashiyama:['Saga-Arashiyama Station','🚉']
+ narita:['Narita International Airport','✈️'],haneda:['Haneda Airport Terminal 3','✈️'],kaminarimon:['Kaminarimon Gate Asakusa','🏮'],nakamise:['Nakamise Shopping Street','🎏'],sensoji:['Sensoji Temple','⛩️'],halalya:['HALAL-Ya Asakusa','🍱'],sumida:['Sumida Park Asakusa','🌉'],skytree:['Tokyo Skytree','🗼'],shibuya:['Shibuya Scramble Crossing','🚦'],gyumon:['GYUMON Shibuya halal wagyu','🥩'],disney:['Tokyo DisneySea','🌋'],fantasy:['Fantasy Springs Tokyo DisneySea','🧚'],mysterious:['Mysterious Island Tokyo DisneySea','🌋'],medharbor:['Mediterranean Harbor Tokyo DisneySea','⛵'],tokyost:['Tokyo Station','🚄'],kyotost:['Kyoto Station','🚄'],nishiki:['Nishiki Market Kyoto','🍢'],teramachi:['Teramachi Street Kyoto','🏮'],saray:['Istanbul Saray Kyoto','🥙'],fushimi:['Fushimi Inari Taisha','⛩️'],kiyomizu:['Kiyomizu-dera','🏯'],ninenzaka:['Ninenzaka Kyoto','🍵'],raju:['Raju halal Indian restaurant Kyoto','🍛'],higashiyama:['Higashiyama Kyoto','🏘️'],yasaka:['Yasaka Shrine','🏮'],gion:['Hanamikoji Street Gion','👘'],shirakawa:['Gion Shirakawa','🌳'],amano:['Amanohashidate','🌲'],ineura:['Ineura Park','🛶'],funaya:['Funayanosato Ine','🏡'],ineboat:['Ine Bay sightseeing boat','⛴️'],shinosaka:['Shin-Osaka Station','🚄'],mihara:['Mihara Station','🚉'],tadanoumi:['Tadanoumi Port','🐰'],okuno:['Okunoshima','🐇'],okunomuseum:['Okunoshima Poison Gas Museum','🏚️'],narast:['JR Nara Station','🚉'],narapark:['Nara Park','🦌'],todaiji:['Todai-ji','🧘'],gyumonnara:['GYUMON Nara halal','🥩'],naramachi:['Naramachi','🏘️'],shinsaibashi:['Shinsaibashi-suji Shopping Street','🛍️'],dotonbori:['Dotonbori Glico Sign','🏃'],hozenji:['Hozenji Yokocho','🕯️'],alis:["Ali's Kitchen Osaka halal",'🍛'],ginza:['Ginza Tokyo','💎'],akiba:['Akihabara Electric Town','🎮'],hakone:['Hakone-Yumoto Station','♨️'],odawara:['Odawara Station','🚄'],gora:['Gora Station Hakone','🚞'],owakudani:['Owakudani','🌋'],togendai:['Togendai Port','🚠'],ashi:['Lake Ashi Hakone sightseeing cruise','⛵'],hakoneshrine:['Hakone Shrine peace torii','⛩️'],openair:['Hakone Open-Air Museum','🗿'],shinjukust:['Shinjuku Station','🚉'],ueno:['Ueno Park','🌳'],ameyoko:['Ameyoko','🏪'],yanaka:['Yanaka Ginza','🐈'],uniqlo:['UNIQLO Ginza','👕'],itoya:['Ginza Itoya','✒️'],teamlab:['teamLab Planets TOKYO','💡'],tmg:['Tokyo Metropolitan Government Building observatory','🌆'],kabukicho:['Kabukicho Shinjuku','🎆'],omoide:['Omoide Yokocho','🏮'],honolu:['Honolu Shinjuku Gyoenmae halal ramen','🍜'],daikoku:['Daikoku Parking Area','🏎️'],donki:['MEGA Don Quijote Shibuya','🐧'],shimokita:['Shimokitazawa','🎧'],hotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],airbnb:['Hankyu Arashiyama Station','🏠'],tokyohotel:['Mitsui Garden Hotel Jingugaien Tokyo Premier','🏨'],kyotoapt:['Forestage Arashiyama','🏠'],kyotoapt2:['Forestage Arashiyama','🏠'],arashiyama:['Arashiyama Bamboo Grove','🎋'],togetsukyo:['Togetsukyo Bridge','🌉'],sagaarashiyama:['Saga-Arashiyama Station','🚉']
 };
 /* stop fields: t time, n name, p place key, cat, key (hero photo), must, opt, halal, m why, see/eat/buy/tip arrays */
 const DAYS=[
@@ -576,7 +588,43 @@ const DAYS=[
  ess:{wear:['Tee','Light trousers','Walking shoes','Umbrella'],eat:['Nakatanidou mochi','Wagyu ramen','Biryani at Ali\'s'],buy:['Deer crackers','Deer stationery','Osaka novelties']}},
 
 {id:'oct15',n:9,d:'Thursday, 15 October',short:'Thu 15 Oct',title:'Kyoto → Tokyo',hero:['arashiyama','tokyost','ginza'],mode:'transit',wx:{t:24,c:'Mild',i:'🌤️',ll:[35.68,139.77]},
- desc:'Bamboo Grove at dawn while it is empty, then a clean transfer day. Direct Shinkansen, check in, shower, rest. One district in the evening, nothing more. Hakone stays optional.',
+ variants:[
+ {label:'Direct',title:'Kyoto → Tokyo',hero:['arashiyama','tokyost','ginza'],
+  desc:'Bamboo Grove at dawn while it is empty, then a clean transfer day. Direct Shinkansen, check in, shower, rest. One district in the evening, nothing more.',
+  stats:[['07:00','Bamboo Grove'],['2h 15m','Shinkansen']],
+  tips:[{k:'tip',h:'Direct Kyoto → Tokyo is the easy version.',t:'Your body will thank you after Ine, Okunoshima and Nara/Osaka. Switch to the Hakone branch above if the group feels fresh.'},{k:'gem',h:'Bamboo Grove at 07:00.',t:'Ten minutes from the door, silent, and yours for an hour.'},{k:'wear',h:'Travel clothes.',t:'Full apartment sweep: fridge, chargers, bathroom, wardrobes, passport.'},{k:'food',h:'Evening: pick one of Ginza, Akihabara or Shibuya.',t:'Then sleep.'}],
+  stops:[
+  {t:'07:00',n:'Arashiyama Bamboo Grove',p:'arashiyama',cat:'nature',key:true,guide:"Enter the grove from the Nonomiya shrine side at 07:00 and walk to the Okochi Sanso gate. By nine it is a queue.",must:true,m:'Ten minutes on foot from the apartment. At 07:00 it is empty and silent; by 09:00 it is a queue.',see:['Bamboo Grove path','Tenryu-ji gardens from 08:30','Togetsukyo Bridge with the hills behind','Percent Arabica on the riverbank for coffee']},
+  {t:'09:00',n:'Apartment checkout sweep',p:'airbnb',cat:'hotel',m:'Fridge, chargers, bathroom, wardrobes, bags, passport. Ship big luggage to the Tokyo hotel with Yamato if you want free hands.'},
+  {t:'10:00',n:'JR Saga-Arashiyama → Kyoto Station',p:'sagaarashiyama',cat:'transport',m:'15 minutes.'},
+  {t:'10:45',n:'Shinkansen Kyoto → Tokyo',p:'kyotost',cat:'booked',guide:"Ride the escalators to the rooftop Skyway. Free, and the big staircase lights up at night.",m:'Fuji is on the left side this direction (seats A).'},
+  {t:'13:00',n:'Tokyo hotel check-in',p:'tokyost',cat:'hotel',key:true,guide:"Ekiben-ya Matsuri opens at 05:30. Get the beef tongue bento, and a hot tea from the platform machine, the cans come warm.",m:'Shower. Rest. No giant sightseeing block.'},
+  {t:'18:00',n:'Pick one: Ginza, Akihabara or Shibuya',p:'ginza',cat:'flex',guide:"Ginza Six rooftop garden is free and always empty. Best place to sit down in Ginza.",opt:true,m:'Ginza for a calm evening and window shopping. Akihabara for gaming, retro consoles and electronics.',see:['Ginza main street closes to cars on weekends only, so tonight it is normal traffic','Akihabara Radio Kaikan and Super Potato retro games']}],
+ ess:{wear:['Travel clothes'],eat:['One good dinner'],buy:['Nothing today']}},
+ {label:'Via Hakone',title:'Kyoto → Hakone → Tokyo',hero:['hakoneshrine','owakudani','arashiyama'],mode:'transit',wx:{t:21,c:'Misty',i:'🌥️',ll:[35.23,139.02]},
+  desc:'The scenic route. Shinkansen to Odawara, then the classic Hakone loop: mountain railway to Gora, cable car and ropeway over the sulphur valley, pirate ship across Lake Ashi, the torii on the water, and the Romancecar into Shinjuku by evening. Luggage goes ahead by courier.',
+  stats:[['06:30','Bamboo Grove'],['5h 30m','Hakone loop']],
+  tips:[{k:'tip',h:'Send the big suitcases ahead on the 14th.',t:'Yamato TA-Q-BIN from the Ministop by the station, about ¥2,500 a bag, arrives at the Tokyo hotel next day. Hakone with a suitcase is misery.'},{k:'tip',h:'Buy the Hakone Freepass at Odawara.',t:'Covers the Tozan railway, cable car, ropeway, pirate ship and buses for two days. One ticket, no queues at each leg.'},{k:'wear',h:'Hakone is 3 to 4°C cooler than Kyoto and often misty.',t:'Long trousers, tee, light fleece, rain shell, real shoes. The ropeway stops in strong wind.'},{k:'food',h:'Owakudani black eggs.',t:'Boiled in the sulphur springs, shells turn black, one egg supposedly adds seven years. Buy the bag of four.'},{k:'gem',h:'Romancecar front-row observation seats.',t:'Book the GSE train, seats 1A to 1D face a full-width window. Sells out, so reserve the day before.'}],
+  stops:[
+   {t:'06:30',n:'Arashiyama Bamboo Grove',p:'arashiyama',cat:'nature',must:true,guide:"Half an hour is enough today. Nonomiya side in, Okochi Sanso gate, back.",m:'Quick dawn walk before the long day.'},
+   {t:'07:45',n:'Apartment checkout sweep',p:'airbnb',cat:'hotel',m:'Fridge, chargers, bathroom, passport. Big luggage already gone by courier.'},
+   {t:'08:20',n:'JR Saga-Arashiyama → Kyoto Station',p:'sagaarashiyama',cat:'transport',m:'15 minutes.'},
+   {t:'09:10',n:'Shinkansen Kyoto → Odawara',p:'odawara',cat:'booked',key:true,m:'Hikari services stop at Odawara, about 2h 05m. Nozomi does not stop, so book the right train. Fuji on the left, seats A, about 30 minutes before Odawara.',guide:"Sit on the left, seats A. Fuji appears around Shin-Fuji and stays with you for ten minutes if the sky is clear."},
+   {t:'11:20',n:'Odawara: Hakone Freepass',p:'odawara',cat:'transport',m:'Odakyu counter at the station. Then the Hakone Tozan line to Hakone-Yumoto, 15 minutes.',buy:['Hakone Freepass, 2-day, from Odawara']},
+   {t:'11:50',n:'Hakone Tozan railway to Gora',p:'gora',cat:'transport',key:true,must:true,m:'Switchback mountain train, 40 minutes, the driver walks to the other end at each reversal.',see:['Three switchbacks','Hydrangea slopes (leaves, not flowers, in October)'],guide:"Stand at the front window. The train reverses three times and the conductor swaps ends each time; kids love it."},
+   {t:'12:40',n:'Lunch at Gora',p:'gora',cat:'food',m:'Station cafés and soba shops. Keep it quick.',eat:['Soba','Tofu set','Onigiri from the station shop']},
+   {t:'13:20',n:'Hakone Open-Air Museum',p:'openair',cat:'attraction',opt:true,m:'Sculpture park with a Picasso pavilion and a foot bath. One stop below Gora. Only if the ropeway is closed for gas or wind.',see:['Symphonic Sculpture stained-glass tower','Hot-spring foot bath']},
+   {t:'13:30',n:'Cable car + ropeway to Owakudani',p:'owakudani',cat:'nature',key:true,must:true,m:'Cable car Gora → Sounzan, then the ropeway over the steaming valley. Fuji sits behind the sulphur vents on a clear day.',see:['Sulphur vents from the gondola','Fuji from the Owakudani terrace'],eat:['Black eggs, bag of four','Black-egg soft serve'],guide:"Eat the black egg on the terrace facing Fuji. If the smell is strong the vents are active and the view is best."},
+   {t:'14:45',n:'Ropeway down to Togendai',p:'togendai',cat:'transport',m:'Lake Ashi opens up below on the descent.'},
+   {t:'15:10',n:'Lake Ashi pirate ship',p:'ashi',cat:'attraction',key:true,must:true,m:'Sightseeing cruise Togendai → Moto-Hakone, about 30 minutes.',see:['Fuji over the lake from the deck','Hakone Shrine torii from the water'],guide:"The ¥500 first-class upgrade gets you the bow deck with nobody in your photos."},
+   {t:'15:45',n:'Hakone Shrine torii',p:'hakoneshrine',cat:'attraction',key:true,must:true,m:'The red gate standing in the lake, a short walk along the shore from Moto-Hakone.',tip:['The photo queue for the torii runs 20 to 40 minutes; join it, then climb the cedar-lined steps to the shrine itself'],guide:"Queue for the torii, everyone does. Then the shrine steps under the cedars are the quiet half nobody bothers with."},
+   {t:'16:45',n:'Bus to Hakone-Yumoto',p:'hakone',cat:'transport',m:'Route H or K, about 35 minutes, covered by the Freepass. Yumoto has the souvenir street if there is time.',buy:['Yosegi marquetry puzzle boxes, the Hakone craft','Onsen manju']},
+   {t:'17:50',n:'Romancecar to Shinjuku',p:'shinjukust',cat:'booked',key:true,must:true,m:'Limited express, about 85 minutes, reserved seats. Book the day before.',guide:"Front observation row on the GSE if you can get it; otherwise any window on the right for the last of the light."},
+   {t:'19:20',n:'Shinjuku → Mitsui Garden Hotel',p:'hotel',cat:'hotel',m:'Oedo line two stops to Kokuritsu-Kyogijo, or a ten-minute taxi. Luggage waiting at reception.'},
+   {t:'20:00',n:'Dinner near the hotel and sleep',cat:'food',m:'Long day. Something close.'}],
+  ess:{wear:['Long trousers','Light fleece','Rain shell','Walking shoes'],eat:['Black eggs','Soba at Gora','Onsen manju'],buy:['Hakone Freepass','Yosegi puzzle box']}}
+ ],
+desc:'Bamboo Grove at dawn while it is empty, then a clean transfer day. Direct Shinkansen, check in, shower, rest. One district in the evening, nothing more. Hakone stays optional.',
  stats:[['07:00','Bamboo Grove'],['2h 15m','Shinkansen']],
  tips:[{k:'tip',h:'Direct Kyoto → Tokyo is the default.',t:'Your body will thank you after Ine, Okunoshima and Nara/Osaka.'},{k:'gem',h:'Hakone variant only if you insist.',t:'Kyoto → Odawara → Hakone → Tokyo, luggage forwarded from Kyoto. Hakone runs 20 to 21°C by day, 13 to 14°C at night.'},{k:'wear',h:'Travel clothes.',t:'Full apartment sweep: fridge, chargers, bathroom, wardrobes, passport.'},{k:'food',h:'Evening: pick one of Ginza, Akihabara or Shibuya.',t:'Then sleep.'}],
  stops:[
@@ -585,8 +633,7 @@ const DAYS=[
   {t:'10:00',n:'JR Saga-Arashiyama → Kyoto Station',p:'sagaarashiyama',cat:'transport',m:'15 minutes.'},
   {t:'10:45',n:'Shinkansen Kyoto → Tokyo',p:'kyotost',cat:'booked',guide:"Ride the escalators to the rooftop Skyway. Free, and the big staircase lights up at night.",m:'Fuji is on the left side this direction (seats A).'},
   {t:'13:00',n:'Tokyo hotel check-in',p:'tokyost',cat:'hotel',key:true,guide:"Ekiben-ya Matsuri opens at 05:30. Get the beef tongue bento, and a hot tea from the platform machine, the cans come warm.",m:'Shower. Rest. No giant sightseeing block.'},
-  {t:'18:00',n:'Pick one: Ginza, Akihabara or Shibuya',p:'ginza',cat:'flex',guide:"Ginza Six rooftop garden is free and always empty. Best place to sit down in Ginza.",opt:true,m:'Ginza for a calm evening and window shopping. Akihabara for gaming, retro consoles and electronics.',see:['Ginza main street closes to cars on weekends only, so tonight it is normal traffic','Akihabara Radio Kaikan and Super Potato retro games']},
-  {t:'18:30',n:'Hakone (optional variant)',p:'hakone',cat:'flex',opt:true,m:'Only with luggage forwarding. Cooler and wetter than Tokyo. Ropeway, Owakudani black eggs, Lake Ashi pirate ship.'}],
+  {t:'18:00',n:'Pick one: Ginza, Akihabara or Shibuya',p:'ginza',cat:'flex',guide:"Ginza Six rooftop garden is free and always empty. Best place to sit down in Ginza.",opt:true,m:'Ginza for a calm evening and window shopping. Akihabara for gaming, retro consoles and electronics.',see:['Ginza main street closes to cars on weekends only, so tonight it is normal traffic','Akihabara Radio Kaikan and Super Potato retro games']}],
  ess:{wear:['Travel clothes'],eat:['One good dinner'],buy:['Nothing today']}},
 
 {id:'oct16',n:10,d:'Friday, 16 October',short:'Fri 16 Oct',title:'Ueno & Ginza',hero:['ameyoko','yanaka','uniqlo','itoya'],mode:'transit',wx:{t:24,c:'Showers',i:'🌦️',ll:[35.71,139.77]},
@@ -662,7 +709,8 @@ const MOVES=[
  {d:'12 Oct',t:'08:00',from:'Kyoto',to:'Amanohashidate and Ine',mode:'car',how:'Rental car, about 2 h each way. Driver needs a 1949-format International Driving Permit. ETC card for tolls',st:'to book'},
  {d:'13 Oct',t:'05:30',from:'Kyoto',to:'Okunoshima',mode:'shinkansen',how:'Shin-Osaka → Mihara by Shinkansen, Kure line to Tadanoumi, 15 min ferry',st:'to book'},
  {d:'14 Oct',t:'07:30',from:'Kyoto',to:'Nara, then Osaka',mode:'train',how:'JR or Kintetsu to Nara, Kintetsu to Osaka-Namba, JR back to Kyoto at night',st:'suica'},
- {d:'15 Oct',t:'10:30',from:'Kyoto',to:'Tokyo',mode:'shinkansen',how:'Nozomi, about 2h 15m. Optional Hakone detour with luggage forwarded by Yamato',st:'to book'},
+ {d:'15 Oct',t:'10:45',from:'Kyoto',to:'Tokyo',mode:'shinkansen',how:'Direct option: Nozomi, about 2h 15m',st:'to book'},
+ {d:'15 Oct',t:'09:10',from:'Kyoto',to:'Hakone, then Shinjuku',mode:'shinkansen',how:'Hakone option: Hikari to Odawara 2h 05m, Hakone Freepass loop, Romancecar Hakone-Yumoto → Shinjuku 85 min. Suitcases sent ahead by Yamato on the 14th',st:'to book'},
  {d:'17 Oct',t:'21:30',from:'Tokyo',to:'Daikoku PA, Yokohama',mode:'car',how:'Guided JDM tour with pickup. Not reachable by train',st:'to book'},
  {d:'19 Oct',t:'05:30',from:'Tokyo',to:'Haneda (Sydney, Kochi)',mode:'flight',how:'Taxi at 05:30, flights 08:30 and 08:50',st:'booked'},
  {d:'19 Oct',t:'17:00',from:'Tokyo',to:'Narita (Dubai)',mode:'flight',how:'Narita Express from Tokyo Station, flight 22:30',st:'booked'}
@@ -754,7 +802,7 @@ function renderOverview(){
   DAYS.forEach(day=>{
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);
     const must=day.stops.filter(s=>s.must).length;
-    b.innerHTML=`<div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} · ${day.short}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}<span>${day.mode==='driving'?I.car:I.sun}${day.mode==='driving'?'Road trip':day.wx.t+'°'}</span></div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
+    b.innerHTML=`<div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} · ${day.short}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}<span>${day.mode==='driving'?I.car:I.sun}${day.mode==='driving'?'Road trip':day.wx.t+'°'}</span>${day.variants?`<span>${I.flag}2 options</span>`:''}</div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
     b.appendChild(mkImg(day.hero[0],'thumb'));list.appendChild(b);
   });
   const notes=document.getElementById('notes');
@@ -777,11 +825,16 @@ async function weather(day){
 /* ---------- day detail ---------- */
 let curDay=null;
 const sec=(label,icon,arr,cls)=>(!arr||!arr.length)?'':`<div class="sec ${cls||''}"><div class="h">${icon}${label}</div><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-function openDay(id){
-  const day=DAYS.find(d=>d.id===id);if(!day)return;
-  const switching=curDay&&document.getElementById('day').classList.contains('active');curDay=day;
+const variantSel={};
+function openDay(id,vi){
+  const base=DAYS.find(d=>d.id===id);if(!base)return;
+  if(vi!==undefined)variantSel[id]=vi;
+  const day=base.variants?Object.assign({},base,base.variants[variantSel[id]||0]):base;
+  const seg=document.getElementById('seg');
+  if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
+  const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
   document.getElementById('overview').classList.remove('active');document.getElementById('day').classList.add('active');
-  if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
+  if(sameDay){}else if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
   const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
   const cap=document.getElementById('cap');let capI=-1;const setCap=i=>{if(i===capI)return;capI=i;cap.classList.add('sw');setTimeout(()=>{cap.classList.remove('sw');},220);const k=day.hero[i];cap.innerHTML=`<div class="k">${i+1} of ${day.hero.length}</div><div class="n">${P[k]?P[k][0]:''}</div>`;[...gd.children].forEach((d,j)=>d.classList.toggle('on',j===i));};
@@ -790,7 +843,7 @@ function openDay(id){
   setCap(0);gal.scrollLeft=0;gal.onscroll=()=>{setCap(gi());arr();};arr();
   document.getElementById('gprev').onclick=()=>go(gi()-1);document.getElementById('gnext').onclick=()=>go(gi()+1);
   document.onkeydown=e=>{if(!document.getElementById('day').classList.contains('active'))return;if(e.key==='ArrowRight')go(gi()+1);if(e.key==='ArrowLeft')go(gi()-1);};
-  const sw=document.getElementById('dsw');sw.innerHTML=DAYS.map(d=>`<button class="${d.id===day.id?'on':''}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b></button>`).join('');
+  const sw=document.getElementById('dsw');sw.innerHTML=DAYS.map(d=>`<button class="${d.id===day.id?'on':''}" onclick="openDay('${d.id}')" aria-label="${d.d}"><small>${d.short.split(' ')[0]}</small><b>${d.short.split(' ')[1]}</b>${d.variants?'<span class="v" title="Two options"></span>':''}</button>`).join('');
   const onb=sw.querySelector('.on');if(onb)requestAnimationFrame(()=>{sw.scrollLeft=onb.offsetLeft-sw.clientWidth/2+onb.offsetWidth/2;});
   document.getElementById('dayPill').textContent=`Day ${String(day.n).padStart(2,'0')} of ${DAYS.length}`;
   document.getElementById('dDate').textContent=day.d;
