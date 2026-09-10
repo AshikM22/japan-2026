@@ -492,6 +492,25 @@ html.dark .sec.tipbox{background:#2A2414}html.dark .sec.tipbox li{color:#F1DFA8}
 html.dark .guide{background:#16241B}html.dark .guide p{color:#BFD3C4}html.dark .guide p b{color:#DDEFE1}
 html.dark .mapbtn{color:#fff}
 
+
+/* quick look on the itinerary list */
+.dayw{background:var(--surface);border-radius:var(--r-l);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
+.dayw .daycard{box-shadow:none;margin-bottom:0;border-radius:0}
+.ql{display:flex;align-items:center;gap:8px;width:100%;padding:0 14px;height:40px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--ink-2);letter-spacing:.01em}
+.ql svg{width:14px;height:14px;color:var(--ink-3)}
+.ql svg:last-child{margin-left:auto;transition:transform .3s var(--spring)}
+.dayw.open .ql svg:last-child{transform:rotate(180deg)}
+.dayw .qlp{margin:0;padding:0;border:0}
+.dayw.open .qlp{grid-template-rows:1fr;opacity:1;margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.qlp .inner{padding:0 16px}
+.dayw.open .qlp .inner{padding:12px 16px 16px}
+.qrow{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:7px 0;font-size:14px;line-height:1.45;border-top:1px solid var(--line)}
+.qrow:first-child{border-top:0;padding-top:0}
+.qrow b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent,#2B5FB3);font-weight:600;padding-top:3px}
+.qrow span{color:#2A2A2A}
+html.dark .qrow span{color:#E4E4E8}
+.qlp .mapbtn{margin-top:12px}
+
 </style>
 </head>
 <body>
@@ -1164,6 +1183,25 @@ html.dark .sec.tipbox{background:#2A2414}html.dark .sec.tipbox li{color:#F1DFA8}
 html.dark .guide{background:#16241B}html.dark .guide p{color:#BFD3C4}html.dark .guide p b{color:#DDEFE1}
 html.dark .mapbtn{color:#fff}
 
+
+/* quick look on the itinerary list */
+.dayw{background:var(--surface);border-radius:var(--r-l);box-shadow:var(--sh-1);margin-bottom:10px;overflow:hidden}
+.dayw .daycard{box-shadow:none;margin-bottom:0;border-radius:0}
+.ql{display:flex;align-items:center;gap:8px;width:100%;padding:0 14px;height:40px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--ink-2);letter-spacing:.01em}
+.ql svg{width:14px;height:14px;color:var(--ink-3)}
+.ql svg:last-child{margin-left:auto;transition:transform .3s var(--spring)}
+.dayw.open .ql svg:last-child{transform:rotate(180deg)}
+.dayw .qlp{margin:0;padding:0;border:0}
+.dayw.open .qlp{grid-template-rows:1fr;opacity:1;margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.qlp .inner{padding:0 16px}
+.dayw.open .qlp .inner{padding:12px 16px 16px}
+.qrow{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:7px 0;font-size:14px;line-height:1.45;border-top:1px solid var(--line)}
+.qrow:first-child{border-top:0;padding-top:0}
+.qrow b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent,#2B5FB3);font-weight:600;padding-top:3px}
+.qrow span{color:#2A2A2A}
+html.dark .qrow span{color:#E4E4E8}
+.qlp .mapbtn{margin-top:12px}
+
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
@@ -1206,7 +1244,20 @@ function renderOverview(){
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);const tnow=jstNow();const dnum=parseInt(day.id.slice(3));if(tnow.getFullYear()===2026&&tnow.getMonth()===9){if(dnum<tnow.getDate())b.classList.add('is-past');if(dnum===tnow.getDate())b.classList.add('is-today');}
     const must=day.stops.filter(s=>s.must).length;
     const [dow,dn]=day.short.split(' ');b.innerHTML=`<div class="dt"><small>${dow}</small><b>${dn}</b><small>Oct</small></div><div class="txt"><div class="k">Day ${String(day.n).padStart(2,'0')} of ${DAYS.length}</div><div class="t">${day.title}</div><div class="meta-row"><span>${I.pin}${day.stops.length} stops</span>${must?`<span>${I.star}${must} must-see</span>`:''}${day.mode==='driving'?`<span>${I.car}Road trip</span>`:''}${day.variants?`<span>${I.flag}2 options</span>`:''}</div></div>${day.id===tid?'<span class="today">Today</span>':''}`;
-    b.appendChild(mkImg(day.hero[0],'thumb'));list.appendChild(b);
+    b.appendChild(mkImg(day.hero[0],'thumb'));
+    const wrap=document.createElement('div');wrap.className='dayw';wrap.style.setProperty('--accent',ACCENT[day.id]||'#1B1B1B');wrap.appendChild(b);
+    const ql=document.createElement('button');ql.className='ql';ql.setAttribute('aria-expanded','false');ql.innerHTML=`${I.eye}<span>Quick look</span>${I.chev}`;
+    const panel=document.createElement('div');panel.className='more qlp';
+    const places=[...new Set(day.stops.filter(x=>x.p&&P[x.p]&&P[x.p][0]!==''&&!['hotel','airbnb'].includes(x.p)&&x.cat!=='transport').map(x=>x.n.replace(/^(Lunch|Dinner|Breakfast)[^:]*:\s*/,'').split(':')[0].split(',')[0].trim()))];
+    const musts=day.stops.filter(x=>x.must).map(x=>x.n.split(':')[0].split(',')[0].trim());
+    const eats=(day.ess.eat||[]).slice(0,4);const buys=(day.ess.buy||[]).slice(0,3);
+    const first=day.stops[0]?day.stops[0].t:'',last=day.stops[day.stops.length-1]?day.stops[day.stops.length-1].t:'';
+    const modes={};day.stops.forEach(x=>{if(x.go&&x.go.m&&x.go.m!=='walk')modes[x.go.m]=(modes[x.go.m]||0)+1;});
+    const how=Object.entries(modes).map(([m,n])=>`${n} ${m}`).join(', ')||'on foot';
+    panel.innerHTML=`<div class="inner"><div class="qrow"><b>Where</b><span>${places.slice(0,8).join(' → ')}${places.length>8?' → …':''}</span></div><div class="qrow"><b>Do not miss</b><span>${musts.join(' · ')||'Easy day, nothing fixed'}</span></div><div class="qrow"><b>Eat</b><span>${eats.join(' · ')}</span></div>${buys.length&&buys[0]!=='Nothing yet'&&buys[0]!=='Nothing today'?`<div class="qrow"><b>Buy</b><span>${buys.join(' · ')}</span></div>`:''}<div class="qrow"><b>Rhythm</b><span>${first} to ${last} · ${day.stops.length} stops · ${how}</span></div>${day.variants?`<div class="qrow"><b>Options</b><span>${day.variants.map(v=>v.label).join(' or ')}</span></div>`:''}<button class="mapbtn qopen" data-id="${day.id}">Open the day ${I.ext}</button></div>`;
+    ql.onclick=()=>{wrap.classList.toggle('open');ql.setAttribute('aria-expanded',wrap.classList.contains('open'));};
+    panel.querySelector('.qopen').onclick=()=>openDay(day.id);
+    wrap.appendChild(ql);wrap.appendChild(panel);list.appendChild(wrap);
   });
   const notes=document.getElementById('notes');
   NOTES.forEach(n=>{const d=document.createElement('details');d.className='note';const body=n.html||n.chk.map((c,i)=>`<label class="chk"><input type="checkbox" data-k="${n.t}-${i}"><span>${c}</span></label>`).join('');d.innerHTML=`<summary>${n.t}${I.chev}</summary><div class="body">${body}</div>`;notes.appendChild(d);});
