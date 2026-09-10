@@ -46,6 +46,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-sys
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
+.mapbtn:focus-visible,.cta:focus-visible{outline:3px solid #FFB84F;outline-offset:3px}
 .app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative;z-index:1}
 .screen{display:none}.screen.active{display:block}
 .hidden{display:none!important}
@@ -323,10 +324,10 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   .ov-top{padding-top:44px}
   .cover{height:300px}
   .ov-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
-  .day-grid{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr) 320px;min-height:100vh;gap:0}
+  .day-grid{display:grid;grid-template-columns:minmax(280px,.62fr) minmax(0,1.38fr) 300px;min-height:100vh;gap:0}
   .hero{position:sticky;top:0;height:100vh;max-height:none;min-height:0}
   .hero .cap{bottom:56px}
-  .sheet{margin-top:0;border-radius:0;padding:28px 44px 80px;max-width:720px}
+  .sheet{margin-top:0;border-radius:0;padding:28px 48px 80px;max-width:860px}
   .dsw{position:static;margin:0 0 20px;padding:6px 0 14px;border-radius:0;overflow:visible;flex-wrap:wrap}
   .aside{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 32px 40px 0;border-left:1px solid var(--line);margin-left:0}
   .aside .ess{padding-left:32px}
@@ -337,7 +338,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   .wx{width:150px;padding:11px 14px}
   .wx .t{font-size:20px}
   .wx .c{font-size:11.5px}
-  .desc{font-size:15px}
+  .desc{font-size:16px;max-width:70ch}
   .tip{min-height:70px}
   .tips{margin:0}
   .slide{padding:0}
@@ -358,7 +359,10 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   .daycard:hover,.stay:hover{box-shadow:var(--sh-2);transform:translateY(-1px)}
   .card:hover{box-shadow:var(--sh-2)}
   .dsw button:hover:not(.on){background:#fff;box-shadow:var(--sh-2);transform:translateY(-1px)}
-  .mapbtn:hover,.stay .acts a:hover{background:#E9E9E5}
+  .mapbtn:hover{filter:brightness(.92)}
+  .stay .acts a:hover{background:#E4E4DF}
+  .ql:hover{background:var(--tint)}
+  .hl button:hover{background:var(--tint);border-radius:8px}
   .cta:hover{box-shadow:0 18px 40px rgba(0,0,0,.3);transform:translateX(-50%) translateY(-1px)}
   .fab:hover,.garr:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.18)}
   .aside .cta:hover{transform:translateY(-1px)}
