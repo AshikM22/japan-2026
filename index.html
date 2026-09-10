@@ -72,7 +72,7 @@ a{color:inherit;text-decoration:none}
 .tools .mapbtn{margin:0}
 .count{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:600}
 html.dark .count{background:#F2F2F2;color:#141414}
-.ov-top h1{font-size:28px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0}
+.ov-top h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0}
 .ov-top .sub{font-size:13px;color:var(--ink-2);margin-top:6px;font-weight:500}
 .cover{margin-top:18px;border-radius:var(--r-l);height:190px;box-shadow:var(--sh-2)}
 .cover .ph svg{width:32px;height:32px}
@@ -565,14 +565,14 @@ html.dark #bigcard .bc{background:#fff;color:#111}
 
 /* painted-sky world (original, anime-inspired) */
 #sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-body.sky{background:#CFE3EC}
+body.sky{background:#EEF3F7}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
 body.sky .ov{background:transparent}
-body.sky #day .sheet{background:rgba(248,247,242,.78);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+body.sky #day .sheet{background:rgba(250,250,248,.72);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 body.sky #day .dsw{background:rgba(248,247,242,.9)}
 body.sky .aside{background:transparent}
-body.sky .card,body.sky .dayw,body.sky .note,body.sky .stay,body.sky .mvg,body.sky .hl,body.sky .gtk .g,body.sky .tip,body.sky .wx,body.sky .search,body.sky .results{background:rgba(255,255,255,.92);box-shadow:0 1px 2px rgba(30,40,60,.05),0 12px 30px rgba(40,60,90,.14)}
+body.sky .card,body.sky .dayw,body.sky .note,body.sky .stay,body.sky .mvg,body.sky .hl,body.sky .gtk .g,body.sky .tip,body.sky .wx,body.sky .search,body.sky .results{background:#FFFFFF;box-shadow:0 1px 2px rgba(30,40,60,.04),0 10px 26px rgba(40,60,90,.10)}
 body.sky .tag-c,body.sky .chip,body.sky .sechead .cnt,body.sky .nextchip,body.sky .dsw button{background:rgba(255,255,255,.88)}
 body.sky .dsw button.on{background:var(--accent,var(--ink));color:#fff}
 body.skynight .ov-top h1,body.skynight .ov-top .sub,body.skynight .h2{color:#F4F6FF;text-shadow:0 1px 8px rgba(0,0,0,.4)}
@@ -609,7 +609,7 @@ body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,25
 <div class="app">
 <section class="screen active" id="overview">
   <div class="ov">
-    <div class="ov-top"><div class="orbwrap"><canvas id="orb" aria-hidden="true"></canvas><div class="orbtxt" id="orbtxt"></div></div><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
+    <div class="ov-top"><div class="orbwrap"><canvas id="orb" aria-hidden="true"></canvas><div class="orbtxt" id="orbtxt"></div></div><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn hidden" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
     <div class="tagrow" id="tagrow"></div>
     <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search a place, food or stop" autocomplete="off" aria-label="Search the itinerary"><button id="qx" class="hidden" aria-label="Clear">×</button></div>
@@ -1146,8 +1146,8 @@ function todayId(){const n=jstNow();if(n.getFullYear()!==2026||n.getMonth()!==9)
 function nowStopIndex(day){if(day.id!==todayId())return -1;const n=jstNow();const cur=n.getHours()*60+n.getMinutes();let idx=-1;day.stops.forEach((s,i)=>{const[h,m]=s.t.split(':').map(Number);if(h*60+m<=cur)idx=i;});return idx;}
 
 /* ---------- theme ---------- */
-(function(){const saved=localStorage.getItem('theme');const sys=matchMedia('(prefers-color-scheme: dark)').matches;const dark=saved?saved==='dark':sys;document.documentElement.classList.toggle('dark',dark);document.querySelector('meta[name=theme-color]').content=dark?'#121212':'#EEEEEA';})();
-document.getElementById('themeBtn').onclick=()=>{const d=!document.documentElement.classList.contains('dark');document.documentElement.classList.toggle('dark',d);localStorage.setItem('theme',d?'dark':'light');document.querySelector('meta[name=theme-color]').content=d?'#121212':'#EEEEEA';};
+document.documentElement.classList.remove('dark');document.querySelector('meta[name=theme-color]').content='#EEF3F7';
+document.getElementById('themeBtn').onclick=()=>{return;const d=!document.documentElement.classList.contains('dark');document.documentElement.classList.toggle('dark',d);localStorage.setItem('theme',d?'dark':'light');document.querySelector('meta[name=theme-color]').content=d?'#121212':'#EEEEEA';};
 function countdown(){const now=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);const days=Math.ceil((start-now)/864e5);if(now<start)return `${days} day${days===1?'':'s'} to go`;if(now<end)return `Day ${Math.min(13,Math.floor((now-start)/864e5)+1)} of 13`;return 'Trip complete';}
 function printView(){const w=window.open('','_blank');if(!w)return;const esc=x=>String(x).replace(/</g,'&lt;');
   let h=`<!doctype html><html><head><meta charset="utf-8"><title>Japan 2026 summary</title><style>body{font:12px/1.45 Inter,-apple-system,Helvetica,Arial,sans-serif;color:#141414;margin:28px;max-width:820px}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 6px;border-bottom:1px solid #ddd;padding-bottom:4px;break-after:avoid}h3{font-size:12px;margin:14px 0 4px;color:#555;text-transform:uppercase;letter-spacing:.06em}.d{color:#666;margin:0 0 8px}table{width:100%;border-collapse:collapse}td{vertical-align:top;padding:4px 6px 4px 0;border-bottom:1px solid #eee}td.t{width:46px;font-weight:600;white-space:nowrap}td.g{color:#666;font-size:11px;width:38%}.stay{margin:4px 0}.small{color:#666;font-size:11px}@media print{body{margin:12mm}h2{page-break-inside:avoid}}.search{display:flex;align-items:center;gap:10px;background:var(--surface);box-shadow:var(--sh-1);border-radius:999px;padding:0 14px;height:48px;margin-top:16px}
@@ -1381,14 +1381,14 @@ html.dark .route3d{box-shadow:0 12px 32px rgba(0,0,0,.6)}
 
 /* painted-sky world (original, anime-inspired) */
 #sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-body.sky{background:#CFE3EC}
+body.sky{background:#EEF3F7}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
 body.sky .ov{background:transparent}
-body.sky #day .sheet{background:rgba(248,247,242,.78);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+body.sky #day .sheet{background:rgba(250,250,248,.72);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 body.sky #day .dsw{background:rgba(248,247,242,.9)}
 body.sky .aside{background:transparent}
-body.sky .card,body.sky .dayw,body.sky .note,body.sky .stay,body.sky .mvg,body.sky .hl,body.sky .gtk .g,body.sky .tip,body.sky .wx,body.sky .search,body.sky .results{background:rgba(255,255,255,.92);box-shadow:0 1px 2px rgba(30,40,60,.05),0 12px 30px rgba(40,60,90,.14)}
+body.sky .card,body.sky .dayw,body.sky .note,body.sky .stay,body.sky .mvg,body.sky .hl,body.sky .gtk .g,body.sky .tip,body.sky .wx,body.sky .search,body.sky .results{background:#FFFFFF;box-shadow:0 1px 2px rgba(30,40,60,.04),0 10px 26px rgba(40,60,90,.10)}
 body.sky .tag-c,body.sky .chip,body.sky .sechead .cnt,body.sky .nextchip,body.sky .dsw button{background:rgba(255,255,255,.88)}
 body.sky .dsw button.on{background:var(--accent,var(--ink));color:#fff}
 body.skynight .ov-top h1,body.skynight .ov-top .sub,body.skynight .h2{color:#F4F6FF;text-shadow:0 1px 8px rgba(0,0,0,.4)}
@@ -1459,7 +1459,7 @@ function renderOverview(){
   const groups=[['Flights',m=>m.mode==='flight'],['Between cities',m=>m.mode==='shinkansen'],['Road trip',m=>m.mode==='car'&&/Ine|Amanohashidate/.test(m.to)],['Around Tokyo',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^Tokyo/.test(m.from)],['Around Kyoto and Kansai',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^(Kyoto|Arashiyama)/.test(m.from)&&!/Ine|Amanohashidate/.test(m.to)]];
   const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><button class="mvh" aria-expanded="false" onclick="this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',this.parentNode.classList.contains('open'))"><span class="lbl">${label}</span><span class="cnt">${rows.length}</span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner">${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div></div></div>`;}).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
-  document.getElementById('ovsub').textContent='7 to 19 October · six cities · three of us';
+  document.getElementById('ovsub').textContent='7 to 19 October · six cities';
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);const tnow=jstNow();const dnum=parseInt(day.id.slice(3));if(tnow.getFullYear()===2026&&tnow.getMonth()===9){if(dnum<tnow.getDate())b.classList.add('is-past');if(dnum===tnow.getDate())b.classList.add('is-today');}
@@ -1659,10 +1659,10 @@ renderOverview();renderPlaces();
     const dotTex=tex((g,n)=>{const gr=g.createRadialGradient(n/2,n/2,0,n/2,n/2,n/2);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.4,'rgba(255,255,255,.6)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);},64);
     const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:.02,map:dotTex,transparent:true,opacity:.7,depthTest:false,sizeAttenuation:false}));S.add(pts);
     // palettes by Japan hour
-    const PAL={dawn:['#F6C7B0','#F9E2CC','#FFF4E6','#FFE9C9',[.2,.25]],day:['#8FBEE3','#D6E9F3','#F2EEE2','#FFF4CF',[.8,.85]],golden:['#E9B27A','#F5D9B4','#FBEFD9','#FFD79A',[.15,.35]],dusk:['#5B5F9E','#C48AA7','#F0C9A8','#FFC98B',[.1,.2]],night:['#0B1226','#1C2A52','#30416F','#CFE0FF',[.7,.8]]};
-    function palette(){if(document.documentElement.classList.contains('dark'))return PAL.night;const h=jstNow().getHours()+jstNow().getMinutes()/60;if(h<5)return PAL.night;if(h<8)return PAL.dawn;if(h<16)return PAL.day;if(h<18)return PAL.golden;if(h<20)return PAL.dusk;return PAL.night;}
-    function applyPal(){const p=palette();skyMat.uniforms.top.value.set(p[0]);skyMat.uniforms.mid.value.set(p[1]);skyMat.uniforms.bot.value.set(p[2]);skyMat.uniforms.sunc.value.set(p[3]);skyMat.uniforms.sun.value.set(p[4][0],p[4][1]);const night=p===PAL.night;document.body.classList.toggle('skynight',night);clouds.forEach(c=>c.material.opacity=night?.14:.35+.3*Math.random());pts.material.opacity=night?.9:.6;}
-    applyPal();setInterval(applyPal,60000);new MutationObserver(applyPal).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+    const PAL={day:['#C9DFF0','#E9F1F7','#F7F7F4','#FFF6DC',[.8,.86]]};
+    function palette(){return PAL.day;}
+    function applyPal(){const p=palette();skyMat.uniforms.top.value.set(p[0]);skyMat.uniforms.mid.value.set(p[1]);skyMat.uniforms.bot.value.set(p[2]);skyMat.uniforms.sunc.value.set(p[3]);skyMat.uniforms.sun.value.set(p[4][0],p[4][1]);clouds.forEach(c=>c.material.opacity=.28+.22*Math.random());pts.material.opacity=.45;}
+    applyPal();
     function resize(){R.setSize(window.innerWidth,window.innerHeight,false);aspect=window.innerWidth/window.innerHeight;fitClouds();}resize();window.addEventListener('resize',resize);
     let hidden=false;document.addEventListener('visibilitychange',()=>hidden=document.hidden);
     let last=0;function frame(ts){requestAnimationFrame(frame);if(hidden||!document.body.classList.contains('sky'))return;if(ts-last<33)return;last=ts;const t=ts/1000;
