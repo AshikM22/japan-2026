@@ -66,6 +66,9 @@ a{color:inherit;text-decoration:none}
 /* ============ overview ============ */
 .ov{padding:0 var(--pad) calc(var(--sab) + 40px)}
 .ov-top{padding-top:calc(var(--sat) + 28px);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.cd{flex:0 0 auto;text-align:right;line-height:1}
+.cd b{display:block;font-size:34px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.cd small{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
 .tbtn{width:40px;height:40px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex:0 0 auto;margin-bottom:4px}
 .tbtn svg{width:18px;height:18px}
 .tools{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
@@ -593,15 +596,7 @@ body:has(#day.active) .skybtn{display:none}
 @media (prefers-reduced-motion:reduce){#sky{display:none}body.sky{background:var(--bg)}}
 
 
-/* breathing emblem */
-.ov-top{align-items:center}
-.orbwrap{position:relative;width:104px;height:104px;flex:0 0 auto;margin-right:2px}
-.orbwrap canvas{position:absolute;inset:-30px;width:164px;height:164px}
-.orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;pointer-events:none}
-.orbtxt b{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
-.orbtxt small{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
-body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,255,255,.7)}
-@media (min-width:900px){.orbwrap{width:140px;height:140px}.orbwrap canvas{inset:-40px;width:220px;height:220px}.orbtxt b{font-size:34px}}
+
 
 </style>
 </head>
@@ -609,7 +604,7 @@ body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,25
 <div class="app">
 <section class="screen active" id="overview">
   <div class="ov">
-    <div class="ov-top"><div class="orbwrap"><canvas id="orb" aria-hidden="true"></canvas><div class="orbtxt" id="orbtxt"></div></div><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn hidden" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
+    <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><div class="cd" id="cd"></div><button class="tbtn hidden" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
     <div class="tagrow" id="tagrow"></div>
     <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search a place, food or stop" autocomplete="off" aria-label="Search the itinerary"><button id="qx" class="hidden" aria-label="Clear">×</button></div>
@@ -1410,7 +1405,7 @@ body:has(#day.active) .skybtn{display:none}
 
 
 /* breathing emblem */
-.ov-top{align-items:center}
+.ov-top{align-items:flex-end}
 .orbwrap{position:relative;width:104px;height:104px;flex:0 0 auto;margin-right:2px}
 .orbwrap canvas{position:absolute;inset:-30px;width:164px;height:164px}
 .orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;pointer-events:none}
@@ -1459,7 +1454,7 @@ function renderOverview(){
   const groups=[['Flights',m=>m.mode==='flight'],['Between cities',m=>m.mode==='shinkansen'],['Road trip',m=>m.mode==='car'&&/Ine|Amanohashidate/.test(m.to)],['Around Tokyo',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^Tokyo/.test(m.from)],['Around Kyoto and Kansai',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^(Kyoto|Arashiyama)/.test(m.from)&&!/Ine|Amanohashidate/.test(m.to)]];
   const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><button class="mvh" aria-expanded="false" onclick="this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',this.parentNode.classList.contains('open'))"><span class="lbl">${label}</span><span class="cnt">${rows.length}</span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner">${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div></div></div>`;}).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
-  document.getElementById('ovsub').textContent='7 to 19 October · six cities';
+  document.getElementById('ovsub').textContent='7 to 19 October · six cities';(function(){const el=document.getElementById('cd');const f=()=>{const n=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);if(n<start){const d=Math.ceil((start-n)/864e5);el.innerHTML=`<b>${d}</b><small>days to go</small>`;}else if(n<end)el.innerHTML=`<b>${Math.min(13,Math.floor((n-start)/864e5)+1)}</b><small>of 13 days</small>`;else el.innerHTML=`<b>13</b><small>days done</small>`;};f();setInterval(f,60000);})();
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);const tnow=jstNow();const dnum=parseInt(day.id.slice(3));if(tnow.getFullYear()===2026&&tnow.getMonth()===9){if(dnum<tnow.getDate())b.classList.add('is-past');if(dnum===tnow.getDate())b.classList.add('is-today');}
@@ -1603,32 +1598,7 @@ document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
 renderOverview();renderPlaces();
-/* ---------- breathing particle sphere ---------- */
-(function(){
-  const canvas=document.getElementById('orb');if(!canvas||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const txt=document.getElementById('orbtxt');const setTxt=()=>{const n=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);if(n<start){const d=Math.ceil((start-n)/864e5);txt.innerHTML=`<b>${d}</b><small>days</small>`;}else if(n<end){txt.innerHTML=`<b>${Math.min(13,Math.floor((n-start)/864e5)+1)}</b><small>of 13</small>`;}else txt.innerHTML=`<b>13</b><small>days done</small>`;};setTxt();setInterval(setTxt,60000);
-  function boot(){if(window.THREE)return init();const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';sc.onload=init;document.head.appendChild(sc);}
-  function init(){
-    let R;try{R=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});}catch(e){return;}
-    R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-    const S=new THREE.Scene();const C=new THREE.PerspectiveCamera(35,1,.1,50);C.position.z=6.2;
-    const N=1500;const pos=new Float32Array(N*3);const base=new Float32Array(N*3);
-    for(let i=0;i<N;i++){const u=Math.random(),v=Math.random();const th=2*Math.PI*u,ph=Math.acos(2*v-1);const r=1.55;base[i*3]=r*Math.sin(ph)*Math.cos(th);base[i*3+1]=r*Math.sin(ph)*Math.sin(th);base[i*3+2]=r*Math.cos(ph);}
-    pos.set(base);const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');const gr=x.createRadialGradient(16,16,0,16,16,16);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.5,'rgba(255,255,255,.5)');gr.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=gr;x.fillRect(0,0,32,32);
-    const mat=new THREE.PointsMaterial({size:.075,map:new THREE.CanvasTexture(c),transparent:true,opacity:.95,depthWrite:false,color:0x1E3F7A});
-    const pts=new THREE.Points(g,mat);S.add(pts);
-    const setColor=()=>{const dark=document.documentElement.classList.contains('dark')||document.body.classList.contains('skynight');mat.color.set(dark?0xCFE0FF:0x1E3F7A);};setColor();new MutationObserver(setColor).observe(document.documentElement,{attributes:true});new MutationObserver(setColor).observe(document.body,{attributes:true});
-    function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}resize();window.addEventListener('resize',resize);
-    let mx=0,my=0;window.addEventListener('pointermove',e=>{mx=(e.clientX/window.innerWidth-.5);my=(e.clientY/window.innerHeight-.5);},{passive:true});
-    let visible=true;new IntersectionObserver(es=>visible=es[0].isIntersecting).observe(canvas);
-    function frame(ts){requestAnimationFrame(frame);if(!visible||document.hidden)return;const t=ts/1000;const breath=1+.06*Math.sin(t*1.1);const a=g.attributes.position.array;
-      for(let i=0;i<N;i++){const bx=base[i*3],by=base[i*3+1],bz=base[i*3+2];const w=1+.035*Math.sin(t*2+bx*3+by*2);a[i*3]=bx*breath*w;a[i*3+1]=by*breath*w;a[i*3+2]=bz*breath*w;}
-      g.attributes.position.needsUpdate=true;pts.rotation.y=t*.15+mx*.6;pts.rotation.x=my*.4+Math.sin(t*.3)*.08;mat.size=.07+.012*Math.sin(t*1.1);R.render(S,C);}
-    requestAnimationFrame(frame);
-  }
-  if('IntersectionObserver' in window)new IntersectionObserver(es=>{if(es[0].isIntersecting){boot();}},{}).observe(canvas);else boot();
-})();
+
 
 /* ---------- painted sky: soft clouds, drifting seeds, light that follows Japan time ---------- */
 (function(){
