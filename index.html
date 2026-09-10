@@ -560,16 +560,7 @@ html.dark .qrow span{color:#E4E4E8}
 html.dark #bigcard .bc{background:#fff;color:#111}
 
 
-/* 3D route */
-.route3d{position:relative;height:300px;border-radius:var(--r-l);margin-top:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 20%,#1B2440 0%,#0B1020 70%);box-shadow:var(--sh-2);touch-action:pan-y}
-.route3d canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.r3labels{position:absolute;inset:0;pointer-events:none}
-.r3l{position:absolute;transform:translate(-50%,-100%);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:.02em;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.6);pointer-events:auto;cursor:pointer;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-.r3l small{display:block;font-weight:500;color:rgba(255,255,255,.7);font-size:10px}
-.r3l.now{background:#4FD1FF;color:#0A1230}.r3l.now small{color:rgba(10,18,48,.7)}
-.r3hint{position:absolute;left:14px;bottom:12px;font-size:11px;color:rgba(255,255,255,.55)}
-html.dark .route3d{box-shadow:0 12px 32px rgba(0,0,0,.6)}
-@media (min-width:900px){.route3d{height:360px}}
+
 
 
 /* painted-sky world (original, anime-inspired) */
@@ -589,7 +580,6 @@ body.skynight .tag-c{color:var(--ink)}
 body.sky .ov-top h1{color:#1E2A3A;text-shadow:0 1px 0 rgba(255,255,255,.6)}
 body.sky .ov-top .sub,body.sky .h2{color:#2E3B4E}
 body.sky .h2{text-shadow:0 1px 0 rgba(255,255,255,.5)}
-body.sky .route3d{box-shadow:0 12px 30px rgba(40,60,90,.25)}
 body.sky .go .gt{background:rgba(248,247,242,.7);border-radius:10px;padding:2px 8px}
 body.sky .tl::before{background:rgba(60,80,110,.18)}
 html.dark body.sky{background:#0B1226}
@@ -602,15 +592,25 @@ html.dark body.sky .ov-top h1,html.dark body.sky .ov-top .sub,html.dark body.sky
 body:has(#day.active) .skybtn{display:none}
 @media (prefers-reduced-motion:reduce){#sky{display:none}body.sky{background:var(--bg)}}
 
+
+/* breathing emblem */
+.ov-top{align-items:center}
+.orbwrap{position:relative;width:104px;height:104px;flex:0 0 auto;margin-right:2px}
+.orbwrap canvas{position:absolute;inset:-30px;width:164px;height:164px}
+.orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;pointer-events:none}
+.orbtxt b{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.orbtxt small{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,255,255,.7)}
+@media (min-width:900px){.orbwrap{width:140px;height:140px}.orbwrap canvas{inset:-40px;width:220px;height:220px}.orbtxt b{font-size:34px}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <section class="screen active" id="overview">
   <div class="ov">
-    <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
+    <div class="ov-top"><div class="orbwrap"><canvas id="orb" aria-hidden="true"></canvas><div class="orbtxt" id="orbtxt"></div></div><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><button class="tbtn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
-    <div class="route3d" id="route3d"><canvas id="r3c"></canvas><div class="r3labels" id="r3labels"></div><div class="r3hint">Drag to look around · tap a city</div></div>
     <div class="tagrow" id="tagrow"></div>
     <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search a place, food or stop" autocomplete="off" aria-label="Search the itinerary"><button id="qx" class="hidden" aria-label="Clear">×</button></div>
     <div class="results hidden" id="results"></div>
@@ -1396,7 +1396,6 @@ body.skynight .tag-c{color:var(--ink)}
 body.sky .ov-top h1{color:#1E2A3A;text-shadow:0 1px 0 rgba(255,255,255,.6)}
 body.sky .ov-top .sub,body.sky .h2{color:#2E3B4E}
 body.sky .h2{text-shadow:0 1px 0 rgba(255,255,255,.5)}
-body.sky .route3d{box-shadow:0 12px 30px rgba(40,60,90,.25)}
 body.sky .go .gt{background:rgba(248,247,242,.7);border-radius:10px;padding:2px 8px}
 body.sky .tl::before{background:rgba(60,80,110,.18)}
 html.dark body.sky{background:#0B1226}
@@ -1408,6 +1407,17 @@ html.dark body.sky .ov-top h1,html.dark body.sky .ov-top .sub,html.dark body.sky
 .skybtn{position:fixed;right:14px;bottom:calc(var(--sab) + 14px);z-index:60;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:#2E3B4E;font-size:16px}
 body:has(#day.active) .skybtn{display:none}
 @media (prefers-reduced-motion:reduce){#sky{display:none}body.sky{background:var(--bg)}}
+
+
+/* breathing emblem */
+.ov-top{align-items:center}
+.orbwrap{position:relative;width:104px;height:104px;flex:0 0 auto;margin-right:2px}
+.orbwrap canvas{position:absolute;inset:-30px;width:164px;height:164px}
+.orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;pointer-events:none}
+.orbtxt b{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.orbtxt small{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,255,255,.7)}
+@media (min-width:900px){.orbwrap{width:140px;height:140px}.orbwrap canvas{inset:-40px;width:220px;height:220px}.orbtxt b{font-size:34px}}
 
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
@@ -1449,7 +1459,7 @@ function renderOverview(){
   const groups=[['Flights',m=>m.mode==='flight'],['Between cities',m=>m.mode==='shinkansen'],['Road trip',m=>m.mode==='car'&&/Ine|Amanohashidate/.test(m.to)],['Around Tokyo',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^Tokyo/.test(m.from)],['Around Kyoto and Kansai',m=>m.mode!=='flight'&&m.mode!=='shinkansen'&&/^(Kyoto|Arashiyama)/.test(m.from)&&!/Ine|Amanohashidate/.test(m.to)]];
   const used=new Set();document.getElementById('moves').innerHTML=groups.map(([label,f])=>{const rows=MOVES.filter(m=>!used.has(m)&&f(m));rows.forEach(m=>used.add(m));if(!rows.length)return '';return `<div class="mvg"><button class="mvh" aria-expanded="false" onclick="this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',this.parentNode.classList.contains('open'))"><span class="lbl">${label}</span><span class="cnt">${rows.length}</span><span class="chev">${I.chev}</span></button><div class="more"><div class="inner">${rows.map(x=>`<div class="row"><div class="ic2" style="background:${MC[x.mode]}">${x.mode==='car'?I.car:x.mode==='flight'?GI_plane:I.train}</div><div><div class="t">${x.from} → ${x.to}</div><div class="k">${x.d}${x.t?' · '+x.t:''} ${stl[x.st]||''}</div><div class="h">${x.how}</div></div></div>`).join('')}</div></div></div>`;}).join('');
   document.getElementById('getting').innerHTML=GETTING.map(g=>`<li>${g}</li>`).join('');
-  document.getElementById('ovsub').textContent='7 to 19 October · 13 days · '+countdown();
+  document.getElementById('ovsub').textContent='7 to 19 October · six cities · three of us';
   const list=document.getElementById('daylist');const tid=todayId();
   DAYS.forEach(day=>{
     const b=document.createElement('button');b.className='daycard';b.onclick=()=>openDay(day.id);const tnow=jstNow();const dnum=parseInt(day.id.slice(3));if(tnow.getFullYear()===2026&&tnow.getMonth()===9){if(dnum<tnow.getDate())b.classList.add('is-past');if(dnum===tnow.getDate())b.classList.add('is-today');}
@@ -1593,6 +1603,33 @@ document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
 renderOverview();renderPlaces();
+/* ---------- breathing particle sphere ---------- */
+(function(){
+  const canvas=document.getElementById('orb');if(!canvas||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const txt=document.getElementById('orbtxt');const setTxt=()=>{const n=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);if(n<start){const d=Math.ceil((start-n)/864e5);txt.innerHTML=`<b>${d}</b><small>days</small>`;}else if(n<end){txt.innerHTML=`<b>${Math.min(13,Math.floor((n-start)/864e5)+1)}</b><small>of 13</small>`;}else txt.innerHTML=`<b>13</b><small>days done</small>`;};setTxt();setInterval(setTxt,60000);
+  function boot(){if(window.THREE)return init();const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';sc.onload=init;document.head.appendChild(sc);}
+  function init(){
+    let R;try{R=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});}catch(e){return;}
+    R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    const S=new THREE.Scene();const C=new THREE.PerspectiveCamera(35,1,.1,50);C.position.z=6.2;
+    const N=1500;const pos=new Float32Array(N*3);const base=new Float32Array(N*3);
+    for(let i=0;i<N;i++){const u=Math.random(),v=Math.random();const th=2*Math.PI*u,ph=Math.acos(2*v-1);const r=1.55;base[i*3]=r*Math.sin(ph)*Math.cos(th);base[i*3+1]=r*Math.sin(ph)*Math.sin(th);base[i*3+2]=r*Math.cos(ph);}
+    pos.set(base);const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');const gr=x.createRadialGradient(16,16,0,16,16,16);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.5,'rgba(255,255,255,.5)');gr.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=gr;x.fillRect(0,0,32,32);
+    const mat=new THREE.PointsMaterial({size:.075,map:new THREE.CanvasTexture(c),transparent:true,opacity:.95,depthWrite:false,color:0x1E3F7A});
+    const pts=new THREE.Points(g,mat);S.add(pts);
+    const setColor=()=>{const dark=document.documentElement.classList.contains('dark')||document.body.classList.contains('skynight');mat.color.set(dark?0xCFE0FF:0x1E3F7A);};setColor();new MutationObserver(setColor).observe(document.documentElement,{attributes:true});new MutationObserver(setColor).observe(document.body,{attributes:true});
+    function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}resize();window.addEventListener('resize',resize);
+    let mx=0,my=0;window.addEventListener('pointermove',e=>{mx=(e.clientX/window.innerWidth-.5);my=(e.clientY/window.innerHeight-.5);},{passive:true});
+    let visible=true;new IntersectionObserver(es=>visible=es[0].isIntersecting).observe(canvas);
+    function frame(ts){requestAnimationFrame(frame);if(!visible||document.hidden)return;const t=ts/1000;const breath=1+.06*Math.sin(t*1.1);const a=g.attributes.position.array;
+      for(let i=0;i<N;i++){const bx=base[i*3],by=base[i*3+1],bz=base[i*3+2];const w=1+.035*Math.sin(t*2+bx*3+by*2);a[i*3]=bx*breath*w;a[i*3+1]=by*breath*w;a[i*3+2]=bz*breath*w;}
+      g.attributes.position.needsUpdate=true;pts.rotation.y=t*.15+mx*.6;pts.rotation.x=my*.4+Math.sin(t*.3)*.08;mat.size=.07+.012*Math.sin(t*1.1);R.render(S,C);}
+    requestAnimationFrame(frame);
+  }
+  if('IntersectionObserver' in window)new IntersectionObserver(es=>{if(es[0].isIntersecting){boot();}},{}).observe(canvas);else boot();
+})();
+
 /* ---------- painted sky: soft clouds, drifting seeds, light that follows Japan time ---------- */
 (function(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1637,57 +1674,7 @@ renderOverview();renderPlaces();
   boot();
 })();
 
-/* ---------- 3D route (three.js) ---------- */
-(function(){
-  const box=document.getElementById('route3d');if(!box)return;
-  const CITIES=[{n:'Tokyo',sub:'7 to 10 · 15 to 19 Oct',xz:[3.7,0.0],id:'oct08',off:[-16,-16]},{n:'Hakone',sub:'15 Oct option',xz:[2.4,0.9],id:'oct15',off:[44,-10]},{n:'Kyoto',sub:'10 to 15 Oct',xz:[0.2,-0.3],id:'oct10',off:[0,-16]},{n:'Ine',sub:'12 Oct',xz:[-0.4,-2.2],id:'oct12',off:[0,-16]},{n:'Nara',sub:'14 Oct',xz:[1.2,1.2],id:'oct14',off:[36,20]},{n:'Osaka',sub:'14 Oct',xz:[-0.9,1.4],id:'oct14',off:[-30,20]},{n:'Okunoshima',sub:'13 Oct',xz:[-3.5,1.0],id:'oct13',off:[0,-16]}];
-  const ROUTE=['Tokyo','Kyoto','Ine','Kyoto','Okunoshima','Kyoto','Nara','Osaka','Kyoto','Hakone','Tokyo'];
-  let started=false;
-  function start(){if(started)return;started=true;
-    const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';sc.onload=init;sc.onerror=()=>box.classList.add('hidden');document.head.appendChild(sc);}
-  function init(){
-    const canvas=document.getElementById('r3c');let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});}catch(e){box.classList.add('hidden');return;}
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-    const scene=new THREE.Scene();const cam=new THREE.PerspectiveCamera(42,1,.1,100);
-    // project lat/lon to a flat plane, centred on the route
-    const P=xz=>new THREE.Vector3(xz[0],0,xz[1]);
-    // ground: subtle grid + glow disc
-    const grid=new THREE.GridHelper(40,32,0x2A3660,0x1A2340);grid.position.y=-.02;scene.add(grid);
-    const disc=new THREE.Mesh(new THREE.CircleGeometry(9,64),new THREE.MeshBasicMaterial({color:0x1E2A52,transparent:true,opacity:.5}));disc.rotation.x=-Math.PI/2;disc.position.y=-.01;scene.add(disc);
-    // route tube
-    const pts=ROUTE.map(n=>P(CITIES.find(c=>c.n===n).xz));const curve=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.35);
-    const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,300,.035,8,false),new THREE.MeshBasicMaterial({color:0x4FD1FF,transparent:true,opacity:.9}));scene.add(tube);
-    const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,300,.11,8,false),new THREE.MeshBasicMaterial({color:0x4FD1FF,transparent:true,opacity:.12}));scene.add(glow);
-    // city markers
-    const mk=[];CITIES.forEach(c=>{const p=P(c.xz);const m=new THREE.Mesh(new THREE.SphereGeometry(.11,16,16),new THREE.MeshBasicMaterial({color:0xffffff}));m.position.copy(p);m.position.y=.06;scene.add(m);
-      const ring=new THREE.Mesh(new THREE.RingGeometry(.16,.2,32),new THREE.MeshBasicMaterial({color:0x4FD1FF,transparent:true,opacity:.7,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.copy(p);ring.position.y=.02;scene.add(ring);
-      const col=new THREE.Mesh(new THREE.CylinderGeometry(.01,.01,.6,6),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.25}));col.position.copy(p);col.position.y=.3;scene.add(col);
-      const l=document.createElement('button');l.className='r3l';l.innerHTML=`${c.n}<small>${c.sub}</small>`;l.onclick=()=>openDay(c.id);document.getElementById('r3labels').appendChild(l);
-      mk.push({c,p,ring,label:l});});
-    // traveller dot
-    const dot=new THREE.Mesh(new THREE.SphereGeometry(.07,16,16),new THREE.MeshBasicMaterial({color:0xFFC24F}));scene.add(dot);
-    const dotGlow=new THREE.Mesh(new THREE.SphereGeometry(.16,16,16),new THREE.MeshBasicMaterial({color:0xFFC24F,transparent:true,opacity:.25}));scene.add(dotGlow);
-    // camera orbit
-    const target=new THREE.Vector3(0.1,0,-.1);let theta=-.2,phi=.72,dist=12.4,dragging=false,sx=0,sy=0,t0=0,p0=0;
-    const setCam=()=>{cam.position.set(target.x+dist*Math.sin(phi)*Math.sin(theta),target.y+dist*Math.cos(phi),target.z+dist*Math.sin(phi)*Math.cos(theta));cam.lookAt(target);};
-    box.addEventListener('pointerdown',e=>{if(e.target.closest('.r3l'))return;dragging=true;sx=e.clientX;sy=e.clientY;t0=theta;p0=phi;box.setPointerCapture&&box.setPointerCapture(e.pointerId);});
-    box.addEventListener('pointermove',e=>{if(!dragging)return;theta=t0-(e.clientX-sx)*.006;phi=Math.max(.35,Math.min(1.35,p0+(e.clientY-sy)*.004));});
-    const up=()=>{dragging=false};box.addEventListener('pointerup',up);box.addEventListener('pointercancel',up);box.addEventListener('pointerleave',up);
-    function resize(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();}
-    resize();window.addEventListener('resize',resize);
-    // trip progress on the route: before the trip the dot cruises; during the trip it sits at the current city
-    const dayIdx={oct07:0,oct08:0,oct09:0,oct10:1,oct11:1,oct12:2,oct13:4,oct14:6,oct15:9,oct16:10,oct17:10,oct18:10,oct19:10};
-    let visible=true;new IntersectionObserver(es=>{visible=es[0].isIntersecting;},{threshold:.05}).observe(box);
-    const v=new THREE.Vector3();let t=0;
-    function frame(ts){requestAnimationFrame(frame);if(!visible)return;if(!dragging)theta+=.0008;setCam();
-      const tid=todayId();let u;if(tid){const seg=dayIdx[tid];u=seg/(ROUTE.length-1);}else{t+=.0016;u=(t%1);}
-      curve.getPointAt(Math.min(.999,u),v);dot.position.copy(v);dot.position.y=.08;dotGlow.position.copy(dot.position);dotGlow.scale.setScalar(1+.25*Math.sin(ts/300));
-      mk.forEach(m=>{m.ring.scale.setScalar(1+.12*Math.sin(ts/500+m.p.x));v.copy(m.p);v.y=.55;v.project(cam);const x=(v.x*.5+.5)*box.clientWidth,y=(-v.y*.5+.5)*box.clientHeight;m.label.style.left=(x+m.c.off[0])+'px';m.label.style.top=(y+m.c.off[1])+'px';m.label.style.opacity=v.z<1?1:0;m.label.classList.toggle('now',!!tid&&ROUTE[dayIdx[tid]]===m.c.n);});
-      renderer.render(scene,cam);}
-    requestAnimationFrame(frame);
-  }
-  if('IntersectionObserver' in window)new IntersectionObserver(es=>{if(es[0].isIntersecting)start();},{rootMargin:'200px'}).observe(box);else start();
-})();
+
 
 const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
 </script>
