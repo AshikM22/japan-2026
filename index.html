@@ -1995,15 +1995,15 @@ renderOverview();renderPlaces();
   btn.onclick=()=>{const now=!document.body.classList.contains('sky');document.body.classList.toggle('sky',now);localStorage.setItem('sky',now?'on':'off');btn.textContent=now?'☁':'▢';canvas.style.display=now?'block':'none';};
   if(!on)canvas.style.display='none';
   function boot(){if(window.THREE)return init();const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';sc.onload=init;document.head.appendChild(sc);}
-  function tex(draw,size){const c=document.createElement('canvas');c.width=c.height=size;draw(c.getContext('2d'),size);const t=new THREE.CanvasTexture(c);return t;}
+  function tex(draw,size){const c=document.createElement('canvas');c.width=c.height=size;draw(c.getContext('2d'),size);const t=new THREE.CanvasTexture(c);t.premultiplyAlpha=true;t.minFilter=THREE.LinearFilter;t.generateMipmaps=false;return t;}
   function init(){
-    let R;try{R=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});}catch(e){return;}
-    R.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+    let R;try{R=new THREE.WebGLRenderer({canvas,alpha:false,antialias:false,premultipliedAlpha:true,powerPreference:'low-power'});}catch(e){return;}
+    R.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));R.setClearColor(0xEEF3F7,1);R.autoClear=true;
     const S=new THREE.Scene();const C=new THREE.OrthographicCamera(-1,1,1,-1,0,10);C.position.z=5;
     // sky gradient quad
     const skyMat=new THREE.ShaderMaterial({uniforms:{top:{value:new THREE.Color('#9FC8E6')},mid:{value:new THREE.Color('#D9EAF2')},bot:{value:new THREE.Color('#F2EBDD')},sun:{value:new THREE.Vector2(.78,.85)},sunc:{value:new THREE.Color('#FFF1C2')},t:{value:0}},
-      vertexShader:'varying vec2 u;void main(){u=uv;gl_Position=vec4(position.xy,0.,1.);}',
-      fragmentShader:'varying vec2 u;uniform vec3 top,mid,bot,sunc;uniform vec2 sun;uniform float t;void main(){vec3 c=mix(bot,mid,smoothstep(0.,.55,u.y));c=mix(c,top,smoothstep(.5,1.,u.y));float d=distance(u*vec2(1.6,1.),sun*vec2(1.6,1.));c+=sunc*(.18*exp(-d*d*9.)+.04*exp(-d*d*1.5));gl_FragColor=vec4(c,1.);}'});
+      vertexShader:'precision highp float;varying vec2 u;void main(){u=uv;gl_Position=vec4(position.xy,0.,1.);}',
+      fragmentShader:'precision highp float;varying vec2 u;uniform vec3 top,mid,bot,sunc;uniform vec2 sun;uniform float t;void main(){vec3 c=mix(bot,mid,smoothstep(0.,.55,u.y));c=mix(c,top,smoothstep(.5,1.,u.y));float d=distance(u*vec2(1.6,1.),sun*vec2(1.6,1.));c+=sunc*(.18*exp(-d*d*9.)+.04*exp(-d*d*1.5));gl_FragColor=vec4(c,1.);}'});
     S.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),skyMat));
     // clouds: soft sprites from a painted blob texture
     const cloudTex=tex((g,n)=>{g.clearRect(0,0,n,n);const blobs=[[.5,.55,.34],[.32,.6,.24],[.68,.58,.26],[.45,.42,.2],[.6,.4,.18],[.25,.5,.15],[.78,.5,.14]];blobs.forEach(([x,y,r])=>{const gr=g.createRadialGradient(x*n,y*n,0,x*n,y*n,r*n);gr.addColorStop(0,'rgba(255,255,255,.95)');gr.addColorStop(.55,'rgba(255,255,255,.55)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);});},256);
