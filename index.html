@@ -1301,7 +1301,8 @@ function box(cls){
   if(cls==='hero'){const g=document.getElementById('gal');return [g&&g.clientWidth||vw,g&&g.clientHeight||Math.round(vw*0.9)];}
   if(cls==='pdhero'){const g=document.getElementById('pdgal');const w=g&&g.clientWidth||vw;const h=g&&g.clientHeight||Math.round(Math.min(460,Math.max(300,window.innerHeight*.46)));return [w,h];}
   if(cls==='cover'){const c=document.querySelector('.cover');return [c&&c.clientWidth||vw-48,c&&c.clientHeight||190];}
-  if(cls==='thumb')return [80,80];
+  if(cls==='thumb')return [88,88];
+  if(cls==='card'){const el=document.querySelector('#dStops .card .bd')||document.querySelector('.pc .more .inner');const w=el?el.clientWidth-40:Math.min(vw-128,720);return [Math.max(200,Math.min(w,720)),180];}
   return [Math.min(vw-48,720),150];
 }
 function srcFor(key,cls){
