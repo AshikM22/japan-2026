@@ -602,7 +602,7 @@ body:has(#day.active) .skybtn{display:none}
 /* places page */
 .asbtn{width:100%;text-align:left;color:var(--ink-3);font-size:16px;cursor:pointer}
 .asbtn span{flex:1}
-.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:12px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
+.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:28px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
 .explore b{display:block;font-size:17px;font-weight:700;letter-spacing:-.015em}
 .explore small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px}
 .explore::after{content:"";width:9px;height:9px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);margin-right:4px}
@@ -726,8 +726,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
   <div class="ov">
     <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><div class="cd" id="cd"></div><button class="tbtn hidden" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
-        <button class="search asbtn" id="homeSearch" aria-label="Search places"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search places, food, shops</span></button>
-    <button class="explore" id="exploreBtn"><span><b>Places</b><small id="ppCount"></small></span></button>
+        <button class="explore" id="exploreBtn"><span><b>Places</b><small id="ppCount"></small></span></button>
     <div class="ov-grid">
       <div class="ov-main">
         <div class="h2">Itinerary</div>
@@ -1621,7 +1620,7 @@ body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,25
 /* places page */
 .asbtn{width:100%;text-align:left;color:var(--ink-3);font-size:16px;cursor:pointer}
 .asbtn span{flex:1}
-.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:12px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
+.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:28px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
 .explore b{display:block;font-size:17px;font-weight:700;letter-spacing:-.015em}
 .explore small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px}
 .explore::after{content:"";width:9px;height:9px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);margin-right:4px}
@@ -1787,7 +1786,7 @@ function renderPlaces2(){const chips=document.getElementById('ppChips');const no
   const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;}
 (function(){const inp=document.getElementById('pq'),x=document.getElementById('pqx');inp.oninput=()=>{ppQuery=inp.value;x.classList.toggle('hidden',!inp.value);renderPlaces2();};x.onclick=()=>{inp.value='';ppQuery='';x.classList.add('hidden');renderPlaces2();inp.focus();};
   document.getElementById('ppBack').onclick=()=>{document.getElementById('placespg').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
-  document.getElementById('homeSearch').onclick=()=>openPlaces('');document.getElementById('exploreBtn').onclick=()=>openPlaces();})();
+  document.getElementById('exploreBtn').onclick=()=>openPlaces();})();
 
 
 /* ---------- place detail page ---------- */
