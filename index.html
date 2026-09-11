@@ -66,9 +66,9 @@ a{color:inherit;text-decoration:none}
 /* ============ overview ============ */
 .ov{padding:0 var(--pad) calc(var(--sab) + 40px)}
 .ov-top{padding-top:calc(var(--sat) + 28px);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
-.cd{flex:0 0 auto;text-align:right;line-height:1}
-.cd b{display:block;font-size:34px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
-.cd small{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+.cd{flex:0 0 auto;text-align:center;line-height:1;background:var(--surface);border-radius:18px;box-shadow:var(--sh-1);padding:12px 16px 11px;min-width:84px;align-self:center}
+.cd b{display:block;font-size:30px;font-weight:700;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums}
+.cd small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
 .tbtn{width:40px;height:40px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex:0 0 auto;margin-bottom:4px}
 .tbtn svg{width:18px;height:18px}
 .tools{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
@@ -76,7 +76,7 @@ a{color:inherit;text-decoration:none}
 .count{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:600}
 html.dark .count{background:#F2F2F2;color:#141414}
 .ov-top h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0}
-.ov-top .sub{font-size:13px;color:var(--ink-2);margin-top:6px;font-weight:500}
+.ov-top .sub{font-size:14px;color:var(--ink-2);margin-top:6px;font-weight:500}
 .cover{margin-top:22px;border-radius:var(--r-l);height:200px;box-shadow:var(--sh-2)}
 .cover .ph svg{width:32px;height:32px}
 .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
@@ -1607,7 +1607,7 @@ body:has(#day.active) .skybtn{display:none}
 
 
 /* breathing emblem */
-.ov-top{align-items:flex-end}
+.ov-top{align-items:center}
 .orbwrap{position:relative;width:104px;height:104px;flex:0 0 auto;margin-right:2px}
 .orbwrap canvas{position:absolute;inset:-30px;width:164px;height:164px}
 .orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;pointer-events:none}
