@@ -568,7 +568,7 @@ html.dark #bigcard .bc{background:#fff;color:#111}
 
 /* painted-sky world (original, anime-inspired) */
 #sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-body.sky{background:#DCE9F4}
+body.sky{background:#CFE3EC}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
 body.sky .ov{background:transparent}
@@ -1327,7 +1327,7 @@ function todayId(){const n=jstNow();if(n.getFullYear()!==2026||n.getMonth()!==9)
 function nowStopIndex(day){if(day.id!==todayId())return -1;const n=jstNow();const cur=n.getHours()*60+n.getMinutes();let idx=-1;day.stops.forEach((s,i)=>{const[h,m]=s.t.split(':').map(Number);if(h*60+m<=cur)idx=i;});return idx;}
 
 /* ---------- theme ---------- */
-document.documentElement.classList.remove('dark');document.querySelector('meta[name=theme-color]').content='#DCE9F4';
+document.documentElement.classList.remove('dark');document.querySelector('meta[name=theme-color]').content='#CFE3EC';
 document.getElementById('themeBtn').onclick=()=>{return;const d=!document.documentElement.classList.contains('dark');document.documentElement.classList.toggle('dark',d);localStorage.setItem('theme',d?'dark':'light');document.querySelector('meta[name=theme-color]').content=d?'#121212':'#EEEEEA';};
 function countdown(){const now=jstNow();const start=new Date(2026,9,7),end=new Date(2026,9,20);const days=Math.ceil((start-now)/864e5);if(now<start)return `${days} day${days===1?'':'s'} to go`;if(now<end)return `Day ${Math.min(13,Math.floor((now-start)/864e5)+1)} of 13`;return 'Trip complete';}
 function printView(){const w=window.open('','_blank');if(!w)return;const esc=x=>String(x).replace(/</g,'&lt;');
@@ -1562,7 +1562,7 @@ html.dark .route3d{box-shadow:0 12px 32px rgba(0,0,0,.6)}
 
 /* painted-sky world (original, anime-inspired) */
 #sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-body.sky{background:#DCE9F4}
+body.sky{background:#CFE3EC}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
 body.sky .ov{background:transparent}
@@ -1982,7 +1982,7 @@ renderOverview();renderPlaces();
     // sky gradient quad
     const skyMat=new THREE.ShaderMaterial({uniforms:{top:{value:new THREE.Color('#9FC8E6')},mid:{value:new THREE.Color('#D9EAF2')},bot:{value:new THREE.Color('#F2EBDD')},sun:{value:new THREE.Vector2(.78,.85)},sunc:{value:new THREE.Color('#FFF1C2')},t:{value:0}},
       vertexShader:'varying vec2 u;void main(){u=uv;gl_Position=vec4(position.xy,0.,1.);}',
-      fragmentShader:'varying vec2 u;uniform vec3 top,mid,bot,sunc;uniform vec2 sun;uniform float t;void main(){vec3 c=mix(bot,mid,smoothstep(0.,.4,u.y));c=mix(c,top,smoothstep(.35,1.,u.y));float d=distance(u*vec2(1.6,1.),sun*vec2(1.6,1.));c+=sunc*(.35*exp(-d*d*9.)+.08*exp(-d*d*1.5));gl_FragColor=vec4(c,1.);}'});
+      fragmentShader:'varying vec2 u;uniform vec3 top,mid,bot,sunc;uniform vec2 sun;uniform float t;void main(){vec3 c=mix(bot,mid,smoothstep(0.,.55,u.y));c=mix(c,top,smoothstep(.5,1.,u.y));float d=distance(u*vec2(1.6,1.),sun*vec2(1.6,1.));c+=sunc*(.35*exp(-d*d*9.)+.08*exp(-d*d*1.5));gl_FragColor=vec4(c,1.);}'});
     S.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),skyMat));
     // clouds: soft sprites from a painted blob texture
     const cloudTex=tex((g,n)=>{g.clearRect(0,0,n,n);const blobs=[[.5,.55,.34],[.32,.6,.24],[.68,.58,.26],[.45,.42,.2],[.6,.4,.18],[.25,.5,.15],[.78,.5,.14]];blobs.forEach(([x,y,r])=>{const gr=g.createRadialGradient(x*n,y*n,0,x*n,y*n,r*n);gr.addColorStop(0,'rgba(255,255,255,.95)');gr.addColorStop(.55,'rgba(255,255,255,.55)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);});},256);
@@ -1994,9 +1994,9 @@ renderOverview();renderPlaces();
     const dotTex=tex((g,n)=>{const gr=g.createRadialGradient(n/2,n/2,0,n/2,n/2,n/2);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.4,'rgba(255,255,255,.6)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);},64);
     
     // palettes by Japan hour
-    const PAL={day:['#A9CCEB','#D6E7F4','#EEF3F7','#FFF3D6',[.8,.9]]};
+    const PAL={day:['#8FBEE3','#D6E9F3','#F2EEE2','#FFF4CF',[.8,.85]]};
     function palette(){return PAL.day;}
-    function applyPal(){const p=palette();skyMat.uniforms.top.value.set(p[0]);skyMat.uniforms.mid.value.set(p[1]);skyMat.uniforms.bot.value.set(p[2]);skyMat.uniforms.sunc.value.set(p[3]);skyMat.uniforms.sun.value.set(p[4][0],p[4][1]);clouds.forEach(c=>c.material.opacity=.32+.25*Math.random());}
+    function applyPal(){const p=palette();skyMat.uniforms.top.value.set(p[0]);skyMat.uniforms.mid.value.set(p[1]);skyMat.uniforms.bot.value.set(p[2]);skyMat.uniforms.sunc.value.set(p[3]);skyMat.uniforms.sun.value.set(p[4][0],p[4][1]);clouds.forEach(c=>c.material.opacity=.35+.3*Math.random());}
     applyPal();
     function resize(){R.setSize(window.innerWidth,window.innerHeight,false);aspect=window.innerWidth/window.innerHeight;fitClouds();}resize();window.addEventListener('resize',resize);
     let hidden=false;document.addEventListener('visibilitychange',()=>hidden=document.hidden);
