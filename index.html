@@ -651,7 +651,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 .pd-hero .gal{display:flex;height:100%;touch-action:pan-y}
 .pd-hero .gal .img{flex:0 0 100%;height:100%}
 .pd-hero .gal .img .credit{bottom:34px;right:auto;left:var(--pad)}
-.pd-sheet{padding-top:22px}
+.pd-sheet{padding-top:34px}
 .pd-kicker{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
 .pd-kicker .tag{font-size:11px}
 .pd-sheet h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0 0 10px}
@@ -695,13 +695,13 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 
 /* place page rhythm and pizzazz */
 .pd-sheet>*{margin-bottom:14px}
-.pd-sheet>.pd-kicker{margin-bottom:8px}.pd-sheet>h1{margin-bottom:6px}.pd-sheet>.pd-city{margin-bottom:16px}
-.pd-sheet>.pd-facts{margin-bottom:6px}.pd-sheet>.pd-acts{margin:0 0 18px}
+.pd-sheet>.pd-kicker{margin-bottom:8px}.pd-sheet>h1{margin-bottom:8px}.pd-sheet>.pd-city{margin-bottom:24px}
+.pd-sheet>.pd-facts{margin-bottom:10px}.pd-sheet>.pd-acts{margin:0 0 28px}
 .pd-sheet>.guide,.pd-sheet>.sec.tipbox{margin-top:0;margin-bottom:14px}
 .pd-block:last-child{margin-bottom:0}
 .pd-sheet{position:relative;overflow:hidden}
 .pd-kanji{position:absolute;right:-6px;top:6px;font-size:120px;line-height:1;font-weight:700;color:var(--accent,#2B5FB3);opacity:.06;pointer-events:none;letter-spacing:-.05em;user-select:none;font-family:"Hiragino Sans","Noto Sans JP",Inter,sans-serif}
-.pd-sheet::before{content:"";position:absolute;left:-20%;top:-120px;width:140%;height:320px;background:radial-gradient(60% 60% at 50% 40%,color-mix(in srgb,var(--accent,#2B5FB3) 14%,transparent),transparent 70%);pointer-events:none}
+.pd-sheet::before{content:"";position:absolute;left:-20%;top:-120px;width:140%;height:320px;background:radial-gradient(60% 60% at 50% 40%,color-mix(in srgb,var(--accent,#2B5FB3) 7%,transparent),transparent 70%);pointer-events:none}
 .pd-sheet>*{position:relative}
 .pd-facts .g{animation:rise .5s var(--ease) both}
 .pd-facts .g:nth-child(2){animation-delay:60ms}.pd-facts .g:nth-child(3){animation-delay:120ms}.pd-facts .g:nth-child(4){animation-delay:180ms}
@@ -1653,7 +1653,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 .pd-hero .gal{display:flex;height:100%;touch-action:pan-y}
 .pd-hero .gal .img{flex:0 0 100%;height:100%}
 .pd-hero .gal .img .credit{bottom:34px;right:auto;left:var(--pad)}
-.pd-sheet{padding-top:22px}
+.pd-sheet{padding-top:34px}
 .pd-kicker{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
 .pd-kicker .tag{font-size:11px}
 .pd-sheet h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0 0 10px}
@@ -1697,13 +1697,13 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 
 /* place page rhythm and pizzazz */
 .pd-sheet>*{margin-bottom:14px}
-.pd-sheet>.pd-kicker{margin-bottom:8px}.pd-sheet>h1{margin-bottom:6px}.pd-sheet>.pd-city{margin-bottom:16px}
-.pd-sheet>.pd-facts{margin-bottom:6px}.pd-sheet>.pd-acts{margin:0 0 18px}
+.pd-sheet>.pd-kicker{margin-bottom:8px}.pd-sheet>h1{margin-bottom:8px}.pd-sheet>.pd-city{margin-bottom:24px}
+.pd-sheet>.pd-facts{margin-bottom:10px}.pd-sheet>.pd-acts{margin:0 0 28px}
 .pd-sheet>.guide,.pd-sheet>.sec.tipbox{margin-top:0;margin-bottom:14px}
 .pd-block:last-child{margin-bottom:0}
 .pd-sheet{position:relative;overflow:hidden}
 .pd-kanji{position:absolute;right:-6px;top:6px;font-size:120px;line-height:1;font-weight:700;color:var(--accent,#2B5FB3);opacity:.06;pointer-events:none;letter-spacing:-.05em;user-select:none;font-family:"Hiragino Sans","Noto Sans JP",Inter,sans-serif}
-.pd-sheet::before{content:"";position:absolute;left:-20%;top:-120px;width:140%;height:320px;background:radial-gradient(60% 60% at 50% 40%,color-mix(in srgb,var(--accent,#2B5FB3) 14%,transparent),transparent 70%);pointer-events:none}
+.pd-sheet::before{content:"";position:absolute;left:-20%;top:-120px;width:140%;height:320px;background:radial-gradient(60% 60% at 50% 40%,color-mix(in srgb,var(--accent,#2B5FB3) 7%,transparent),transparent 70%);pointer-events:none}
 .pd-sheet>*{position:relative}
 .pd-facts .g{animation:rise .5s var(--ease) both}
 .pd-facts .g:nth-child(2){animation-delay:60ms}.pd-facts .g:nth-child(3){animation-delay:120ms}.pd-facts .g:nth-child(4){animation-delay:180ms}
@@ -1791,7 +1791,7 @@ function openPlace(key){if(!PLACES)PLACES=buildPlaces();const p=PLACES.find(x=>x
   const b=document.getElementById('pdBody');const catl=(CATLBL[p.cat]||['Place'])[0];
   const facts=[];if(p.best.length)facts.push([I.sun,p.best[0],'Best time']);if(p.days.length)facts.push([I.cal,p.days.map(d=>d.short.split(' ')[1]+' '+d.short.split(' ')[2]).join(', '),'In the plan']);facts.push([I.flag,p.city,'Where']);facts.push([I[CATI[p.cat]]||I.star,catl,'Type']);
   const KANJI={Tokyo:'東京',Kyoto:'京都',Arashiyama:'嵐山',Ine:'伊根','Ine & Amanohashidate':'伊根',Okunoshima:'大久野島','Nara & Osaka':'大阪',Nara:'奈良',Osaka:'大阪',Hakone:'箱根','Know-how':'旅',Everywhere:'旅',Stations:'駅','Hiroshima area':'広島'};
-  b.innerHTML=`<div class="pd-kanji" aria-hidden="true">${KANJI[p.city]||KANJI[p.cityg]||'旅'}</div><div class="pd-kicker"><span class="tag" style="background:${accent}20;color:${accent}">${catl}</span>${p.days.some(d=>DAYS.find(x=>x.id===d.id).stops[d.i]&&DAYS.find(x=>x.id===d.id).stops[d.i].must)?'<span class="tag must">Must see</span>':''}</div><h1>${p.n}</h1><div class="pd-city">${p.city}${p.sum?' · '+p.sum.split('. ')[0]+'.':''}</div>
+  b.innerHTML=`<div class="pd-kicker"><span class="tag" style="background:${accent}20;color:${accent}">${catl}</span>${p.days.some(d=>DAYS.find(x=>x.id===d.id).stops[d.i]&&DAYS.find(x=>x.id===d.id).stops[d.i].must)?'<span class="tag must">Must see</span>':''}</div><h1>${p.n}</h1><div class="pd-city">${p.city}${p.sum?' · '+p.sum.split('. ')[0]+'.':''}</div>
     <div class="pd-facts">${facts.map(f=>`<div class="g">${f[0]}<div><b>${f[1]}</b><small>${f[2]}</small></div></div>`).join('')}</div>
     <div class="pd-acts">${p.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a><a class="mapbtn alt" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.q)}&travelmode=transit" target="_blank" rel="noopener">Directions ${I.ext}</a>`:''}</div>
     ${p.days.length?`<div class="pd-block"><h3>${I.cal}In the itinerary</h3><div class="pd-days">${p.days.map(x=>`<button onclick="jump('${x.id}',${x.vi===undefined?'undefined':x.vi},${x.i})">${x.short.split(' ').slice(1).join(' ')} · ${x.t}${x.label?' · '+x.label:''}</button>`).join('')}</div></div>`:''}
