@@ -567,7 +567,7 @@ html.dark #bigcard .bc{background:#fff;color:#111}
 
 
 /* painted-sky world (original, anime-inspired) */
-#sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
+body.sky::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#BFD8EC 0%,#D4E4F1 28%,#E4EEF5 55%,#F5F5F2 100%)}
 body.sky{background:#EEF3F7}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
@@ -591,9 +591,9 @@ html.dark body.sky #day .dsw{background:rgba(18,18,24,.92)}
 html.dark body.sky .card,html.dark body.sky .dayw,html.dark body.sky .note,html.dark body.sky .stay,html.dark body.sky .mvg,html.dark body.sky .hl,html.dark body.sky .gtk .g,html.dark body.sky .tip,html.dark body.sky .wx,html.dark body.sky .search,html.dark body.sky .results{background:rgba(28,28,34,.92)}
 html.dark body.sky .tag-c,html.dark body.sky .chip,html.dark body.sky .sechead .cnt,html.dark body.sky .nextchip,html.dark body.sky .dsw button{background:rgba(28,28,34,.9)}
 html.dark body.sky .ov-top h1,html.dark body.sky .ov-top .sub,html.dark body.sky .h2{color:#F2F2F2;text-shadow:none}
-.skybtn{position:fixed;right:14px;bottom:calc(var(--sab) + 14px);z-index:60;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:#2E3B4E;font-size:16px}
+.skybtn{display:none!important;position:fixed;right:14px;bottom:calc(var(--sab) + 14px);z-index:60;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:#2E3B4E;font-size:16px}
 body:has(#day.active) .skybtn{display:none}
-@media (prefers-reduced-motion:reduce){#sky{display:none}body.sky{background:var(--bg)}}
+
 
 
 
@@ -748,7 +748,6 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
     </div>
   </div>
 </section>
-<canvas id="sky" aria-hidden="true"></canvas>
 <div id="bigcard" class="hidden" onclick="if(event.target===this)this.classList.add('hidden')"></div>
 <section class="screen" id="placespg">
   <div class="pp-head">
@@ -1579,7 +1578,7 @@ html.dark .route3d{box-shadow:0 12px 32px rgba(0,0,0,.6)}
 
 
 /* painted-sky world (original, anime-inspired) */
-#sky{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
+body.sky::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#BFD8EC 0%,#D4E4F1 28%,#E4EEF5 55%,#F5F5F2 100%)}
 body.sky{background:#EEF3F7}
 body.sky .app{z-index:1;background:transparent}
 body.sky .screen{background:transparent}
@@ -1603,9 +1602,9 @@ html.dark body.sky #day .dsw{background:rgba(18,18,24,.92)}
 html.dark body.sky .card,html.dark body.sky .dayw,html.dark body.sky .note,html.dark body.sky .stay,html.dark body.sky .mvg,html.dark body.sky .hl,html.dark body.sky .gtk .g,html.dark body.sky .tip,html.dark body.sky .wx,html.dark body.sky .search,html.dark body.sky .results{background:rgba(28,28,34,.92)}
 html.dark body.sky .tag-c,html.dark body.sky .chip,html.dark body.sky .sechead .cnt,html.dark body.sky .nextchip,html.dark body.sky .dsw button{background:rgba(28,28,34,.9)}
 html.dark body.sky .ov-top h1,html.dark body.sky .ov-top .sub,html.dark body.sky .h2{color:#F2F2F2;text-shadow:none}
-.skybtn{position:fixed;right:14px;bottom:calc(var(--sab) + 14px);z-index:60;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:#2E3B4E;font-size:16px}
+.skybtn{display:none!important;position:fixed;right:14px;bottom:calc(var(--sab) + 14px);z-index:60;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;color:#2E3B4E;font-size:16px}
 body:has(#day.active) .skybtn{display:none}
-@media (prefers-reduced-motion:reduce){#sky{display:none}body.sky{background:var(--bg)}}
+
 
 
 /* breathing emblem */
@@ -1983,51 +1982,10 @@ document.getElementById('backBtn').onclick=()=>{document.body.classList.remove('
 })();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 setInterval(()=>{if(curDay&&curDay.id===todayId()&&document.getElementById('day').classList.contains('active')){const y=window.scrollY;openDay(curDay.id);window.scrollTo(0,y);}},60000);
-renderOverview();renderPlaces();
+document.body.classList.add('sky');renderOverview();renderPlaces();
 
 
-/* ---------- painted sky: soft clouds, drifting seeds, light that follows Japan time ---------- */
-(function(){
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const canvas=document.getElementById('sky');if(!canvas)return;document.body.prepend(canvas);
-  const on=localStorage.getItem('sky')!=='off';document.body.classList.toggle('sky',on);
-  const btn=document.createElement('button');btn.className='skybtn';btn.title='Toggle painted sky';btn.setAttribute('aria-label','Toggle painted sky');btn.textContent=on?'☁':'▢';document.body.appendChild(btn);
-  btn.onclick=()=>{const now=!document.body.classList.contains('sky');document.body.classList.toggle('sky',now);localStorage.setItem('sky',now?'on':'off');btn.textContent=now?'☁':'▢';canvas.style.display=now?'block':'none';};
-  if(!on)canvas.style.display='none';
-  function boot(){if(window.THREE)return init();const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';sc.onload=init;document.head.appendChild(sc);}
-  function tex(draw,size){const c=document.createElement('canvas');c.width=c.height=size;draw(c.getContext('2d'),size);const t=new THREE.CanvasTexture(c);t.premultiplyAlpha=true;t.minFilter=THREE.LinearFilter;t.generateMipmaps=false;return t;}
-  function init(){
-    let R;try{R=new THREE.WebGLRenderer({canvas,alpha:false,antialias:false,premultipliedAlpha:true,powerPreference:'low-power'});}catch(e){return;}
-    R.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));R.setClearColor(0xEEF3F7,1);R.autoClear=true;
-    const S=new THREE.Scene();const C=new THREE.OrthographicCamera(-1,1,1,-1,0,10);C.position.z=5;
-    // sky gradient quad
-    const skyMat=new THREE.ShaderMaterial({uniforms:{top:{value:new THREE.Color('#9FC8E6')},mid:{value:new THREE.Color('#D9EAF2')},bot:{value:new THREE.Color('#F2EBDD')},sun:{value:new THREE.Vector2(.78,.85)},sunc:{value:new THREE.Color('#FFF1C2')},t:{value:0}},
-      vertexShader:'precision highp float;varying vec2 u;void main(){u=uv;gl_Position=vec4(position.xy,0.,1.);}',
-      fragmentShader:'precision highp float;varying vec2 u;uniform vec3 top,mid,bot,sunc;uniform vec2 sun;uniform float t;void main(){vec3 c=mix(bot,mid,smoothstep(0.,.55,u.y));c=mix(c,top,smoothstep(.5,1.,u.y));float d=distance(u*vec2(1.6,1.),sun*vec2(1.6,1.));c+=sunc*(.18*exp(-d*d*9.)+.04*exp(-d*d*1.5));gl_FragColor=vec4(c,1.);}'});
-    S.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),skyMat));
-    // clouds: soft sprites from a painted blob texture
-    const cloudTex=tex((g,n)=>{g.clearRect(0,0,n,n);const blobs=[[.5,.55,.34],[.32,.6,.24],[.68,.58,.26],[.45,.42,.2],[.6,.4,.18],[.25,.5,.15],[.78,.5,.14]];blobs.forEach(([x,y,r])=>{const gr=g.createRadialGradient(x*n,y*n,0,x*n,y*n,r*n);gr.addColorStop(0,'rgba(255,255,255,.95)');gr.addColorStop(.55,'rgba(255,255,255,.55)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);});},256);
-    const clouds=[];let aspect=1;for(let i=0;i<22;i++){const m=new THREE.SpriteMaterial({map:cloudTex,transparent:true,opacity:.35+Math.random()*.3,depthTest:false});const sp=new THREE.Sprite(m);const sc=.18+Math.random()*.42;sp.position.set(i<5?(.3+Math.random()*1.3):(-1.6+Math.random()*3.2),i<5?(.55+Math.random()*.45):(-.1+Math.random()*1.0),1);sp.userData={v:.00025+Math.random()*.0004,sc};S.add(sp);clouds.push(sp);}
-    function fitClouds(){clouds.forEach(c=>c.scale.set(c.userData.sc*2.1/aspect,c.userData.sc,1));}
-    // seeds: tiny drifting lights
-    const N=140;const pos=new Float32Array(N*3);const ph=new Float32Array(N);for(let i=0;i<N;i++){pos[i*3]=-1+Math.random()*2;pos[i*3+1]=-1+Math.random()*2;pos[i*3+2]=2;ph[i]=Math.random()*6.28;}
-    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    const dotTex=tex((g,n)=>{const gr=g.createRadialGradient(n/2,n/2,0,n/2,n/2,n/2);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.4,'rgba(255,255,255,.6)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,n,n);},64);
-    
-    // palettes by Japan hour
-    const PAL={day:['#BFD8EC','#E4EEF5','#F5F5F2','#FFF6DC',[.22,.92]]};
-    function palette(){return PAL.day;}
-    function applyPal(){const p=palette();skyMat.uniforms.top.value.set(p[0]);skyMat.uniforms.mid.value.set(p[1]);skyMat.uniforms.bot.value.set(p[2]);skyMat.uniforms.sunc.value.set(p[3]);skyMat.uniforms.sun.value.set(p[4][0],p[4][1]);clouds.forEach(c=>c.material.opacity=.28+.22*Math.random());}
-    applyPal();
-    function resize(){R.setSize(window.innerWidth,window.innerHeight,false);aspect=window.innerWidth/window.innerHeight;fitClouds();}resize();window.addEventListener('resize',resize);
-    let hidden=false;document.addEventListener('visibilitychange',()=>hidden=document.hidden);
-    let last=0;function frame(ts){requestAnimationFrame(frame);if(hidden||!document.body.classList.contains('sky'))return;if(ts-last<33)return;last=ts;const t=ts/1000;
-      clouds.forEach(c=>{c.position.x+=c.userData.v*60/6;if(c.position.x>1.9)c.position.x=-1.9;c.position.y+=Math.sin(t*.2+c.userData.sc)*.00005;});
-      R.render(S,C);}
-    requestAnimationFrame(frame);
-  }
-  boot();
-})();
+
 
 
 
