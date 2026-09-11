@@ -598,6 +598,47 @@ body:has(#day.active) .skybtn{display:none}
 
 
 
+
+/* places page */
+.asbtn{width:100%;text-align:left;color:var(--ink-3);font-size:15px;cursor:pointer}
+.asbtn span{flex:1}
+.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:12px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
+.explore b{display:block;font-size:17px;font-weight:700;letter-spacing:-.015em}
+.explore small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.explore::after{content:"";width:9px;height:9px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);margin-right:4px}
+.pp-head{padding:calc(var(--sat) + 26px) var(--pad) 8px;position:relative}
+.pp-back{position:static;margin-bottom:14px}
+.pp-head h1{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:0 0 4px;line-height:1.1}
+.pp-head .sub{font-size:14px;color:var(--ink-2)}
+.pp-head .search{margin-top:16px}
+.pp-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px calc(var(--pad) * -1) 0;padding:4px var(--pad) 14px}
+.pp-chips::-webkit-scrollbar{display:none}
+.pp-chips button{flex:0 0 auto;padding:7px 12px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.pp-chips button.on{background:var(--ink);color:#fff}
+.pp-list{padding:0 var(--pad) calc(var(--sab) + 40px)}
+.pp-list .none{color:var(--ink-3);font-size:14px;padding:20px 4px}
+.pc{background:var(--surface);border-radius:22px;box-shadow:var(--sh-1);margin-bottom:12px;overflow:hidden}
+.pc .top{display:flex;gap:14px;align-items:center;padding:12px;width:100%;text-align:left}
+.pc .img{width:84px;height:84px;border-radius:14px;flex:0 0 auto}
+.pc .tile{display:flex;align-items:center;justify-content:center;color:#fff}
+.pc .tile svg{width:28px;height:28px}
+.pc .img .ph svg{width:20px;height:20px}.pc .img .ph small{display:none}.pc .img .credit{display:none}
+.pc .t{font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+.pc .k{font-size:12px;color:var(--ink-3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pc .k .ck{width:8px;height:8px;border-radius:999px;display:inline-block}
+.pc .sm{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc.open .sm{-webkit-line-clamp:unset}
+.pc .txt{flex:1;min-width:0}
+.pc .more{margin:0;padding:0;border:0}
+.pc.open .more{margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.pc .more .inner{padding:0 16px}
+.pc.open .more .inner{padding:12px 16px 16px}
+.pc .days{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.pc .days button{font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;background:var(--tint);color:var(--ink)}
+.pc .sec:first-of-type{margin-top:8px}
+mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
+@media (min-width:900px){.pp-head,.pp-list{max-width:820px;margin:0 auto}}
+
 </style>
 </head>
 <body>
@@ -606,8 +647,8 @@ body:has(#day.active) .skybtn{display:none}
   <div class="ov">
     <div class="ov-top"><div><h1>Japan 2026</h1><div class="sub" id="ovsub">7 to 19 October · 13 days · 3 travellers</div></div><div class="cd" id="cd"></div><button class="tbtn hidden" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 13A8 8 0 1111 3a6 6 0 0010 10z"/></svg></button></div>
     <div class="cover img" id="cover"></div>
-        <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search a place, food or stop" autocomplete="off" aria-label="Search the itinerary"><button id="qx" class="hidden" aria-label="Clear">×</button></div>
-    <div class="results hidden" id="results"></div>
+        <button class="search asbtn" id="homeSearch" aria-label="Search places"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search places, food, shops</span></button>
+    <button class="explore" id="exploreBtn"><span><b>Places</b><small id="ppCount"></small></span>${''}</button>
     <div class="ov-grid">
       <div class="ov-main">
         <div class="h2">Itinerary</div>
@@ -630,6 +671,16 @@ body:has(#day.active) .skybtn{display:none}
 </section>
 <canvas id="sky" aria-hidden="true"></canvas>
 <div id="bigcard" class="hidden" onclick="if(event.target===this)this.classList.add('hidden')"></div>
+<section class="screen" id="placespg">
+  <div class="pp-head">
+    <button class="fab back pp-back" id="ppBack" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <h1>Places</h1>
+    <div class="sub">Everything worth knowing about where we're going</div>
+    <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="pq" type="search" placeholder="Search places, food, shops, tips" autocomplete="off"><button id="pqx" class="hidden" aria-label="Clear">×</button></div>
+    <div class="pp-chips" id="ppChips"></div>
+  </div>
+  <div class="pp-list" id="ppList"></div>
+</section>
 <section class="screen" id="day">
   <div class="day-grid">
   <div class="hero">
@@ -1059,6 +1110,35 @@ const PHRASES=[
  ['Delicious','Oishii','おいしい'],
  ['I have a reservation','Yoyaku shite imasu','予約しています']
 ];
+
+const EXTRA=[
+ {k:'x-seven',n:'7-Eleven',city:'Everywhere',cat:'shopping',sum:'The default konbini. Best egg sando and tuna-mayo onigiri, Seven Premium desserts, the best coffee machine, and the ATM that takes foreign cards after customs and on every corner.',eat:['Egg sando','Tuna mayo onigiri','Nama chocolate cake','Tiramisu cup','Oden in October (Kansai broth is lighter)'],tip:['Yamato luggage drop-off point','Cash from the ATM, no fee drama']},
+ {k:'x-lawson',n:'Lawson',city:'Everywhere',cat:'shopping',sum:'The one at Hankyu Arashiyama Station. Premium Roll Cake and the Basque cheesecake are Lawson-only. Natural Lawson in Tokyo for the healthier bakery, Lawson Store 100 for ¥100 fruit.',eat:['Premium Roll Cake','Basque cheesecake','Fruit sando'],tip:['Karaage-kun is chicken but not certified, skip']},
+ {k:'x-famima',n:'FamilyMart',city:'Everywhere',cat:'shopping',sum:'Famima Sweets (cream-filled), black sesame and hojicha desserts, and a Muji corner in many Tokyo branches for socks and stationery. Second Yamato luggage drop point.',eat:['Famima Sweets','Hojicha pudding'],tip:['Famichiki is not certified, pass','Yamato TA-Q-BIN accepted here']},
+ {k:'x-ministop',n:'Ministop',city:'Arashiyama',cat:'shopping',sum:'The one 120 m from the apartment. Only chain with soft-serve made in store; sweet potato pie in autumn. Handles Japan Post parcels, not Yamato.',eat:['Belgian chocolate soft-serve','Hot potato','Sweet potato pie']},
+ {k:'x-newdays',n:'NewDays',city:'Stations',cat:'shopping',sum:'JR-only konbini on Shinkansen platforms at Tokyo and Kyoto. Regional bento, Tokyo Banana gift packs, hot tea in cans.',eat:['Regional bento','Tokyo Banana']},
+ {k:'x-poplar',n:'Poplar',city:'Hiroshima area',cat:'shopping',sum:'Hiroshima-prefecture chain you will see around Mihara on the Okunoshima day. Rice scooped hot from the cooker over a bento at the counter.',eat:['Counter bento with hot rice']},
+ {k:'x-suica',n:'Suica (in Apple Wallet)',city:'Everywhere',cat:'transport',sum:'Add a Suica card in Apple Wallet before landing, top up with Apple Pay, tap through every train, bus, konbini and vending machine. Works in Tokyo, Kyoto, Osaka and Hiroshima alike.',tip:['No queue at the airport machines','Refund is not worth it; spend the balance at a konbini on the last day']},
+ {k:'x-yamato',n:'Yamato TA-Q-BIN (luggage courier)',city:'Everywhere',cat:'transport',sum:'Send a suitcase hotel to hotel for about ¥2,500, next-day. Drop at 7-Eleven or FamilyMart (not Ministop), prepaid, addressed to the hotel with your name and check-in date. Bags over size 180 go to a Yamato office.',tip:['Drop before 10:00 the day before','Some konbini refuse very large cases']},
+ {k:'x-lockers',n:'Coin lockers',city:'Stations',cat:'transport',sum:'Every big station. ¥400 small, ¥700 large, IC card or coins. Kyoto Station lockers fill by 11:00 on weekends; the JR Sagano line side has spares.',tip:['Photograph the locker number and the row sign']},
+ {k:'x-taxfree',n:'Tax-free shopping',city:'Everywhere',cat:'shopping',sum:'Passport in hand, minimum ¥5,000 per shop per day. Consumables are sealed and must stay sealed until you leave Japan. Big stores have a separate tax-free counter that closes earlier than the shop.',tip:['UNIQLO, Donki, BEAMS, Onitsuka all do it','Keep receipts with the passport']},
+ {k:'x-depachika',n:'Depachika (department-store food halls)',city:'Tokyo',cat:'food',sum:'Basement food floors under Isetan Shinjuku and Mitsukoshi Ginza. Best gift sweets in the country, and from about 19:30 the bento and sushi go half price.',eat:['Half-price bento after 19:30','Wagashi gift boxes']},
+ {k:'x-kappabashi',n:'Kappabashi kitchen street',city:'Tokyo',cat:'shopping',sum:'Ten minutes west of Asakusa. Knives engraved while you wait at Kama-Asa, ceramics by the crate, and the plastic food replicas every restaurant window uses.',buy:['A knife from Kama-Asa','Plastic sushi keyring']},
+ {k:'x-otagi',n:'Otagi Nenbutsu-ji',city:'Arashiyama',cat:'attraction',sum:'1,200 carved rakan statues, each with a different face, 25 minutes north of the bamboo grove through the Saga-Toriimoto preserved street. Almost nobody goes. ¥500.',see:['The laughing statues','Adashino Nenbutsu-ji next door with 8,000 stone Buddhas','Saga-Toriimoto street']},
+ {k:'x-okochi',n:'Okochi Sanso villa',city:'Arashiyama',cat:'attraction',sum:'At the top of the bamboo grove where the crowds turn back. ¥1,000 includes matcha and a sweet; gardens with the city view.',best:'Right after the grove at 07:30'},
+ {k:'x-gioji',n:'Gio-ji',city:'Arashiyama',cat:'attraction',sum:'Tiny moss-garden temple ten minutes north of the grove. The moss is the whole point; go after rain.'},
+ {k:'x-kameyama',n:'Kameyama Park viewpoint',city:'Arashiyama',cat:'nature',sum:'Five minutes above Togetsukyo Bridge. View down the Hozu gorge, occasional monkeys, free.'},
+ {k:'x-nezu',n:'Nezu Shrine',city:'Tokyo',cat:'attraction',sum:'Ten minutes from Yanaka. A small torii tunnel with none of the Fushimi crowd, azalea hillside, quiet.'},
+ {k:'x-todoroki',n:'Todoroki Valley',city:'Tokyo',cat:'nature',sum:'A forested gorge inside the city, 20 minutes from Shibuya on the Oimachi line. Empty on weekdays; a tea house at the end.'},
+ {k:'x-kasuga',n:'Kasuga Taisha',city:'Nara',cat:'attraction',sum:'Thousands of bronze and stone lanterns in the deer forest, 15 minutes on foot past Todai-ji and far quieter.'},
+ {k:'x-kuromon',n:'Kuromon Ichiba market',city:'Osaka',cat:'food',sum:'Osaka\'s kitchen, five minutes from Dotonbori. Tourist-priced now but fun; grilled scallops and fruit stands. Check ingredients.'},
+ {k:'x-shinsekai',n:'Shinsekai and Tsutenkaku',city:'Osaka',cat:'attraction',sum:'Retro Osaka under the tower: kushikatsu alley, Showa-era signs, best after dark.'},
+ {k:'x-umeda',n:'Umeda Sky Building',city:'Osaka',cat:'attraction',sum:'Floating garden observatory, on the way to Hankyu Umeda for the train home. Sunset slot.'},
+ {k:'x-onsen',n:'Onsen etiquette',city:'Hakone',cat:'nature',sum:'Day-use baths at Hakone-Yumoto before the Romancecar. Wash sitting down first, no swimwear, small towel stays out of the water, tattoos may need a private bath.'},
+ {k:'x-emergency',n:'Emergency numbers',city:'Everywhere',cat:'flex',sum:'110 police, 119 ambulance and fire (English available), #7119 medical advice in Tokyo, JNTO 24-hour visitor hotline 050-3816-2787. Koban police boxes on most corners help with directions and lost items.'},
+ {k:'x-etiquette',n:'Small etiquette that matters',city:'Everywhere',cat:'flex',sum:'No tipping. Money on the tray. No eating while walking. Quiet on trains, no calls. Stand left on escalators in Tokyo, right in Osaka. Shoes off where there is a step up. Carry your rubbish.'}
+];
+
 const NOTES=[
  {t:'Show the driver (addresses in Japanese)',html:'<div id="driverList"></div><p style="font-size:12px;color:var(--ink-3);margin:8px 0 0">Tap a card to open it full screen for the taxi driver.</p>'},
  {t:'Phrasebook (tap to hear it spoken)',html:'<div id="phraseList"></div><p style="font-size:12px;color:var(--ink-3);margin:8px 0 0">Uses the phone\'s Japanese voice; works offline on iPhone.</p>'},
@@ -1413,6 +1493,47 @@ body:has(#day.active) .skybtn{display:none}
 body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,255,255,.7)}
 @media (min-width:900px){.orbwrap{width:140px;height:140px}.orbwrap canvas{inset:-40px;width:220px;height:220px}.orbtxt b{font-size:34px}}
 
+
+/* places page */
+.asbtn{width:100%;text-align:left;color:var(--ink-3);font-size:15px;cursor:pointer}
+.asbtn span{flex:1}
+.explore{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:12px;background:var(--surface);box-shadow:var(--sh-1);border-radius:var(--r-l);padding:16px 18px;text-align:left}
+.explore b{display:block;font-size:17px;font-weight:700;letter-spacing:-.015em}
+.explore small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.explore::after{content:"";width:9px;height:9px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);margin-right:4px}
+.pp-head{padding:calc(var(--sat) + 26px) var(--pad) 8px;position:relative}
+.pp-back{position:static;margin-bottom:14px}
+.pp-head h1{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:0 0 4px;line-height:1.1}
+.pp-head .sub{font-size:14px;color:var(--ink-2)}
+.pp-head .search{margin-top:16px}
+.pp-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px calc(var(--pad) * -1) 0;padding:4px var(--pad) 14px}
+.pp-chips::-webkit-scrollbar{display:none}
+.pp-chips button{flex:0 0 auto;padding:7px 12px;border-radius:999px;background:var(--surface);box-shadow:var(--sh-1);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.pp-chips button.on{background:var(--ink);color:#fff}
+.pp-list{padding:0 var(--pad) calc(var(--sab) + 40px)}
+.pp-list .none{color:var(--ink-3);font-size:14px;padding:20px 4px}
+.pc{background:var(--surface);border-radius:22px;box-shadow:var(--sh-1);margin-bottom:12px;overflow:hidden}
+.pc .top{display:flex;gap:14px;align-items:center;padding:12px;width:100%;text-align:left}
+.pc .img{width:84px;height:84px;border-radius:14px;flex:0 0 auto}
+.pc .tile{display:flex;align-items:center;justify-content:center;color:#fff}
+.pc .tile svg{width:28px;height:28px}
+.pc .img .ph svg{width:20px;height:20px}.pc .img .ph small{display:none}.pc .img .credit{display:none}
+.pc .t{font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+.pc .k{font-size:12px;color:var(--ink-3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pc .k .ck{width:8px;height:8px;border-radius:999px;display:inline-block}
+.pc .sm{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc.open .sm{-webkit-line-clamp:unset}
+.pc .txt{flex:1;min-width:0}
+.pc .more{margin:0;padding:0;border:0}
+.pc.open .more{margin-top:0;padding-top:0;border-top:1px solid var(--line)}
+.pc .more .inner{padding:0 16px}
+.pc.open .more .inner{padding:12px 16px 16px}
+.pc .days{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.pc .days button{font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;background:var(--tint);color:var(--ink)}
+.pc .sec:first-of-type{margin-top:8px}
+mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
+@media (min-width:900px){.pp-head,.pp-list{max-width:820px;margin:0 auto}}
+
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
@@ -1420,15 +1541,8 @@ body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,25
   w.document.write(h);w.document.close();setTimeout(()=>w.print(),400);}
 /* ---------- search ---------- */
 function allStops(){const out=[];DAYS.forEach(d=>{const vs=d.variants?d.variants.map((v,i)=>[Object.assign({},d,v),i]):[[d,undefined]];vs.forEach(([day,vi])=>{day.stops.forEach((st,i)=>out.push({d,day,vi,st,i}));});});return out;}
-function jump(id,vi,i){openDay(id,vi);setTimeout(()=>{const el=document.querySelectorAll('#dStops .stop')[i];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}},380);}
-(function(){const q=document.getElementById('q'),res=document.getElementById('results'),qx=document.getElementById('qx');
-  const hl=(t,s)=>t.replace(new RegExp('('+s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>');
-  const run=()=>{const v=q.value.trim().toLowerCase();qx.classList.toggle('hidden',!v);if(v.length<2){res.classList.add('hidden');res.innerHTML='';return;}
-    const hits=allStops().filter(({st})=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';const blob=[st.n,pl,st.m,...(st.see||[]),...(st.eat||[]),...(st.buy||[]),st.guide||''].join(' ').toLowerCase();return blob.includes(v);}).slice(0,12);
-    res.classList.remove('hidden');
-    res.innerHTML=hits.length?hits.map(({d,day,vi,st,i})=>`<button onclick="jump('${d.id}',${vi===undefined?'undefined':vi},${i})"><span class="ic" style="background:${CATC[st.cat]}">${I[CATI[st.cat]]}</span><span class="txt"><span class="t">${hl(st.n,v)}</span><span class="k">Day ${String(d.n).padStart(2,'0')} · ${d.short} · ${st.t}${vi!==undefined?' · '+day.label:''}</span></span></button>`).join(''):'<div class="none">Nothing in the plan matches. Try a place or a food.</div>';};
-  q.oninput=run;qx.onclick=()=>{q.value='';run();q.focus();};
-  q.onkeydown=e=>{if(e.key==='Escape'){q.value='';run();q.blur();}};})();
+function jump(id,vi,i){document.getElementById('placespg').classList.remove('active');openDay(id,vi);setTimeout(()=>{const el=document.querySelectorAll('#dStops .stop')[i];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}},380);}
+
 /* ---------- places by city ---------- */
 function renderPlaces(){const byCity={};allStops().forEach(({d,day,vi,st,i})=>{if(!st.p||['hotel','airbnb'].includes(st.p)||st.cat==='transport'||st.cat==='hotel'||st.cat==='flex'||/Shinkansen|Kodama|Ferry|Ropeway|Hankyu|Romancecar|Odawara:|Freepass/i.test(st.n))return;const city=(vi===1&&d.id==='oct15')?'Hakone':CITY[d.id];(byCity[city]=byCity[city]||[]).push({d,vi,st,i});});
   const order=['Tokyo','Kyoto','Ine & Amanohashidate','Okunoshima','Nara & Osaka','Hakone'];
@@ -1442,6 +1556,32 @@ function renderPlaces(){const byCity={};allStops().forEach(({d,day,vi,st,i})=>{i
 /* ---------- progress ---------- */
 function dayProgress(day){const n=day.stops.length;let d=0;for(let i=0;i<n;i++)if(localStorage.getItem('done:'+day.id+':'+i)==='1')d++;return [d,n];}
 function updateProgress(){document.querySelectorAll('.dsw button[data-id]').forEach(b=>{const day=DAYS.find(d=>d.id===b.dataset.id);const [d,n]=dayProgress(day);b.style.setProperty('--p',n?d/n:0);b.classList.toggle('some',d>0);b.classList.toggle('all',d===n&&n>0);});document.querySelectorAll('.dayw').forEach(w=>{const day=DAYS.find(d=>d.id===w.dataset.id);if(!day)return;const [d,n]=dayProgress(day);const el=w.querySelector('.prog');if(el){el.style.setProperty('--p',n?d/n:0);el.textContent=d?`${d}/${n}`:'';el.classList.toggle('all',d===n);}});const tot=DAYS.reduce((a,d)=>a+dayProgress(d)[0],0);const tt=document.getElementById('tripprog');if(tt)tt.textContent=tot?`${tot} stops done`:'';}
+
+/* ---------- places page ---------- */
+const CITYOF={oct07:'Tokyo',oct08:'Tokyo',oct09:'Tokyo',oct10:'Kyoto',oct11:'Kyoto',oct12:'Ine',oct13:'Okunoshima',oct14:'Nara & Osaka',oct15:'Kyoto',oct16:'Tokyo',oct17:'Tokyo',oct18:'Tokyo',oct19:'Tokyo'};
+function buildPlaces(){const map={};
+  DAYS.forEach(d=>{const vs=d.variants?d.variants.map((v,i)=>[Object.assign({},d,v),i]):[[d,undefined]];vs.forEach(([day,vi])=>{day.stops.forEach((st,i)=>{if(!st.p||!P[st.p]||P[st.p][0]==='')return;const key=st.p;const city=(vi===1&&d.id==='oct15')?'Hakone':CITYOF[d.id];const e=map[key]||(map[key]={k:key,n:P[key][0],city,cat:st.cat,sum:'',see:[],eat:[],buy:[],tip:[],guide:[],best:[],days:[],q:P[key][0]});
+    if(st.m&&!e.sum)e.sum=st.m;['see','eat','buy','tip'].forEach(f=>(st[f]||[]).forEach(x=>{if(!e[f].includes(x))e[f].push(x)}));if(st.guide&&!e.guide.includes(st.guide))e.guide.push(st.guide);if(st.best&&!e.best.includes(st.best))e.best.push(st.best);
+    if(!e.days.find(x=>x.id===d.id&&x.vi===vi))e.days.push({id:d.id,vi,i,short:d.short,t:st.t,label:vi!==undefined?day.label:''});});});});
+  Object.values(map).forEach(e=>{if(['hotel','airbnb'].includes(e.k)){e.city=e.k==='hotel'?'Tokyo':'Arashiyama';}});
+  const stops=Object.values(map).filter(e=>!['hotel','airbnb'].includes(e.k));
+  return stops.concat(EXTRA.map(x=>{const e=Object.assign({see:[],eat:[],buy:[],tip:[],guide:[],best:[],days:[],q:''},x);if(typeof e.best==='string')e.best=[e.best];if(typeof e.guide==='string')e.guide=[e.guide];return e;}));}
+let PLACES=null,ppCity='All',ppQuery='';
+function openPlaces(q){if(!PLACES)PLACES=buildPlaces();document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('placespg').classList.add('active');document.body.classList.remove('party');window.scrollTo(0,0);const inp=document.getElementById('pq');if(q!==undefined){inp.value=q;ppQuery=q;}renderPlaces2();if(q===''){setTimeout(()=>inp.focus(),300);}location.hash='places';}
+function renderPlaces2(){const chips=document.getElementById('ppChips');const norm=c=>({'Arashiyama':'Kyoto','Nara':'Nara & Osaka','Osaka':'Nara & Osaka','Stations':'Know-how','Everywhere':'Know-how','Hiroshima area':'Okunoshima'})[c]||c;PLACES.forEach(p=>{p.cityg=norm(p.city)});const order=['All','Tokyo','Kyoto','Ine','Okunoshima','Nara & Osaka','Hakone','Know-how'];const cities=order.filter(c=>c==='All'||PLACES.some(p=>p.cityg===c));chips.innerHTML=cities.map(c=>`<button class="${c===ppCity?'on':''}" data-c="${c}">${c}</button>`).join('');chips.querySelectorAll('button').forEach(b=>b.onclick=()=>{ppCity=b.dataset.c;renderPlaces2();});
+  const q=ppQuery.trim().toLowerCase();const hl=t=>q?String(t).replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>'):t;
+  const list=PLACES.filter(p=>(ppCity==='All'||p.cityg===ppCity)&&(!q||[p.n,p.city,p.sum,...p.see,...p.eat,...p.buy,...p.tip,...p.guide].join(' ').toLowerCase().includes(q)));
+  const el=document.getElementById('ppList');el.innerHTML=list.length?'':'<div class="none">Nothing matches. Try a food, a shop, or a neighbourhood.</div>';
+  list.forEach(p=>{const d=document.createElement('div');d.className='pc';const col=CATC[p.cat]||'var(--ink-3)';
+    d.innerHTML=`<button class="top" aria-expanded="false"><span class="thumb"></span><span class="txt"><span class="t">${hl(p.n)}</span><span class="k"><i class="ck" style="background:${col}"></i>${p.city}${p.days.length?` · ${p.days.length} in the plan`:' · reference'}</span><span class="sm">${hl(p.sum||'')}</span></span></button><div class="more"><div class="inner">${p.days.length?`<div class="days">${p.days.map(x=>`<button onclick="event.stopPropagation();jump('${x.id}',${x.vi===undefined?'undefined':x.vi},${x.i})">${x.short.split(' ').slice(1).join(' ')} · ${x.t}${x.label?' · '+x.label:''}</button>`).join('')}</div>`:''}${p.best.length?`<div class="sec"><div class="h">${I.sun}Best time</div><ul>${p.best.map(x=>`<li>${hl(x)}</li>`).join('')}</ul></div>`:''}${p.guide.length?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${hl(p.guide.join(' '))}</p></div>`:''}${sec('See',I.eye,p.see.map(hl))}${sec('Eat',I.food,p.eat.map(hl))}${sec('Buy',I.bag,p.buy.map(hl))}${sec('Insider tip',I.bulb,p.tip.map(hl),'tipbox')}${p.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:''}</div></div>`;
+    const th=d.querySelector('.thumb');if(PH[p.k]||DIRECT[p.k]){th.replaceWith(mkImg(p.k,'thumb'));}else{const t=document.createElement('span');t.className='img tile';t.style.background=col;t.innerHTML=I[CATI[p.cat]]||I.star;th.replaceWith(t);}
+    d.querySelector('.top').onclick=()=>{d.classList.toggle('open');d.querySelector('.top').setAttribute('aria-expanded',d.classList.contains('open'));};el.appendChild(d);});
+  if(q&&list.length)list.length<=3&&el.querySelectorAll('.pc').forEach(x=>x.classList.add('open'));
+  const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;}
+(function(){const inp=document.getElementById('pq'),x=document.getElementById('pqx');inp.oninput=()=>{ppQuery=inp.value;x.classList.toggle('hidden',!inp.value);renderPlaces2();};x.onclick=()=>{inp.value='';ppQuery='';x.classList.add('hidden');renderPlaces2();inp.focus();};
+  document.getElementById('ppBack').onclick=()=>{document.getElementById('placespg').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
+  document.getElementById('homeSearch').onclick=()=>openPlaces('');document.getElementById('exploreBtn').onclick=()=>openPlaces();})();
+
 /* ---------- overview ---------- */
 function renderOverview(){
   document.getElementById('cover').replaceWith(mkImg('cover','cover'));
@@ -1508,7 +1648,7 @@ function openDay(id,vi){
   const seg=document.getElementById('seg');
   if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
   const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
-  document.getElementById('overview').classList.remove('active');document.getElementById('day').classList.add('active');
+  document.getElementById('overview').classList.remove('active');document.getElementById('placespg').classList.remove('active');document.getElementById('day').classList.add('active');
   if(sameDay){}else if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
   const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
@@ -1644,7 +1784,8 @@ renderOverview();renderPlaces();
 
 
 
-const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);
+const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);else if(h0==='places')openPlaces();
+(function(){if(!PLACES)PLACES=buildPlaces();const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;})();
 </script>
 </body>
 </html>
