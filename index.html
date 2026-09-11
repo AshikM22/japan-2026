@@ -645,6 +645,50 @@ body:has(#day.active) .skybtn{display:none}
 mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 @media (min-width:900px){.pp-head,.pp-list{max-width:820px;margin:0 auto}}
 
+
+/* place detail page */
+.pd-hero{position:relative;height:46vh;min-height:300px;max-height:460px;overflow:hidden;background:#E6E4DE}
+.pd-hero .gal{display:flex;height:100%;touch-action:pan-y}
+.pd-hero .gal .img{flex:0 0 100%;height:100%}
+.pd-hero .gal .img .credit{bottom:34px;right:auto;left:var(--pad)}
+.pd-sheet{padding-top:22px}
+.pd-kicker{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.pd-kicker .tag{font-size:11px}
+.pd-sheet h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0 0 10px}
+.pd-city{font-size:14px;color:var(--ink-2);margin-bottom:16px}
+.pd-facts{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1) 20px;padding:2px var(--pad) 12px}
+.pd-facts::-webkit-scrollbar{display:none}
+.pd-facts .g{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:var(--surface);box-shadow:var(--sh-1);border-radius:14px;padding:9px 12px;min-width:120px}
+.pd-facts .g svg{width:16px;height:16px;color:var(--ink-3);flex:0 0 auto}
+.pd-facts .g b{display:block;font-size:13px;font-weight:600;line-height:1.2}
+.pd-facts .g small{display:block;font-size:10.5px;color:var(--ink-3);margin-top:1px}
+.pd-block{background:var(--surface);border-radius:22px;box-shadow:var(--sh-1);padding:18px 20px;margin-bottom:14px}
+.pd-block h3{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent,#2B5FB3);margin:0 0 10px;display:flex;align-items:center;gap:7px}
+.pd-block h3 svg{width:14px;height:14px}
+.pd-block p{margin:0;font-size:15px;line-height:1.55;color:#333}
+.pd-block .src{display:block;margin-top:10px;font-size:12px;color:var(--ink-3)}
+.pd-block .src a{text-decoration:underline}
+.pd-block .sec{margin-top:0;padding-top:0;border-top:0}
+.pd-block .sec+.sec{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.pd-days{display:flex;gap:8px;flex-wrap:wrap}
+.pd-days button{font-size:13px;font-weight:600;padding:9px 13px;border-radius:999px;background:var(--tint);color:var(--ink)}
+.pd-acts{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.pd-acts .mapbtn{margin-top:0}
+.pd-acts .mapbtn.alt{background:var(--tint);color:var(--ink)}
+.pd-near{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 16px}
+.pd-near::-webkit-scrollbar{display:none}
+.pd-near button{flex:0 0 150px;text-align:left;background:var(--surface);border-radius:16px;box-shadow:var(--sh-1);overflow:hidden}
+.pd-near .img{height:90px}.pd-near .img .ph small,.pd-near .img .credit{display:none}
+.pd-near b{display:block;font-size:13px;padding:8px 10px 10px;line-height:1.3}
+.pd-skel{height:14px;border-radius:7px;background:linear-gradient(90deg,#EEE 25%,#F7F7F5 50%,#EEE 75%);background-size:200% 100%;animation:shimmer2 1.4s infinite;margin:6px 0}
+@keyframes shimmer2{to{background-position:-200% 0}}
+.pd-wikiph{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1) 4px;padding:0 var(--pad) 8px}
+.pd-wikiph::-webkit-scrollbar{display:none}
+.pd-wikiph img{height:110px;border-radius:12px;flex:0 0 auto;background:#EEE;cursor:pointer}
+.pc .top{cursor:pointer}
+.stop .more .pl-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;font-weight:600;color:var(--accent,#2B5FB3)}
+@media (min-width:900px){.pd-sheet{max-width:820px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}.pd-hero{max-height:520px}}
+
 </style>
 </head>
 <body>
@@ -687,6 +731,15 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
     <div class="pp-chips cats" id="ppCats"></div>
   </div>
   <div class="pp-list" id="ppList"></div>
+</section>
+<section class="screen" id="placedetail">
+  <div class="pd-hero"><div class="gal" id="pdgal"></div><div class="shade"></div>
+    <button class="fab back" id="pdBack" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="gcount" id="pdcount"></div><div class="gdots" id="pddots"></div>
+    <button class="garr l" id="pdprev" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="garr r" id="pdnext" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+  <div class="sheet pd-sheet" id="pdBody"></div>
 </section>
 <section class="screen" id="day">
   <div class="day-grid">
@@ -1566,6 +1619,50 @@ body.skynight .orbtxt b{color:#fff}body.skynight .orbtxt small{color:rgba(255,25
 mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 @media (min-width:900px){.pp-head,.pp-list{max-width:820px;margin:0 auto}}
 
+
+/* place detail page */
+.pd-hero{position:relative;height:46vh;min-height:300px;max-height:460px;overflow:hidden;background:#E6E4DE}
+.pd-hero .gal{display:flex;height:100%;touch-action:pan-y}
+.pd-hero .gal .img{flex:0 0 100%;height:100%}
+.pd-hero .gal .img .credit{bottom:34px;right:auto;left:var(--pad)}
+.pd-sheet{padding-top:22px}
+.pd-kicker{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.pd-kicker .tag{font-size:11px}
+.pd-sheet h1{font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.03em;margin:0 0 10px}
+.pd-city{font-size:14px;color:var(--ink-2);margin-bottom:16px}
+.pd-facts{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1) 20px;padding:2px var(--pad) 12px}
+.pd-facts::-webkit-scrollbar{display:none}
+.pd-facts .g{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:var(--surface);box-shadow:var(--sh-1);border-radius:14px;padding:9px 12px;min-width:120px}
+.pd-facts .g svg{width:16px;height:16px;color:var(--ink-3);flex:0 0 auto}
+.pd-facts .g b{display:block;font-size:13px;font-weight:600;line-height:1.2}
+.pd-facts .g small{display:block;font-size:10.5px;color:var(--ink-3);margin-top:1px}
+.pd-block{background:var(--surface);border-radius:22px;box-shadow:var(--sh-1);padding:18px 20px;margin-bottom:14px}
+.pd-block h3{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent,#2B5FB3);margin:0 0 10px;display:flex;align-items:center;gap:7px}
+.pd-block h3 svg{width:14px;height:14px}
+.pd-block p{margin:0;font-size:15px;line-height:1.55;color:#333}
+.pd-block .src{display:block;margin-top:10px;font-size:12px;color:var(--ink-3)}
+.pd-block .src a{text-decoration:underline}
+.pd-block .sec{margin-top:0;padding-top:0;border-top:0}
+.pd-block .sec+.sec{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.pd-days{display:flex;gap:8px;flex-wrap:wrap}
+.pd-days button{font-size:13px;font-weight:600;padding:9px 13px;border-radius:999px;background:var(--tint);color:var(--ink)}
+.pd-acts{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.pd-acts .mapbtn{margin-top:0}
+.pd-acts .mapbtn.alt{background:var(--tint);color:var(--ink)}
+.pd-near{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 16px}
+.pd-near::-webkit-scrollbar{display:none}
+.pd-near button{flex:0 0 150px;text-align:left;background:var(--surface);border-radius:16px;box-shadow:var(--sh-1);overflow:hidden}
+.pd-near .img{height:90px}.pd-near .img .ph small,.pd-near .img .credit{display:none}
+.pd-near b{display:block;font-size:13px;padding:8px 10px 10px;line-height:1.3}
+.pd-skel{height:14px;border-radius:7px;background:linear-gradient(90deg,#EEE 25%,#F7F7F5 50%,#EEE 75%);background-size:200% 100%;animation:shimmer2 1.4s infinite;margin:6px 0}
+@keyframes shimmer2{to{background-position:-200% 0}}
+.pd-wikiph{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--pad) * -1) 4px;padding:0 var(--pad) 8px}
+.pd-wikiph::-webkit-scrollbar{display:none}
+.pd-wikiph img{height:110px;border-radius:12px;flex:0 0 auto;background:#EEE;cursor:pointer}
+.pc .top{cursor:pointer}
+.stop .more .pl-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;font-weight:600;color:var(--accent,#2B5FB3)}
+@media (min-width:900px){.pd-sheet{max-width:820px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}.pd-hero{max-height:520px}}
+
 </style></head><body>`;
   h+=`<h1>Japan 2026</h1><p class="d">7 to 19 October · Tokyo, Kyoto, Ine, Okunoshima, Nara, Osaka</p><h3>Stays</h3>`+STAYS.map(x=>`<div class="stay"><b>${esc(x.name)}</b> · ${esc(x.range)} · ${x.nights} nights<br><span class="small">${esc(x.addr)} · ${esc(x.station)}</span></div>`).join('');
   DAYS.forEach(base=>{const vs=base.variants||[null];vs.forEach((v,vi)=>{const day=v?Object.assign({},base,v):base;h+=`<h2>Day ${String(base.n).padStart(2,'0')} · ${esc(base.d)} · ${esc(day.title)}${v?` (${esc(v.label)})`:''}</h2><p class="d">${esc(day.desc)}</p><table>`;day.stops.forEach(st=>{const pl=st.p&&P[st.p]?P[st.p][0]:'';h+=`<tr><td class="t">${st.t}</td><td><b>${esc(st.n)}</b>${pl?` <span class="small">· ${esc(pl)}</span>`:''}${st.m?`<br><span class="small">${esc(st.m)}</span>`:''}</td><td class="g">${st.go?`${esc((st.go.m||'').replace(/^./,c=>c.toUpperCase()))}${st.go.t?' · '+esc(st.go.t):''}${st.go.d?'<br>'+esc(st.go.d):''}`:''}</td></tr>`;});h+=`</table><p class="small">Wear: ${esc(day.ess.wear.join(', '))} · Eat: ${esc(day.ess.eat.join(', '))} · Buy: ${esc(day.ess.buy.join(', '))}</p>`;});});
@@ -1573,7 +1670,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
   w.document.write(h);w.document.close();setTimeout(()=>w.print(),400);}
 /* ---------- search ---------- */
 function allStops(){const out=[];DAYS.forEach(d=>{const vs=d.variants?d.variants.map((v,i)=>[Object.assign({},d,v),i]):[[d,undefined]];vs.forEach(([day,vi])=>{day.stops.forEach((st,i)=>out.push({d,day,vi,st,i}));});});return out;}
-function jump(id,vi,i){document.getElementById('placespg').classList.remove('active');openDay(id,vi);setTimeout(()=>{const el=document.querySelectorAll('#dStops .stop')[i];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}},380);}
+function jump(id,vi,i){openDay(id,vi);setTimeout(()=>{const el=document.querySelectorAll('#dStops .stop')[i];if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}},380);}
 
 /* ---------- places by city ---------- */
 function renderPlaces(){const byCity={};allStops().forEach(({d,day,vi,st,i})=>{if(!st.p||['hotel','airbnb'].includes(st.p)||st.cat==='transport'||st.cat==='hotel'||st.cat==='flex'||/Shinkansen|Kodama|Ferry|Ropeway|Hankyu|Romancecar|Odawara:|Freepass/i.test(st.n))return;const city=(vi===1&&d.id==='oct15')?'Hakone':CITY[d.id];(byCity[city]=byCity[city]||[]).push({d,vi,st,i});});
@@ -1590,6 +1687,8 @@ function dayProgress(day){const n=day.stops.length;let d=0;for(let i=0;i<n;i++)i
 function updateProgress(){document.querySelectorAll('.dsw button[data-id]').forEach(b=>{const day=DAYS.find(d=>d.id===b.dataset.id);const [d,n]=dayProgress(day);b.style.setProperty('--p',n?d/n:0);b.classList.toggle('some',d>0);b.classList.toggle('all',d===n&&n>0);});document.querySelectorAll('.dayw').forEach(w=>{const day=DAYS.find(d=>d.id===w.dataset.id);if(!day)return;const [d,n]=dayProgress(day);const el=w.querySelector('.prog');if(el){el.style.setProperty('--p',n?d/n:0);el.textContent=d?`${d}/${n}`:'';el.classList.toggle('all',d===n);}});const tot=DAYS.reduce((a,d)=>a+dayProgress(d)[0],0);const tt=document.getElementById('tripprog');if(tt)tt.textContent=tot?`${tot} stops done`:'';}
 
 /* ---------- places page ---------- */
+
+const WIKI={narita:'Narita International Airport',haneda:'Haneda Airport',kaminarimon:'Kaminarimon',nakamise:'Nakamise-dōri',sensoji:'Sensō-ji',sumida:'Sumida River',skytree:'Tokyo Skytree',shibuya:'Shibuya Crossing',disney:'Tokyo DisneySea',fantasy:'Fantasy Springs',mysterious:'Tokyo DisneySea',medharbor:'Tokyo DisneySea',tokyost:'Tokyo Station',kyotost:'Kyoto Station',nishiki:'Nishiki Market',teramachi:'Teramachi Street',kawaramachi:'Kyoto-kawaramachi Station',fushimi:'Fushimi Inari-taisha',kiyomizu:'Kiyomizu-dera',ninenzaka:'Sannen-zaka',higashiyama:'Higashiyama-ku, Kyoto',yasaka:'Yasaka Shrine',gion:'Gion',shirakawa:'Gion',pontocho:'Ponto-chō',amano:'Amanohashidate',ineura:'Ine, Kyoto',funaya:'Ine, Kyoto',ineboat:'Ine, Kyoto',shinosaka:'Shin-Ōsaka Station',mihara:'Mihara Station',tadanoumi:'Tadanoumi Station',okuno:'Ōkunoshima',okunomuseum:'Ōkunoshima',okunobattery:'Ōkunoshima',okunoferry:'Ōkunoshima',narast:'Nara Station',narapark:'Nara Park',todaiji:'Tōdai-ji',naramachi:'Naramachi',shinsaibashi:'Shinsaibashi',dotonbori:'Dōtonbori',hozenji:'Hōzen-ji',ginza:'Ginza',akiba:'Akihabara',hakone:'Hakone-Yumoto Station',odawara:'Odawara Station',gora:'Gōra Station',owakudani:'Ōwakudani',togendai:'Hakone Ropeway',ashi:'Lake Ashi',hakoneshrine:'Hakone Shrine',openair:'Hakone Open-Air Museum',shinjukust:'Shinjuku Station',ueno:'Ueno Park',ameyoko:'Ameya-Yokochō',yanaka:'Yanaka, Tokyo',uniqlo:'Uniqlo',itoya:'Ginza',teamlab:'TeamLab',tmg:'Tokyo Metropolitan Government Building',kabukicho:'Kabukichō',omoide:'Omoide Yokocho',daikoku:'Daikoku Futō',donki:'Don Quijote (store)',shimokita:'Shimokitazawa',arashiyama:'Arashiyama',togetsukyo:'Togetsukyō',sagaarashiyama:'Saga-Arashiyama Station',hankyuarashiyama:'Arashiyama Station (Hankyu)',onitsuka:'Onitsuka Tiger',beams:'Beams (retailer)',tokyotower:'Tokyo Tower',shibuyasky:'Shibuya Scramble Square',nonbei:'Shibuya',miyashita:'Miyashita Park','x-kappabashi':'Kappabashi-dori','x-otagi':'Otagi Nenbutsu-ji','x-okochi':'Ōkōchi Sansō','x-gioji':'Gio-ji','x-nezu':'Nezu Shrine','x-todoroki':'Todoroki Valley','x-kasuga':'Kasuga-taisha','x-kuromon':'Kuromon Market','x-shinsekai':'Shinsekai','x-umeda':'Umeda Sky Building','x-suica':'Suica','x-seven':'7-Eleven','x-lawson':'Lawson (store)','x-famima':'FamilyMart','x-ministop':'Ministop','x-daiso':'Daiso','x-ujimatcha':'Uji, Kyoto','x-yatsuhashi':'Yatsuhashi','x-tokyobanana':'Tokyo Banana','x-kitkat':'Kit Kats in Japan','x-shinkansen':'Shinkansen','x-onsen':'Onsen','x-furoshiki':'Furoshiki','x-knives':'Japanese kitchen knife','x-depachika':'Depachika'};
 const CITYOF={oct07:'Tokyo',oct08:'Tokyo',oct09:'Tokyo',oct10:'Kyoto',oct11:'Kyoto',oct12:'Ine',oct13:'Okunoshima',oct14:'Nara & Osaka',oct15:'Kyoto',oct16:'Tokyo',oct17:'Tokyo',oct18:'Tokyo',oct19:'Tokyo'};
 function buildPlaces(){const map={};
   DAYS.forEach(d=>{const vs=d.variants?d.variants.map((v,i)=>[Object.assign({},d,v),i]):[[d,undefined]];vs.forEach(([day,vi])=>{day.stops.forEach((st,i)=>{if(!st.p||!P[st.p]||P[st.p][0]==='')return;const key=st.p;const city=(vi===1&&d.id==='oct15')?'Hakone':CITYOF[d.id];const e=map[key]||(map[key]={k:key,n:P[key][0],city,cat:st.cat,sum:'',see:[],eat:[],buy:[],tip:[],guide:[],best:[],days:[],q:P[key][0]});
@@ -1609,12 +1708,51 @@ function renderPlaces2(){const chips=document.getElementById('ppChips');const no
   list.forEach(p=>{const d=document.createElement('div');d.className='pc';const col=CATC[p.cat]||'var(--ink-3)';
     d.innerHTML=`<button class="top" aria-expanded="false"><span class="thumb"></span><span class="txt"><span class="t">${hl(p.n)}</span><span class="k"><i class="ck" style="background:${col}"></i>${(CATLBL[p.cat]||['Place'])[0]} · ${p.city}${p.days.length?` · ${p.days.length===1?'in the plan':p.days.length+' in the plan'}`:''}</span><span class="sm">${hl(p.sum||'')}</span></span></button><div class="more"><div class="inner"><div class="bigph"></div>${p.days.length?`<div class="days">${p.days.map(x=>`<button onclick="event.stopPropagation();jump('${x.id}',${x.vi===undefined?'undefined':x.vi},${x.i})">${x.short.split(' ').slice(1).join(' ')} · ${x.t}${x.label?' · '+x.label:''}</button>`).join('')}</div>`:''}${p.best.length?`<div class="sec"><div class="h">${I.sun}Best time</div><ul>${p.best.map(x=>`<li>${hl(x)}</li>`).join('')}</ul></div>`:''}${p.guide.length?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${hl(p.guide.join(' '))}</p></div>`:''}${sec('See',I.eye,p.see.map(hl))}${sec('Eat',I.food,p.eat.map(hl))}${sec('Buy',I.bag,p.buy.map(hl))}${sec('Insider tip',I.bulb,p.tip.map(hl),'tipbox')}${p.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:''}</div></div>`;
     const th=d.querySelector('.thumb');const bp=d.querySelector('.bigph');if(PH[p.k]||DIRECT[p.k]){th.replaceWith(mkImg(p.k,'thumb'));bp.replaceWith(mkImg(p.k,'card'));}else{bp.remove();const t=document.createElement('span');t.className='img tile';t.style.background=col;t.innerHTML=I[CATI[p.cat]]||I.star;th.replaceWith(t);}
-    d.querySelector('.top').onclick=()=>{d.classList.toggle('open');d.querySelector('.top').setAttribute('aria-expanded',d.classList.contains('open'));};el.appendChild(d);});
-  if(q&&list.length)list.length<=3&&el.querySelectorAll('.pc').forEach(x=>x.classList.add('open'));
+    d.querySelector('.top').onclick=()=>{window.__pdFrom='placespg';openPlace(p.k);};el.appendChild(d);});
+  
   const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;}
 (function(){const inp=document.getElementById('pq'),x=document.getElementById('pqx');inp.oninput=()=>{ppQuery=inp.value;x.classList.toggle('hidden',!inp.value);renderPlaces2();};x.onclick=()=>{inp.value='';ppQuery='';x.classList.add('hidden');renderPlaces2();inp.focus();};
   document.getElementById('ppBack').onclick=()=>{document.getElementById('placespg').classList.remove('active');document.getElementById('overview').classList.add('active');window.scrollTo(0,0);history.replaceState(null,'',' ');};
   document.getElementById('homeSearch').onclick=()=>openPlaces('');document.getElementById('exploreBtn').onclick=()=>openPlaces();})();
+
+
+/* ---------- place detail page ---------- */
+const wikiCache={};
+async function wikiInfo(title){if(!title)return null;if(wikiCache[title])return wikiCache[title];const enc=encodeURIComponent(title.replace(/ /g,'_'));
+  const p=(async()=>{const out={};try{const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+enc);if(r.ok){const j=await r.json();out.extract=j.extract;out.url=j.content_urls&&j.content_urls.desktop&&j.content_urls.desktop.page;out.thumb=j.thumbnail&&j.thumbnail.source;if(j.coordinates)out.coords=j.coordinates;}}catch(e){}
+    try{const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/media-list/'+enc);if(r.ok){const j=await r.json();out.images=(j.items||[]).filter(i=>i.type==='image'&&i.srcset&&!/\.(svg|gif)$/i.test(i.title||'')&&!/map|logo|icon|flag|seal|emblem|symbol/i.test(i.title||'')).slice(0,8).map(i=>{const src=i.srcset[0].src;return (src.startsWith('//')?'https:'+src:src).replace(/\/\d+px-/,'/800px-');});}}catch(e){}
+    return out;})();wikiCache[title]=p;return p;}
+function openPlace(key){if(!PLACES)PLACES=buildPlaces();const p=PLACES.find(x=>x.k===key);if(!p)return;
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('placedetail').classList.add('active');document.body.classList.remove('party');window.scrollTo(0,0);location.hash='place-'+key;
+  const accent=({Tokyo:'#1B1B1B',Kyoto:'#B8402A',Ine:'#2A6FA8',Okunoshima:'#2E8B67','Nara & Osaka':'#B8402A',Hakone:'#2B5FB3','Know-how':'#2B5FB3'})[p.cityg]||'#2B5FB3';document.documentElement.style.setProperty('--accent',accent);
+  // gallery: our photo first, wikipedia photos after
+  const gal=document.getElementById('pdgal');gal.innerHTML='';gal.style.transform='none';const slides=[];
+  if(PH[key]||DIRECT[key]){gal.appendChild(mkImg(key,'hero'));slides.push(key);}else{const ph=document.createElement('div');ph.className='img';ph.innerHTML=`<div class="ph">${I.photo}</div>`;gal.appendChild(ph);slides.push('');}
+  const dots=document.getElementById('pddots'),cnt=document.getElementById('pdcount');let cur=0;const upd=()=>{const n=gal.children.length;dots.innerHTML=[...Array(n)].map((_,i)=>`<i class="${i===cur?'on':''}"></i>`).join('');cnt.textContent=`${cur+1} / ${n}`;document.getElementById('pdprev').disabled=cur===0;document.getElementById('pdnext').disabled=cur>=n-1;};
+  const go=n=>{cur=Math.max(0,Math.min(gal.children.length-1,n));gal.style.transition='transform .38s var(--ease)';gal.style.transform=`translateX(${-cur*100}%)`;upd();};upd();
+  document.getElementById('pdprev').onclick=()=>go(cur-1);document.getElementById('pdnext').onclick=()=>go(cur+1);
+  let sx=0,dx=0,drag=false,axis=null;gal.onpointerdown=e=>{sx=e.clientX;dx=0;drag=true;axis=null;gal.setPointerCapture&&gal.setPointerCapture(e.pointerId);gal.style.transition='none';};gal.onpointermove=e=>{if(!drag)return;if(e.pointerType==='mouse'&&e.buttons===0){drag=false;go(cur);return;}dx=e.clientX-sx;if(axis===null&&Math.abs(dx)>6)axis='x';if(axis==='x')gal.style.transform=`translateX(calc(${-cur*100}% + ${dx}px))`;};const end=()=>{if(!drag)return;drag=false;if(axis==='x'&&Math.abs(dx)>gal.clientWidth*.18)go(cur+(dx<0?1:-1));else go(cur);};gal.onpointerup=end;gal.onpointercancel=end;gal.onpointerleave=end;
+  // body
+  const b=document.getElementById('pdBody');const catl=(CATLBL[p.cat]||['Place'])[0];
+  const facts=[];if(p.best.length)facts.push([I.sun,p.best[0],'Best time']);if(p.days.length)facts.push([I.cal,p.days.map(d=>d.short.split(' ')[1]+' '+d.short.split(' ')[2]).join(', '),'In the plan']);facts.push([I.flag,p.city,'Where']);facts.push([I[CATI[p.cat]]||I.star,catl,'Type']);
+  b.innerHTML=`<div class="pd-kicker"><span class="tag" style="background:${accent}20;color:${accent}">${catl}</span>${p.days.some(d=>DAYS.find(x=>x.id===d.id).stops[d.i]&&DAYS.find(x=>x.id===d.id).stops[d.i].must)?'<span class="tag must">Must see</span>':''}</div><h1>${p.n}</h1><div class="pd-city">${p.city}${p.sum?' · '+p.sum.split('. ')[0]+'.':''}</div>
+    <div class="pd-facts">${facts.map(f=>`<div class="g">${f[0]}<div><b>${f[1]}</b><small>${f[2]}</small></div></div>`).join('')}</div>
+    <div class="pd-acts">${p.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a><a class="mapbtn alt" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.q)}&travelmode=transit" target="_blank" rel="noopener">Directions ${I.ext}</a>`:''}</div>
+    ${p.days.length?`<div class="pd-block"><h3>${I.cal}In the itinerary</h3><div class="pd-days">${p.days.map(x=>`<button onclick="jump('${x.id}',${x.vi===undefined?'undefined':x.vi},${x.i})">${x.short.split(' ').slice(1).join(' ')} · ${x.t}${x.label?' · '+x.label:''}</button>`).join('')}</div></div>`:''}
+    <div class="pd-block" id="pdAbout"><h3>${I.eye}About</h3>${p.sum?`<p>${p.sum}</p>`:''}<div id="pdWiki"><div class="pd-skel" style="width:90%"></div><div class="pd-skel" style="width:75%"></div><div class="pd-skel" style="width:60%"></div></div></div>
+    ${p.guide.length?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${p.guide.join(' ')}</p></div>`:''}
+    ${(p.see.length||p.eat.length||p.buy.length)?`<div class="pd-block"><h3>${I.star}What to do here</h3>${sec('See',I.eye,p.see)}${sec('Eat',I.food,p.eat)}${sec('Buy',I.bag,p.buy)}</div>`:''}
+    ${p.tip.length?`<div class="sec tipbox"><div class="h">${I.bulb}Insider tips</div><ul>${p.tip.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+    <div class="pd-block" style="margin-top:14px"><h3>${I.pin}Nearby in the plan</h3><div class="pd-near" id="pdNear"></div></div>`;
+  // nearby: same city group
+  const near=PLACES.filter(x=>x.k!==p.k&&x.cityg===p.cityg&&(PH[x.k]||DIRECT[x.k])).slice(0,10);const nr=document.getElementById('pdNear');nr.innerHTML='';near.forEach(x=>{const bt=document.createElement('button');bt.onclick=()=>openPlace(x.k);bt.innerHTML=`<b>${x.n}</b>`;bt.prepend(mkImg(x.k,'thumb'));nr.appendChild(bt);});if(!near.length)nr.parentElement.remove();
+  // wikipedia: facts and more photos
+  const w=document.getElementById('pdWiki');const title=WIKI[key];if(!title){w.innerHTML='';return;}
+  wikiInfo(title).then(info=>{if(!document.getElementById('placedetail').classList.contains('active')||location.hash!=='#place-'+key)return;if(!info||(!info.extract&&!(info.images||[]).length)){w.innerHTML='';return;}
+    w.innerHTML=(info.extract?`<p style="margin-top:${p.sum?'12px':'0'}">${info.extract}</p>`:'')+(info.url?`<span class="src">From <a href="${info.url}" target="_blank" rel="noopener">Wikipedia</a>, CC BY-SA</span>`:'');
+    (info.images||[]).forEach(u=>{if(gal.children.length>=7)return;const d=document.createElement('div');d.className='img';d.style.backgroundImage=`url("${u}")`;d.style.backgroundSize='cover';d.style.backgroundPosition='center';d.innerHTML='<a class="credit" href="'+(info.url||'#')+'" target="_blank" rel="noopener">Wikimedia Commons</a>';gal.appendChild(d);});upd();});
+}
+document.getElementById('pdBack').onclick=()=>{document.getElementById('placedetail').classList.remove('active');const back=window.__pdFrom||'placespg';document.getElementById(back).classList.add('active');history.replaceState(null,'',back==='placespg'?'#places':' ');};
 
 /* ---------- overview ---------- */
 function renderOverview(){
@@ -1682,7 +1820,7 @@ function openDay(id,vi){
   const seg=document.getElementById('seg');
   if(base.variants){const cur=variantSel[id]||0;seg.classList.remove('hidden');seg.classList.toggle('b',cur===1);seg.innerHTML=`<span class="pill"></span>`+base.variants.map((v,i)=>`<button class="${i===cur?'on':''}" onclick="openDay('${id}',${i})">${v.label}</button>`).join('');}else seg.classList.add('hidden');
   const switching=curDay&&document.getElementById('day').classList.contains('active');const sameDay=curDay&&curDay.id===day.id;curDay=day;
-  document.getElementById('overview').classList.remove('active');document.getElementById('placespg').classList.remove('active');document.getElementById('day').classList.add('active');
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('day').classList.add('active');
   if(sameDay){}else if(switching){const top=document.querySelector('.sheet').offsetTop-4;window.scrollTo(0,Math.min(window.scrollY,top));}else window.scrollTo(0,0);
   const gal=document.getElementById('gal');gal.innerHTML='';day.hero.forEach(k=>gal.appendChild(mkImg(k,'hero')));
   const gd=document.getElementById('gdots');gd.innerHTML=day.hero.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
@@ -1729,7 +1867,7 @@ function openDay(id,vi){
     if(s.go&&(s.go.t||s.go.d)){const gdiv=document.createElement('button');gdiv.className='go';gdiv.style.setProperty('--i',i);gdiv.innerHTML=`<span class="gi">${GI[s.go.m]||I.train}</span><span class="gt"><b>${GL[s.go.m]||''}${s.go.t?' · '+s.go.t:''}</b>${s.go.d?`<span class="gd">${s.go.d}</span>`:''}</span>${s.go.d?`<span class="gc">${I.chev}</span>`:''}`;if(s.go.d)gdiv.onclick=()=>gdiv.classList.toggle('open');tl.appendChild(gdiv);}
     const st=document.createElement('div');st.className='stop open'+(i<nowIdx?' done':'');
     const tags=[i===nowIdx?'<span class="tag now">Now</span>':'',s.must?'<span class="tag must">Must see</span>':'',s.cat==='booked'?'<span class="tag booked">To book</span>':'',s.halal?'<span class="tag halal">Halal</span>':'',s.opt?'<span class="tag opt">Optional</span>':''].filter(Boolean).join('');
-    const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:'';
+    const maps=place?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a><button class="pl-link" onclick="event.stopPropagation();window.__pdFrom='day';openPlace('${s.p}')">Place page ${I.ext}</button>`:'';
     const more=`<div class="acts"><button class="donebtn" data-k="${'done:'+day.id+':'+i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span>Mark done</span></button><label class="photobtn">${I.photo}<span>Add photo</span><input type="file" accept="image/*" capture="environment" data-k="${'photo:'+day.id+':'+i}"></label></div><div class="myphoto" data-k="${'photo:'+day.id+':'+i}"></div>${s.m?`<p class="why">${s.m}</p>`:''}${s.guide?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${s.guide}</p></div>`:''}${sec('See',I.eye,s.see)}${sec('Eat',I.food,s.eat)}${sec('Buy',I.bag,s.buy)}${sec('Insider tip',I.bulb,s.tip,'tipbox')}${maps}`;
     const dkey='done:'+day.id+':'+i;const isDone=localStorage.getItem(dkey)==='1';if(isDone)st.classList.add('done');
     st.innerHTML=`<div class="ic" style="background:${CATC[s.cat]};--ring:color-mix(in srgb,${CATC[s.cat]} 22%,var(--bg))">${I[CATI[s.cat]]}</div><div class="card" role="button" tabindex="0" aria-expanded="true"><div class="bd"><span class="chev">${I.chev}</span><div class="nm">${s.n}</div>${tags?`<div class="tags">${tags}</div>`:''}<div class="meta"><span>${I.clock}${s.t}</span>${s.best?`<span class="best">${I.sun}<em>${s.best}</em></span>`:''}${place?`<span class="pl">${I.pin}<em>${place}</em></span>`:''}</div><div class="more"><div class="inner">${more}</div></div></div></div>`;
@@ -1818,7 +1956,7 @@ renderOverview();renderPlaces();
 
 
 
-const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);else if(h0==='places')openPlaces();
+const h0=location.hash.replace('#','');if(h0&&DAYS.find(d=>d.id===h0))openDay(h0);else if(h0==='places')openPlaces();else if(h0.startsWith('place-')){if(!PLACES)PLACES=buildPlaces();window.__pdFrom='placespg';openPlace(h0.slice(6));}
 (function(){if(!PLACES)PLACES=buildPlaces();const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;})();
 </script>
 </body>
