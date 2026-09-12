@@ -1,5 +1,5 @@
 /* Japan 2026 offline cache */
-const V='j26-v88';const CORE=['./','./index.html','./img/tokyo-hotel.webp','./img/kyoto-apt-1.webp','./img/kyoto-apt-2.webp'];
+const V='j26-v89';const CORE=['./','./index.html','./img/tokyo-hotel.webp','./img/kyoto-apt-1.webp','./img/kyoto-apt-2.webp'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',e=>{
