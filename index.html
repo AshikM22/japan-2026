@@ -1358,7 +1358,7 @@ function box(cls){
   return [Math.min(vw-48,720),150];
 }
 function srcFor(key,cls){
-  const [w,h]=box(cls);const d0=DIRECT[key];if(d0)return WEBP?d0.replace(/\.jpg$/,'.webp'):d0;const ph=PH[key];
+  const [w,h]=box(cls);const d0=DIRECT[key];if(d0){const f=cls==='thumb'?d0.replace('img/','img/t/'):(cls==='card'||cls==='cover')?d0.replace('img/','img/m/'):d0;return WEBP?f.replace(/\.jpg$/,'.webp'):f;}const ph=PH[key];
   if(ph)return `https://images.unsplash.com/${ph[0]}?auto=format,compress&fit=crop&crop=entropy&w=${Math.round(w*DPR)}&h=${Math.round(h*DPR)}&q=${cls==='thumb'?60:70}`;
   const d=DIRECT[key];if(d)return WEBP?d.replace(/\.jpg$/,'.webp'):d;
   return key?IMG_DIR+key+'.jpg':'';
