@@ -732,6 +732,13 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 .pd-city{font-size:15px;line-height:1.5}
 
 @media (min-width:900px){#placedetail.active{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);align-items:start}#placedetail .pd-hero{position:sticky;top:0;height:100vh;max-height:none;min-height:0}#placedetail .pd-sheet{max-width:820px;margin:0;padding:28px 48px 80px}}
+.img.tile{display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(160deg,color-mix(in srgb,var(--tc,#2B5FB3) 78%,#fff) 0%,var(--tc,#2B5FB3) 100%)}
+.img.tile{position:relative}.img.tile .ti{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.img.tile .ti svg{width:38%;height:38%;max-width:120px;max-height:120px;stroke-width:1.6}
+.img.tile.thumb .ti svg{width:26px;height:26px;stroke-width:2}
+.img.tile.pdhero{position:relative;overflow:hidden}
+.img.tile.pdhero::after{content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;background:radial-gradient(50% 50% at 50% 50%,rgba(255,255,255,.18),transparent 70%);pointer-events:none}
+.img.tile.loaded{background:none}.img.tile.loaded .ti{display:none}
 </style>
 </head>
 <body>
@@ -1371,6 +1378,8 @@ function loadImg(d){
   const key=d.dataset.key,cls=d.dataset.cls,ph=DIRECT[key]?null:PH[key];const src=srcFor(key,cls);if(!src)return;
   const i=new Image();i.onload=()=>{d.style.backgroundImage=`url("${src}")`;d.style.backgroundPosition=FOCUS[key]||'center 45%';d.classList.add('loaded');if(ph)d.insertAdjacentHTML('beforeend',`<a class="credit" href="https://unsplash.com/@${ph[2]}?utm_source=japan2026&utm_medium=referral" target="_blank" rel="noopener">${ph[1]} / Unsplash</a>`);};i.src=src;
 }
+const TILEIC={'x-suica':'ticket','x-yamato':'bag','x-lockers':'bag','x-shinkansen':'train','x-gotanda':'bed','x-taxfree':'bag','x-onsen':'sun','x-vending':'cup','x-toilets':'pin','x-umbrella':'sun','x-emergency':'flag','x-photos':'photo','x-etiquette':'star','x-deer':'leaf','x-shrinevstemple':'landmark','x-kyotobrown':'bulb','x-knives':'bag','x-character':'star'};
+function mkTile(p,cls){const d=document.createElement('div');d.className='img tile '+(cls||'');const ic=TILEIC[p.k]||(CATLBL[p.cat]||[])[1]||'pin';d.style.setProperty('--tc',CATC[p.cat]||'var(--accent,#2B5FB3)');d.innerHTML=`<span class="ti">${I[ic]||I.pin}</span>`;return d;}
 function mkImg(key,cls){
   const d=document.createElement('div');d.className='img '+(cls||'');d.dataset.key=key||'';d.dataset.cls=cls||'';
   const file=(key&&!PH[key]&&!DIRECT[key])?IMG_DIR+key+'.jpg':'';
@@ -1826,7 +1835,7 @@ function renderPlaces2(){const chips=document.getElementById('ppChips');const no
   const el=document.getElementById('ppList');el.innerHTML=list.length?'':'<div class="none">Nothing matches. Try a food, a shop, or a neighbourhood.</div>';
   list.forEach(p=>{const d=document.createElement('div');d.className='pc';const col=CATC[p.cat]||'var(--ink-3)';
     d.innerHTML=`<button class="top" aria-expanded="false"><span class="thumb"></span><span class="txt"><span class="t">${hl(p.n)}</span><span class="k"><i class="ck" style="background:${col}"></i>${p.cat==='coffee'?'Coffee':(CATLBL[p.cat]||['Place'])[0]} · ${p.city}${p.days.length?` · ${p.days.length===1?'in the plan':p.days.length+' in the plan'}`:''}</span><span class="sm">${hl(p.sum||'')}</span></span></button><div class="more"><div class="inner"><div class="bigph"></div><div class="pcbody">${p.days.length?`<div class="days">${p.days.map(x=>`<button onclick="event.stopPropagation();jump('${x.id}',${x.vi===undefined?'undefined':x.vi},${x.i})">${x.short.split(' ').slice(1).join(' ')} · ${x.t}${x.label?' · '+x.label:''}</button>`).join('')}</div>`:''}${p.best.length?`<div class="sec"><div class="h">${I.sun}Best time</div><ul>${p.best.map(x=>`<li>${hl(x)}</li>`).join('')}</ul></div>`:''}${p.guide.length?`<div class="guide"><span class="orb"></span><p><b>Local pick.</b> ${hl(p.guide.join(' '))}</p></div>`:''}${sec('See',I.eye,p.see.map(hl))}${sec('Eat',I.food,p.eat.map(hl))}${sec('Buy',I.bag,p.buy.map(hl))}${sec('Insider tip',I.bulb,p.tip.map(hl),'tipbox')}${p.q?`<a class="mapbtn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}" target="_blank" rel="noopener">Open in Maps ${I.ext}</a>`:''}</div></div></div>`;
-    const th=d.querySelector('.thumb');const bp=d.querySelector('.bigph');if(PH[p.k]||DIRECT[p.k]){th.replaceWith(mkImg(p.k,'thumb'));bp.replaceWith(mkImg(p.k,'card'));}else{bp.remove();if(WIKI[p.k]){const w=document.createElement('span');w.className='img thumb';w.innerHTML=`<div class="ph">${I.photo}</div>`;th.replaceWith(w);wikiInfo(WIKI[p.k]).then(info=>{if(info&&info.thumb){const im=new Image();im.onload=()=>{w.style.backgroundImage=`url("${info.thumb.replace('/1200px-','/300px-')}")`;w.style.backgroundSize='cover';w.style.backgroundPosition='center';w.classList.add('loaded');};im.src=info.thumb.replace('/1200px-','/300px-');}});}else{const t=document.createElement('span');t.className='img tile';t.style.background=col;t.innerHTML=I[CATI[p.cat]]||I.star;th.replaceWith(t);}}
+    const th=d.querySelector('.thumb');const bp=d.querySelector('.bigph');if(PH[p.k]||DIRECT[p.k]){th.replaceWith(mkImg(p.k,'thumb'));bp.replaceWith(mkImg(p.k,'card'));}else{bp.remove();if(WIKI[p.k]){const w=mkTile(p,'thumb');th.replaceWith(w);wikiInfo(WIKI[p.k]).then(info=>{if(info&&info.thumb){const im=new Image();im.onload=()=>{w.style.backgroundImage=`url("${info.thumb.replace('/1200px-','/300px-')}")`;w.style.backgroundSize='cover';w.style.backgroundPosition='center';w.classList.add('loaded');};im.src=info.thumb.replace('/1200px-','/300px-');}});}else{th.replaceWith(mkTile(p,'thumb'));}}
     d.querySelector('.top').onclick=()=>{window.__pdFrom='placespg';openPlace(p.k);};el.appendChild(d);});
   
   const pc=document.getElementById('ppCount');if(pc)pc.textContent=`${PLACES.length} places and things to know`;}
@@ -1845,7 +1854,7 @@ function openPlace(key){if(!PLACES)PLACES=buildPlaces();const p=PLACES.find(x=>x
   const accent=({Tokyo:'#1B1B1B',Kyoto:'#B8402A',Ine:'#2A6FA8',Okunoshima:'#2E8B67','Nara & Osaka':'#B8402A',Hakone:'#2B5FB3','Know-how':'#2B5FB3'})[p.cityg]||'#2B5FB3';document.documentElement.style.setProperty('--accent',accent);
   // gallery: our photo first, wikipedia photos after
   const gal=document.getElementById('pdgal');gal.innerHTML='';gal.style.transform='none';const slides=[];
-  if(PH[key]||DIRECT[key]){gal.appendChild(mkImg(key,'pdhero'));slides.push(key);}else{const ph=document.createElement('div');ph.className='img';ph.innerHTML=`<div class="ph">${I.photo}</div>`;gal.appendChild(ph);slides.push('');}
+  if(PH[key]||DIRECT[key]){gal.appendChild(mkImg(key,'pdhero'));slides.push(key);}else{gal.appendChild(mkTile(p,'pdhero'));slides.push('');}
   const dots=document.getElementById('pddots'),cnt=document.getElementById('pdcount');let cur=0;const upd=()=>{const n=gal.children.length;dots.innerHTML=[...Array(n)].map((_,i)=>`<i class="${i===cur?'on':''}"></i>`).join('');cnt.textContent=`${cur+1} / ${n}`;document.getElementById('pdprev').disabled=cur===0;document.getElementById('pdnext').disabled=cur>=n-1;const one=n<=1;[dots,cnt,document.getElementById('pdprev'),document.getElementById('pdnext')].forEach(el=>el.style.display=one?'none':'');};
   const go=n=>{cur=Math.max(0,Math.min(gal.children.length-1,n));gal.style.transition='transform .38s var(--ease)';gal.style.transform=`translateX(${-cur*100}%)`;upd();};upd();
   document.getElementById('pdprev').onclick=()=>go(cur-1);document.getElementById('pdnext').onclick=()=>go(cur+1);
