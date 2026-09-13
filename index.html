@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Japan 2026">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EAF2F8'/%3E%3Ccircle cx='44' cy='20' r='8' fill='%23E0453A'/%3E%3Cpath d='M6 50 L26 22 L34 33 L38 28 L58 50 Z' fill='%233A5570'/%3E%3Cpath d='M20 30 L26 22 L31 29 L28 30 L26 27.5 L23.5 31 Z' fill='%23FFFFFF'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23EAF2F8'/%3E%3Ccircle cx='44' cy='20' r='8' fill='%23E0453A'/%3E%3Cpath d='M6 50 L26 22 L34 33 L38 28 L58 50 Z' fill='%233A5570'/%3E%3Cpath d='M20 30 L26 22 L31 29 L28 30 L26 27.5 L23.5 31 Z' fill='%23FFFFFF'/%3E%3C/svg%3E">
 <title>Japan 2026</title>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -331,7 +333,13 @@ ul.plain li::before{content:"";position:absolute;left:0;top:13px;width:4px;heigh
   .hero{position:sticky;top:0;height:100vh;max-height:none;min-height:0}
   .hero .cap{bottom:56px}
   .sheet{margin-top:0;border-radius:0;padding:28px 48px 80px;max-width:860px}
-  .dsw{position:static;margin:0 0 20px;padding:6px 0 14px;border-radius:0;overflow:visible;flex-wrap:wrap}
+  body.sky #day .dsw{background:none!important}
+  .dsw{position:static;background:none!important;margin:0 0 26px;padding:10px 0 18px;border-radius:0;overflow:visible;flex-wrap:wrap;gap:8px;justify-content:flex-start;background:none}
+  body.sky .dsw{background:none}
+  .dsw button{width:56px;height:60px;border-radius:14px}
+  .dsw button b{font-size:17px}
+  .dsw button small{font-size:11px}
+  .dsw button.on{box-shadow:0 8px 22px rgba(0,0,0,.18)}
   .aside{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 32px 40px 0;border-left:1px solid var(--line);margin-left:0}
   .aside .ess{padding-left:32px}
   .aside .ess h3:first-child{margin-top:0}
