@@ -1371,15 +1371,18 @@ function tick(kind){if(!SND.on)return;const c=sndCtx();if(!c)return;const t=c.cu
   const g=c.createGain();g.connect(c.destination);
   /* short pitched tap: sine with a fast decay, like the iOS keyboard tick */
   const o=c.createOscillator();o.type='sine';const f=kind==='open'?1560:kind==='back'?1180:1400;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*0.72,t+0.045);
-  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.09,t+0.004);g.gain.exponentialRampToValueAtTime(0.0001,t+0.055);
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.028,t+0.003);g.gain.exponentialRampToValueAtTime(0.0001,t+0.045);
   o.connect(g);o.start(t);o.stop(t+0.06);
   /* tiny noise transient for the click edge */
   const n=c.createBufferSource();const b=c.createBuffer(1,Math.round(c.sampleRate*0.012),c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);n.buffer=b;
-  const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=2600;const ng=c.createGain();ng.gain.setValueAtTime(0.05,t);ng.gain.exponentialRampToValueAtTime(0.0001,t+0.012);
+  const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=2600;const ng=c.createGain();ng.gain.setValueAtTime(0.012,t);ng.gain.exponentialRampToValueAtTime(0.0001,t+0.012);
   n.connect(hp);hp.connect(ng);ng.connect(c.destination);n.start(t);n.stop(t+0.013);
-  if(navigator.vibrate&&kind!=='back')navigator.vibrate(6);}
-document.addEventListener('pointerdown',e=>{const el=e.target.closest('button,summary,.card,.pc .top,.dcard,.stay .row,.qlook,.drv,.hn-row,.chip,a.mapbtn,.pl-row .star');if(!el)return;
-  const kind=el.matches('.back,.pp-back,#pdBack')?'back':el.matches('.card,.pc .top,.dcard,.qlook,.hn-row,.drv')?'open':'tap';tick(kind);},{passive:true});
+  if(navigator.vibrate&&kind!=='back')navigator.vibrate(3);}
+const SEL='button,summary,.card,.pc .top,.dcard,.stay .row,.qlook,.drv,.hn-row,.chip,a.mapbtn,.pl-row .star';let sndDown=null;
+document.addEventListener('pointerdown',e=>{const el=e.target.closest(SEL);sndDown=el?{el,x:e.clientX,y:e.clientY,t:Date.now()}:null;},{passive:true});
+document.addEventListener('pointerup',e=>{const d=sndDown;sndDown=null;if(!d)return;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>8||Date.now()-d.t>600)return;
+  const el=d.el;const kind=el.matches('.back,.pp-back,#pdBack')?'back':el.matches('.card,.pc .top,.dcard,.qlook,.hn-row,.drv')?'open':'tap';tick(kind);},{passive:true});
+document.addEventListener('pointercancel',()=>{sndDown=null;},{passive:true});
 document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('sndToggle');if(!b)return;const paint=()=>{b.textContent='Button sounds: '+(SND.on?'on':'off');b.setAttribute('aria-pressed',SND.on?'true':'false');};paint();
   b.addEventListener('click',()=>{SND.on=!SND.on;localStorage.setItem('snd',SND.on?'1':'0');paint();if(SND.on)tick('tap');});});
 
