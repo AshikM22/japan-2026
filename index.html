@@ -741,6 +741,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
 .img.tile.loaded{background:none}.img.tile.loaded .ti{display:none}
 .tp{background:#F1F0EA;border:1px solid #D9D8D0;border-radius:18px;padding:12px}.tp-h{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:6px 2px 8px}.tp-row{display:grid;gap:8px;margin-bottom:6px}.tp-row.c5{grid-template-columns:repeat(5,1fr)}.tp-row.c4{grid-template-columns:repeat(4,1fr)}.tp-row.c3{grid-template-columns:repeat(3,1fr)}.tp-row.call{grid-template-columns:96px 1fr;align-items:center;margin-top:10px;margin-bottom:0}.tb{position:relative;border-radius:14px;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 2px;text-align:center}.tb b{font-size:18px;line-height:1;font-weight:700;letter-spacing:-.01em;white-space:nowrap}.tb span{font-size:10.5px;line-height:1.15;opacity:.9}.tb i{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:999px;background:#141414;color:#fff;font-size:11px;font-weight:700;font-style:normal;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3)}.tp-row.dim .tb b{font-size:15px}.tb.long b{font-size:13px;white-space:nowrap}.tp-warn{font-size:12.5px;line-height:1.4;color:var(--ink-2)}.tp-warn b{color:#B3261E}.tlg{margin:14px 0 4px}.tlg .tr{display:grid;grid-template-columns:26px 92px minmax(0,1fr);gap:0 8px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}.tlg .n{font-weight:700;color:var(--ink-3);font-size:14px;line-height:1.5}.tlg .ja{font-weight:700;font-size:17px;color:var(--ink);line-height:1.3}.tlg .ja small{display:block;font-weight:400;font-size:12px;color:var(--ink-3);margin-top:2px}.tlg .m{font-size:14px;line-height:1.45;color:var(--ink-2)}@media (max-width:420px){.tb b{font-size:16px}.tb span{font-size:10px}.tb.long b{font-size:12px}}
 .hn-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);cursor:pointer}.hn-row:first-of-type{border-top:0}.hn-n{display:flex;flex-direction:column;min-width:0}.hn-n b{font-size:14px;color:var(--ink)}.hn-n small{font-size:12px;color:var(--ink-3);margin-top:1px}.hn-d{font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap;background:var(--tint);border-radius:999px;padding:5px 10px}
+.sndrow{margin-top:14px}.sndbtn{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--tint);border-radius:999px;padding:8px 14px;cursor:pointer}.sndbtn[aria-pressed=false]{opacity:.6}
 </style>
 </head>
 <body>
@@ -773,6 +774,7 @@ mark{background:#FFF0B3;color:inherit;border-radius:3px;padding:0 2px}
     <p><b>Personal project.</b> This page is a private itinerary tracker for one family trip. It is not a commercial site, sells nothing and carries no advertising.</p>
     <p>Photographs are a mix of our own pictures and images sourced from the internet, including Unsplash and Wikimedia Commons, used here for personal reference only. Credit is shown on each image where the source provides it. If you own an image here and would rather it was not used, the page is taken down on request.</p>
     <p>Opening hours, prices, transit times and closures were checked in September 2026 and change often. Confirm anything that matters on the day.</p>
+    <p class="sndrow"><button id="sndToggle" class="sndbtn" aria-pressed="true">Button sounds: on</button></p>
   </footer>
   </div>
 </section>
@@ -1362,6 +1364,25 @@ const GL={walk:'Walk',train:'Train',taxi:'Taxi',car:'Drive',bus:'Bus',boat:'Boat
 const CATC={transport:'var(--c-transport)',food:'var(--c-food)',attraction:'var(--c-attraction)',hotel:'var(--c-hotel)',shopping:'var(--c-shopping)',nature:'var(--c-nature)',booked:'var(--c-booked)',coffee:'var(--c-coffee)',flex:'var(--c-flex)'};
 
 /* ---------- helpers ---------- */
+/* ---------- button sounds ---------- */
+const SND={ctx:null,on:localStorage.getItem('snd')!=='0'};
+function sndCtx(){if(!SND.ctx){try{SND.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}if(SND.ctx.state==='suspended')SND.ctx.resume();return SND.ctx;}
+function tick(kind){if(!SND.on)return;const c=sndCtx();if(!c)return;const t=c.currentTime;
+  const g=c.createGain();g.connect(c.destination);
+  /* short pitched tap: sine with a fast decay, like the iOS keyboard tick */
+  const o=c.createOscillator();o.type='sine';const f=kind==='open'?1560:kind==='back'?1180:1400;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*0.72,t+0.045);
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.09,t+0.004);g.gain.exponentialRampToValueAtTime(0.0001,t+0.055);
+  o.connect(g);o.start(t);o.stop(t+0.06);
+  /* tiny noise transient for the click edge */
+  const n=c.createBufferSource();const b=c.createBuffer(1,Math.round(c.sampleRate*0.012),c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);n.buffer=b;
+  const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=2600;const ng=c.createGain();ng.gain.setValueAtTime(0.05,t);ng.gain.exponentialRampToValueAtTime(0.0001,t+0.012);
+  n.connect(hp);hp.connect(ng);ng.connect(c.destination);n.start(t);n.stop(t+0.013);
+  if(navigator.vibrate&&kind!=='back')navigator.vibrate(6);}
+document.addEventListener('pointerdown',e=>{const el=e.target.closest('button,summary,.card,.pc .top,.dcard,.stay .row,.qlook,.drv,.hn-row,.chip,a.mapbtn,.pl-row .star');if(!el)return;
+  const kind=el.matches('.back,.pp-back,#pdBack')?'back':el.matches('.card,.pc .top,.dcard,.qlook,.hn-row,.drv')?'open':'tap';tick(kind);},{passive:true});
+document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('sndToggle');if(!b)return;const paint=()=>{b.textContent='Button sounds: '+(SND.on?'on':'off');b.setAttribute('aria-pressed',SND.on?'true':'false');};paint();
+  b.addEventListener('click',()=>{SND.on=!SND.on;localStorage.setItem('snd',SND.on?'1':'0');paint();if(SND.on)tick('tap');});});
+
 const WEBP=(()=>{try{return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp')}catch(e){return false}})();
 const DPR=Math.min(window.devicePixelRatio||1,2);
 const FOCUS={medharbor:'center 55%',indiana:'center 45%',ragingspirits:'center 40%',rapunzel:'center 50%',tadanoumi:'center 50%',okunoferry:'center 65%',okunomuseum:'center 45%',togetsukyo:'center 55%',haneda:'center 42%',alis:'center 30%',shibuyasky:'center 40%',onitsuka:'center 55%',tokyotower:'center 40%',pontocho:'center 50%',okuno:'center 35%',okunomuseum:'center 50%',openair:'center 50%',gora:'center 60%',skytree:'center 60%',raju:'center 40%',tokyohotel:'center 45%',kyotoapt:'center 55%',kyotoapt2:'center 55%',fushimi:'center 50%',shibuya:'center 40%',dotonbori:'center 40%',teamlab:'center 50%'};
