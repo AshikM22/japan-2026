@@ -1888,7 +1888,7 @@ function buildPlaces(){const map={};
     if(!e.days.find(x=>x.id===d.id&&x.vi===vi))e.days.push({id:d.id,vi,i,short:d.short,t:st.t,label:vi!==undefined?day.label:'',name:st.n,m:st.m||'',see:st.see||[],eat:st.eat||[],buy:st.buy||[],tip:st.tip||[],guide:st.guide||''});});});});
   Object.values(map).forEach(e=>{if(['hotel','airbnb'].includes(e.k)){e.city=e.k==='hotel'?'Tokyo':'Kyoto';}});
   EXTRA.filter(x=>x.for&&map[x.for]).forEach(x=>{const e=map[x.for];if(x.halal)e.halal=true;if(x.sum&&!e.tip.includes(x.sum))e.tip.unshift(x.sum);['eat','tip','see','buy'].forEach(f=>(x[f]||[]).forEach(v=>{if(!e[f].includes(v))e[f].push(v)}));});
-  const stops=Object.values(map).filter(e=>!['hotel','airbnb'].includes(e.k));
+  const stops=Object.values(map);
   return stops.concat(EXTRA.filter(x=>!(x.for&&map[x.for])).map(x=>{const e=Object.assign({see:[],eat:[],buy:[],tip:[],guide:[],best:[],days:[],q:''},x);if(typeof e.best==='string')e.best=[e.best];if(typeof e.guide==='string')e.guide=[e.guide];return e;}));}
 let PLACES=null,ppCity='All',ppQuery='',ppCat='All';
 const CATLBL={All:['All',null],attraction:['Sights','landmark'],nature:['Nature','leaf'],food:['Food & coffee','food'],halal:['Halal','star'],shopping:['Shops & souvenirs','bag'],hotel:['Stays','bed'],transport:['Getting around','train'],booked:['Bookings','ticket'],flex:['Titbits','star']};
