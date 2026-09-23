@@ -766,6 +766,7 @@ body.no-sc{overflow:hidden}
 .st-txt h3{font-size:23px;font-weight:700;line-height:1.2;margin:0 0 6px;text-shadow:0 1px 6px rgba(0,0,0,.3)}
 .st-txt p{font-size:13.5px;line-height:1.4;opacity:.92;max-width:480px}
 .st-tag{display:inline-block;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:999px;margin-bottom:8px}
+.st-route{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.8);background:rgba(255,255,255,.12);padding:3px 9px;border-radius:999px;margin-bottom:8px}
 .st-move{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0c0c0e;color:#fff;gap:10px}
 .st-move .mi{width:52px;height:52px;border-radius:999px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}
 .st-move .mi svg{width:26px;height:26px}
@@ -1380,6 +1381,7 @@ const EXTRA=[
  {k:'x-shibuyasky',n:'Shibuya Sky: how to get the sunset slot',city:'Tokyo',cat:'attraction',sum:'The rooftop at Shibuya Scramble Square, 229 m up and open to the sky. Timed entry: the slot is your arrival window, and once you are up there you can stay as long as you like (open 10:00 to 22:30, last entry 21:20). Sunset windows sell out the day they release.',see:['Sky Edge, the open corner with no glass, the queue everyone lines up for','The Sky Gate escalator entry','Rooftop lawn loungers on the far side, usually empty'],tip:['Sunset in Tokyo on 8 October is about 17:20, so the slot to buy is 16:20 or 16:40: up in daylight, sunset from the roof, then the city lighting up, all on one ticket','Release is a rolling two-week window: a new date appears each night at midnight Japan time. Confirmed by checking the calendar on 12 September, which showed dates up to 24 September','For 8 October the tickets open on 24 September at 00:00 JST. Set the alarm for 23 September 20:30 in Kochi (IST); that is 20:00 Dubai and 01:00 on the 24th in Sydney','Be logged in with the card saved before the alarm; a Thursday sunset slot can go the same evening','Official site is the Tokyu q-skip platform, reached from shibuya-scramble-square.com/sky/ with an English version. Klook is the only authorised reseller but lists fewer slots; other resale sites are refused at the gate','If the 16:00 to 16:40 band is gone, take any slot from 15:00 onward: there is no exit time, so sunset and the lit city still work','If adult tickets sell out online they are not sold at the counter either, so online is the only route','Adult pricing bands are by entry time, cheaper before 15:00 and dearer after; confirm the current figure on the official page, published prices vary between sources','Create the account and save the card before the sale; slots go in under a minute','Weekday and Sunday evenings release the same way; a Sunday is slightly easier than a Saturday','If sunset sells out, buy any earlier slot the same day and simply stay up there until dark','Tripods and selfie sticks are banned; phones must go in the supplied pouch at Sky Edge','Rain or strong wind closes the rooftop and they refund; the indoor floor stays open','Cheaper fallbacks with the same view direction: Mag\'s Park on Shibuya 109 (¥600, walk-in) and the Tokyo Metropolitan Government Building (free, open late)'],buy:['Tickets only from the official site or the Shibuya Sky app; resale sites are not honoured'],guide:"Buy 16:20 or 16:40, not the sunset-labelled slot. You get in while it is bright, watch the sun go down, and stay for the lights, which is three photo sets on one ticket.",best:'Alarm 23 Sep 20:30 Kochi (IST) for the 8 Oct release',q:'Shibuya Sky'},
  {k:'x-pokemon',n:'Pokémon Cafe and Pokémon Center',city:'Tokyo',cat:'shopping',sum:'The Cafe in Nihonbashi is reservation-only: bookings open exactly 31 days ahead at 18:00 Japan time and go in minutes. For 16 October that is 15 September at 18:00 JST. No walk-ins. The Pokémon Center DX is in the same building, and Shibuya Parco 6F has another with Nintendo Tokyo next door, both walk-in.',buy:['Cafe-exclusive plush and mugs (only sold to diners)','Parco-exclusive goods at Shibuya'],tip:['Set an alarm for 14:30 on 15 September in Kochi (IST); that is 18:00 JST, 14:00 Dubai, 19:00 Sydney','If the booking fails, Shibuya Parco 6F needs no reservation']},
  {k:'x-kitkat',n:'KitKat flavours',city:'Everywhere',cat:'shopping',sum:'Japan has dozens: matcha, hojicha, strawberry, sake, wasabi, sweet potato in autumn. Regional boxes are sold at station shops and Donki; the big assorted boxes at Narita and Haneda are the easy gift.',buy:['Uji matcha box (Kyoto)','Setouchi lemon (Hiroshima area, 13 Oct)','Tokyo Banana KitKat (Tokyo Station)']},
+ {k:'x-dorayaki',n:'Dorayaki',city:'Everywhere',cat:'food',sum:'Two small pancakes with sweet red bean paste in between, the Doraemon snack. Sold fresh at any depachika basement food hall, from konbini in individually wrapped packs, and at old-school specialists like Usagiya in Ueno. Best eaten the same day, the pancake is meant to be soft.',eat:['Classic red bean (azuki)','Custard or matcha cream versions','Ogura, with whole beans left in'],tip:['Depachika versions are fresher and better than the konbini pack, worth the small detour']},
  {k:'x-tokyobanana',n:'Tokyo Banana',city:'Tokyo',cat:'shopping',sum:'The Tokyo souvenir: banana-cream sponge cakes in printed boxes. Tokyo Station, Haneda and Narita all stock it; the seasonal prints sell out first.',buy:['Standard box of 8','Seasonal pattern box']},
  {k:'x-yatsuhashi',n:'Yatsuhashi',city:'Kyoto',cat:'shopping',sum:'Kyoto\'s cinnamon rice sweet, baked (crisp) or raw (soft, folded over red bean). Shogoin and Otabe are the two big names; raw ones keep about a week.',buy:['Raw nama-yatsuhashi, matcha and cinnamon','Baked ones for the long flight']},
  {k:'x-ujimatcha',n:'Uji matcha',city:'Kyoto',cat:'shopping',sum:'The tea town south of Kyoto. Ippodo and Marukyu Koyamaen tins are the serious gift; Nishiki stalls sell matcha everything. Ceremonial grade is for whisking, culinary grade for lattes and baking.',buy:['Ippodo tin from Teramachi','Matcha KitKats and chocolates']},
@@ -1463,24 +1465,19 @@ const ST_BUDGET=58000;const ST_STOP_FLOOR=1300;const ST_MOVE_FLOOR=550;
 function stBuildSegments(dayId){
   const base=DAYS.find(d=>d.id===dayId);const day=base.variants?Object.assign({},base,base.variants[0]):base;
   const segs=[{type:'title',day}];
-  day.stops.forEach((st,i)=>{
-    if(i>0&&st.go&&st.go.t){segs.push({type:'move',go:st.go,from:day.stops[i-1].n,to:st.n});}
-    segs.push({type:'stop',st,day});
-  });
+  day.stops.forEach((st,i)=>{segs.push({type:'stop',st,day,first:i===0});});
   segs.push({type:'end',day});
   return segs;
 }
 function stBaseDur(seg){
   if(seg.type==='title')return 2600;
   if(seg.type==='end')return 100000;
-  if(seg.type==='move')return 950;
-  return (seg.st.must||seg.st.key)?3800:2200;
+  return (seg.st.must||seg.st.key)?4200:2800;
 }
 function stDur(seg){
   const base=stBaseDur(seg);
   if(seg.type==='title'||seg.type==='end')return base;
-  const floor=seg.type==='move'?ST_MOVE_FLOOR:ST_STOP_FLOOR;
-  return Math.max(floor,Math.round(base*ST.scale));
+  return Math.max(ST_STOP_FLOOR,Math.round(base*ST.scale));
 }
 function stRenderBars(){
   const bars=document.getElementById('stBars');
@@ -1503,11 +1500,6 @@ function stSlide(seg){
     document.getElementById('stSeeDay').onclick=(e)=>{e.stopPropagation();closeStory();openDay(seg.day.id);};
     return;
   }
-  if(seg.type==='move'){
-    const ic=STMOVE_ICON[seg.go.m]||'\uD83D\uDEB6';
-    stage.innerHTML=`<div class="st-move"><div class="mi">${ic}</div><b>${stEsc(seg.go.t||'')}</b><span>${stEsc((seg.go.m||'walk'))} to the next stop</span></div>`;
-    return;
-  }
   const st=seg.st;const key=st.p;
   const src=key&&DIRECT[key]?srcFor(key,'pdhero'):null;
   const div=document.createElement('div');div.className='st-slide on';
@@ -1516,7 +1508,10 @@ function stSlide(seg){
   const shade=document.createElement('div');shade.className='st-shade';div.appendChild(shade);
   const txt=document.createElement('div');txt.className='st-txt';
   const tag=st.must?'Must-see':st.key?'Highlight':'';
-  txt.innerHTML=`<div class="tt">${stEsc(st.t)}</div>${tag?`<span class="st-tag">${tag}</span>`:''}<h3>${stEsc(st.n.split(':')[0])}</h3>${st.m?`<p>${stEsc(st.m.split('. ').slice(0,2).join('. '))}</p>`:''}`;
+  const go=st.go;const hasRoute=go&&go.t&&!seg.first;
+  const ic=hasRoute?(STMOVE_ICON[go.m]||'\uD83D\uDEB6'):'';
+  const route=hasRoute?`<div class="st-route">${ic} ${stEsc(go.t)} to get here</div>`:'';
+  txt.innerHTML=`<div class="tt">${stEsc(st.t)}</div>${route}${tag?`<span class="st-tag">${tag}</span>`:''}<h3>${stEsc(st.n.split(':')[0])}</h3>${st.m?`<p>${stEsc(st.m.split('. ').slice(0,2).join('. '))}</p>`:''}`;
   div.appendChild(txt);stage.appendChild(div);
 }
 function stPlayBar(i){
