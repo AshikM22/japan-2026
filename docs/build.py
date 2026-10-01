@@ -37,14 +37,16 @@ h2{font-size:9pt;text-transform:uppercase;letter-spacing:.12em;color:#6B7280;mar
 .stays{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.stays .n{font-weight:700;font-size:10.5pt;margin:4px 0 2px;line-height:1.25}.stays .ja{font-size:9pt}.stays .en{font-size:8.5pt;color:#4B5563}.stays .tel{margin-top:6px;font-size:9.5pt;font-weight:600}.stays .dt{font-size:8.5pt;color:#4B5563}
 .first{margin-top:8px;background:#FFF4D6;border-radius:10px;padding:8px 12px;font-size:9pt;border:1px solid #F3D98A}.first b{color:#7A4E00}
 .with{display:grid;grid-template-columns:1fr 1fr;gap:10px}.with .card{padding:8px 12px}.with .n{font-weight:700}.with .sm{font-size:8.5pt;color:#4B5563}
-.tl{position:relative;margin-top:4px}.tl:before{content:'';position:absolute;left:62px;top:6px;bottom:6px;width:2px;background:#E3E6EC}
-.day{display:grid;grid-template-columns:52px 24px 1fr 150px;gap:0 8px;align-items:start;padding:7px 0;border-bottom:1px solid #F0F2F5}.day:last-child{border-bottom:0}
+.tl{margin-top:4px}
+.day{display:grid;grid-template-columns:52px 22px 1fr 150px;gap:0 10px;align-items:start;padding:8px 0;border-bottom:1px solid #F0F2F5}.day:last-child{border-bottom:0}.day .dc{position:relative;align-self:stretch;min-height:100%}.day .dc:before{content:'';position:absolute;left:10px;top:-9px;bottom:-9px;width:2.5px;background:#D5DAE3}.day:first-child .dc:before{top:12px}.day:last-child .dc:before{bottom:auto;height:12px}
 .day .d{font-weight:700;font-size:9pt;line-height:1.2;padding-top:2px}.day .d small{display:block;font-weight:500;color:#6B7280;font-size:7.5pt}
-.day .dot{width:12px;height:12px;border-radius:50%;background:var(--c);margin:4px 0 0 4px;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--c)}
-.day .w{font-size:7.5pt;color:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:.06em}.day .p{font-size:9.5pt;line-height:1.35}
+.day .dot{position:relative;width:14px;height:14px;border-radius:50%;background:var(--c);margin:3px 0 0 4px;box-shadow:0 0 0 3px #fff,0 0 0 4.5px var(--c)}
+.day .w{display:inline-block;font-size:7.5pt;color:#fff;background:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;margin-bottom:3px}.day .p{font-size:9.5pt;line-height:1.35}
 .day .o{font-size:8.5pt;color:#4B5563;padding-top:2px}.day .o b{display:block;color:#15181F;font-size:8.5pt}
 .foot{position:absolute;left:14mm;right:14mm;bottom:8mm;font-size:7.5pt;color:#6B7280;display:flex;justify-content:space-between}
 .contact{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px}
+.bar{display:flex;gap:4px;margin-top:2px}.seg{background:var(--c);color:#fff;border-radius:10px;padding:8px 12px;min-width:0}.seg b{display:block;font-size:11pt;line-height:1.1}.seg span{font-size:8pt;opacity:.9}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}.facts .val{font-size:9.5pt}
 """
 def page(k):
     t=T[k]; others=[v for kk,v in T.items() if kk!=k]
@@ -53,7 +55,7 @@ def page(k):
     for d,reg,where,places,si in DAYS:
         c=C[reg]; ov=STAYS[si]['n'] if si is not None else 'Departure'
         dd=d.split(' ',1)
-        days+=f"""<div class="day" style="--c:{c}"><div class="d">{dd[1]}<small>{dd[0]}</small></div><div class="dot"></div><div><div class="w">{E(where) if where==reg else E(where)+' · '+E(reg)}</div><div class="p">{E(places)}</div></div><div class="o"><b>Overnight</b>{E(ov)}</div></div>"""
+        days+=f"""<div class="day" style="--c:{c}"><div class="d">{dd[1]}<small>{dd[0]}</small></div><div class="dc"><div class="dot"></div></div><div><div class="w">{E(where) if reg in where else E(where)+' · '+E(reg)}</div><div class="p">{E(places)}</div></div><div class="o"><b>Overnight</b>{E(ov)}</div></div>"""
     return f"""<div class="page">
 <div class="hero"><div><h1>Japan, 7 to 19 October 2026</h1><div class="k">Travel itinerary for immigration · tourism · three family members · all accommodation pre-booked, return flights held</div></div><div class="stamp"><b>{t['nights'].split()[0]}</b>nights</div></div>
 <h2>Traveller</h2>
@@ -67,6 +69,9 @@ def page(k):
 <h2>Accommodation, all pre-booked</h2>
 <div class="stays">{stays}</div>
 <div class="first"><b>First night for all three:</b> Mitsui Garden Hotel Jingugaien Tokyo Premier, 11-3 Kasumigaoka-machi, Shinjuku-ku, Tokyo 160-0013, Tel +81-3-5786-1531. Rental car (Nissan Rent a Car, Kyoto Station) 11 to 14 October for day trips from Kyoto; international driving permits held.</div>
+<h2>At a glance</h2>
+<div class="bar">{''.join(f'<div class="seg" style="--c:{x[2]};flex:{x[1]}"><b>{x[0]}</b><span>{x[1]} nights · {x[3]}</span></div>' for x in [('Tokyo',3,'#2F6FD6','7 to 10 Oct'),('Kyoto',5,'#D6482F','10 to 15 Oct'),('Tokyo',4,'#2F6FD6','15 to 19 Oct')])}</div>
+<div class="facts"><div class="card"><div class="lbl">Purpose</div><div class="val">Tourism, family holiday</div></div><div class="card"><div class="lbl">Return ticket</div><div class="val">Held, {t['dd']}</div></div><div class="card"><div class="lbl">Accommodation</div><div class="val">All 3 stays pre-booked</div></div><div class="card"><div class="lbl">Day trips</div><div class="val">Rental car 11 to 14 Oct</div></div></div>
 <h2>Contact</h2>
 <div class="contact"><div class="card"><div class="lbl">Mobile</div><span class="fill"></span></div><div class="card"><div class="lbl">Email</div><span class="fill"></span></div><div class="card"><div class="lbl">Home address</div><span class="fill"></span></div></div>
 <div class="foot"><span>{E(t['nm'])} · Japan 2026</span><span>Page 1 of 2</span></div>
